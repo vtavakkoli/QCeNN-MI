@@ -46,7 +46,7 @@ $$
 x_j = s\,q(\theta).
 $$
 
-For a fixed quantum direction, the least-squares optimal scale is
+For a fixed quantum direction, the least-squares optimal scale is:
 
 $$
 s^*(\theta)
