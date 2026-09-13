@@ -88,7 +88,13 @@ def _as_markdown(
     )
 
     def matrix_block(value: np.ndarray) -> str:
-        return "```text\n" + np.array2string(value, precision=8, suppress_small=True) + "\n```"
+        rendered = np.array2string(value, precision=8, suppress_small=True)
+        return f"```text\n{rendered}\n```"
+
+    exact_residual_row = (
+        "| Frobenius residual `||MX-I||_F` | "
+        f"{result.frobenius_residual:.6e} | < {exact_threshold:.1e} |"
+    )
 
     lines = [
         "# QCeNN-MI Assumption A1 Result",
@@ -107,30 +113,48 @@ def _as_markdown(
         "",
         "| Metric | Value | Acceptance |",
         "|---|---:|---:|",
-        f"| Frobenius residual `||MX-I||_F` | {result.frobenius_residual:.6e} | < {exact_threshold:.1e} |",
-        f"| Relative inverse error | {result.relative_inverse_error:.6e} | informational |",
+        exact_residual_row,
+        (
+            "| Relative inverse error | "
+            f"{result.relative_inverse_error:.6e} | informational |"
+        ),
         f"| Condition number | {result.condition_number:.6f} | informational |",
     ]
 
     if result.shot_frobenius_residual is not None and shot_estimate is not None:
+        shot_row = (
+            f"| Finite-shot residual ({result.shots} shots) | "
+            f"{result.shot_frobenius_residual:.6e} | < {shot_threshold:.2e} |"
+        )
         lines.extend(
             [
-                f"| Finite-shot residual ({result.shots} shots) | {result.shot_frobenius_residual:.6e} | < {shot_threshold:.2e} |",
+                shot_row,
                 "",
                 "## Finite-shot inverse estimate",
                 matrix_block(shot_estimate),
             ]
         )
 
+    context = (
+        "This experiment is a feasibility test of the smallest quantum state "
+        "representation used by QCeNN-MI. It does **not** claim quantum advantage "
+        "and does not yet implement the full locally coupled QCeNN dynamics."
+    )
+    citation = (
+        "V. Tavakkoli, J. C. Chedjou, and K. Kyamakya, *A Novel Recurrent Neural "
+        "Network-Based Ultra-Fast, Robust, and Scalable Solver for Inverting a "
+        "‘Time-Varying Matrix’*, Sensors 19(18), 4002 (2019)."
+    )
+
     lines.extend(
         [
             "## Scientific context",
             "",
-            "This experiment is a feasibility test of the smallest quantum state representation used by QCeNN-MI. It does **not** claim quantum advantage and does not yet implement the full locally coupled QCeNN dynamics.",
+            context,
             "",
             "The matrix-inversion objective is motivated by the prior dynamical solver:",
             "",
-            "V. Tavakkoli, J. C. Chedjou, and K. Kyamakya, *A Novel Recurrent Neural Network-Based Ultra-Fast, Robust, and Scalable Solver for Inverting a ‘Time-Varying Matrix’*, Sensors 19(18), 4002 (2019).",
+            citation,
             f"DOI: {PAPER_URL}",
             "",
         ]
