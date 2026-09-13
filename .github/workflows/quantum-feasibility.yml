@@ -1,0 +1,65 @@
+name: Quantum feasibility proof
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assumption-a1:
+    name: Assumption A1 / Qiskit proof
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Static quality checks
+        run: |
+          python -m compileall -q src tests
+          ruff check src tests
+
+      - name: Run unit tests
+        run: pytest -q
+
+      - name: Run quantum A1 benchmark
+        run: |
+          qcenn-mi \
+            --matrix 2.0 0.5 0.5 1.5 \
+            --shots 8192 \
+            --seed 42 \
+            --output-dir results/assumption-a1
+
+      - name: Publish benchmark summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f results/assumption-a1/summary.md ]; then
+            cat results/assumption-a1/summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload quantum result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qcenn-mi-assumption-a1-${{ github.sha }}
+          path: results/assumption-a1/
+          if-no-files-found: error
+          retention-days: 30
