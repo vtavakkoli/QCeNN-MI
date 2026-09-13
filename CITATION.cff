@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use QCeNN-MI, please cite this software and the related 2019 matrix-inversion paper."
+title: "QCeNN-MI: Quantum Cellular Nonlinear Network for Matrix Inversion"
+type: software
+authors:
+  - family-names: Tavakkoli
+    given-names: Vahid
+repository-code: "https://github.com/vtavakkoli/QCeNN-MI"
+url: "https://github.com/vtavakkoli/QCeNN-MI"
+license: MIT
+version: 0.1.0
+date-released: 2026-09-14
+keywords:
+  - quantum computing
+  - matrix inversion
+  - cellular nonlinear network
+  - QCeNN
+  - Qiskit
+references:
+  - type: article
+    title: "A Novel Recurrent Neural Network-Based Ultra-Fast, Robust, and Scalable Solver for Inverting a ‘Time-Varying Matrix’"
+    authors:
+      - family-names: Tavakkoli
+        given-names: Vahid
+      - family-names: Chedjou
+        given-names: Jean Chamberlain
+      - family-names: Kyamakya
+        given-names: Kyandoghere
+    journal: Sensors
+    year: 2019
+    volume: 19
+    issue: 18
+    doi: 10.3390/s19184002
