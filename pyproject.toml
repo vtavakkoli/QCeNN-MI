@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qcenn-mi"
+version = "0.1.0"
+description = "Quantum Cellular Nonlinear Network research prototype for matrix inversion"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+  {name = "Vahid Tavakkoli"}
+]
+keywords = [
+  "quantum-computing",
+  "matrix-inversion",
+  "cellular-nonlinear-network",
+  "variational-quantum-algorithms",
+  "qiskit"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering"
+]
+dependencies = [
+  "numpy>=2.0,<3.0",
+  "scipy>=1.13,<2.0",
+  "qiskit>=2.0,<3.0",
+  "qiskit-aer>=0.17,<1.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9.0",
+  "pytest-cov>=5.0,<7.0",
+  "ruff>=0.9,<1.0"
+]
+
+[project.scripts]
+qcenn-mi = "qcenn_mi.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/vtavakkoli/QCeNN-MI"
+Repository = "https://github.com/vtavakkoli/QCeNN-MI"
+Paper = "https://doi.org/10.3390/s19184002"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
