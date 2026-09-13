@@ -1,0 +1,57 @@
+# QCeNN-MI — Quantum Cellular Nonlinear Network for Matrix Inversion
+# Runtime and research dependencies
+#
+# Recommended Python: 3.11 or 3.12
+# Install with:
+#   python -m pip install --upgrade pip
+#   pip install -r requirements.txt
+#
+# Version policy:
+# - Lower bounds provide the APIs expected by QCeNN-MI.
+# - Upper bounds protect against untested major-version breaking changes.
+# - For fully reproducible experiments, generate a lock/constraints file in CI
+#   or for each published release after the implementation stabilizes.
+
+# -----------------------------------------------------------------------------
+# Quantum computing core
+# -----------------------------------------------------------------------------
+qiskit>=2.0,<3.0
+qiskit-aer>=0.17,<1.0
+pennylane>=0.40,<1.0
+pennylane-qiskit>=0.40,<1.0
+openqasm3>=1.0,<2.0
+
+# -----------------------------------------------------------------------------
+# Scientific and numerical computing
+# -----------------------------------------------------------------------------
+numpy>=2.0,<3.0
+scipy>=1.13,<2.0
+sympy>=1.13,<2.0
+
+# -----------------------------------------------------------------------------
+# Data handling and experiment persistence
+# -----------------------------------------------------------------------------
+pandas>=2.2,<3.0
+h5py>=3.11,<4.0
+PyYAML>=6.0,<7.0
+
+# -----------------------------------------------------------------------------
+# Benchmarking, analysis, and visualization
+# -----------------------------------------------------------------------------
+scikit-learn>=1.5,<2.0
+matplotlib>=3.9,<4.0
+networkx>=3.3,<4.0
+tqdm>=4.66,<5.0
+
+# -----------------------------------------------------------------------------
+# Configuration, CLI, validation, and readable experiment output
+# -----------------------------------------------------------------------------
+pydantic>=2.8,<3.0
+typer>=0.12,<1.0
+rich>=13.9,<15.0
+
+# -----------------------------------------------------------------------------
+# Utilities
+# -----------------------------------------------------------------------------
+joblib>=1.4,<2.0
+packaging>=24.1,<27.0
