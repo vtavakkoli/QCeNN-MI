@@ -13,8 +13,8 @@ yet the full locally coupled QCeNN dynamical model.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
-from typing import Callable
 
 import numpy as np
 from scipy.optimize import minimize_scalar
@@ -54,8 +54,7 @@ class InversionResult:
     shots: int | None = None
 
     def to_dict(self) -> dict:
-        data = asdict(self)
-        return data
+        return asdict(self)
 
 
 def _validate_matrix(matrix: np.ndarray) -> np.ndarray:
