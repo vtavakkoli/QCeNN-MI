@@ -17,11 +17,11 @@ The project builds on the dynamical matrix-inversion formulation developed in:
 
 That work formulates time-varying matrix inversion as a dynamical residual-reduction problem. QCeNN-MI starts from the same objective,
 
-\[
-M X = I,
+$$
+MX = I,
 \qquad
-E = M X - I,
-\]
+E = MX - I,
+$$
 
 and investigates quantum representations and local quantum interactions that can participate in driving the residual toward zero.
 
@@ -29,35 +29,41 @@ and investigates quantum representations and local quantum interactions that can
 
 The first milestone is intentionally small, falsifiable, and executable on present gate-based quantum systems.
 
-**Assumption A1.** For a real nonsingular \(2\times2\) matrix \(M\), each column of \(M^{-1}\) can be represented by a normalized one-qubit real-amplitude state, up to a classical scalar, and recovered by minimizing the matrix residual.
+**Assumption A1.** For a real nonsingular $2\times2$ matrix $M$, each column of $M^{-1}$ can be represented by a normalized one-qubit real-amplitude state, up to a classical scalar, and recovered by minimizing the matrix residual.
 
-For column \(j\), the target is \(b=e_j\). A single quantum cell prepares
+For column $j$, the target is $b=e_j$. A single quantum cell prepares
 
-\[
-|q(\theta)\rangle = R_y(\theta)|0\rangle
-= \cos(\theta/2)|0\rangle + \sin(\theta/2)|1\rangle.
-\]
+$$
+|q(\theta)\rangle
+= R_y(\theta)|0\rangle
+= \cos\left(\frac{\theta}{2}\right)|0\rangle
++ \sin\left(\frac{\theta}{2}\right)|1\rangle.
+$$
 
-A scalar \(s\) reconstructs the magnitude:
+A scalar $s$ reconstructs the magnitude:
 
-\[
+$$
 x_j = s\,q(\theta).
-\]
+$$
 
 For a fixed quantum direction, the least-squares optimal scale is
 
-\[
-s^*(\theta)=
-\frac{(M q(\theta))^T b}
-     {(M q(\theta))^T(M q(\theta))}.
-\]
+$$
+s^*(\theta)
+=
+\frac{\bigl(Mq(\theta)\bigr)^T b}
+     {\bigl(Mq(\theta)\bigr)^T\bigl(Mq(\theta)\bigr)}.
+$$
 
 The one-dimensional quantum-state parameter is then selected by minimizing
 
-\[
-\mathcal{L}_j(\theta)=
-\left\|M\big(s^*(\theta)q(\theta)\big)-e_j\right\|_2^2.
-\]
+$$
+\mathcal{L}_j(\theta)
+=
+\left\lVert
+M\Bigl(s^*(\theta)q(\theta)\Bigr)-e_j
+\right\rVert_2^2.
+$$
 
 Solving both basis-vector targets gives the two columns of the inverse.
 
@@ -69,7 +75,7 @@ A1 isolates the most basic representation question before introducing multi-qubi
 2. uses Qiskit's statevector machinery during the deterministic feasibility solve;
 3. verifies the final states with finite-shot **X** and **Z** measurements on `AerSimulator`;
 4. reconstructs the measured state direction without direct statevector access;
-5. computes the physically relevant residual \(\|MX-I\|_F\);
+5. computes the physically relevant residual $\lVert MX-I\rVert_F$;
 6. fails CI if the predefined feasibility thresholds are not met.
 
 The X/Z readout pattern is deliberately hardware-compatible and is the bridge to a future real-QPU backend.
@@ -78,27 +84,28 @@ The X/Z readout pattern is deliberately hardware-compatible and is the bridge to
 
 The CI benchmark uses
 
-\[
+$$
 M=
 \begin{bmatrix}
 2 & 0.5\\
 0.5 & 1.5
 \end{bmatrix},
-\]
+$$
 
 whose classical reference inverse is
 
-\[
-M^{-1}=\begin{bmatrix}
+$$
+M^{-1}=
+\begin{bmatrix}
 0.5454545 & -0.1818182\\
 -0.1818182 & 0.7272727
 \end{bmatrix}.
-\]
+$$
 
 The workflow requires:
 
-- ideal Qiskit-statevector residual \(\|MX-I\|_F < 10^{-7}\);
-- finite-shot residual \(\|MX-I\|_F < 8\times10^{-2}\) with 8192 shots.
+- ideal Qiskit-statevector residual $\lVert MX-I\rVert_F < 10^{-7}$;
+- finite-shot residual $\lVert MX-I\rVert_F < 8\times10^{-2}$ with 8192 shots.
 
 These thresholds validate feasibility only; they are not evidence of quantum advantage.
 
@@ -180,9 +187,9 @@ QCeNN-MI/
 
 | Milestone | Goal | Status |
 |---|---|---|
-| **A1** | One-qubit inverse-column representation for real 2x2 matrices | Implemented |
+| **A1** | One-qubit inverse-column representation for real $2\times2$ matrices | Implemented |
 | **A2** | Multi-cell local quantum coupling and shared QCeNN interaction templates | Planned |
-| **A3** | Stateful tracking of time-varying \(M(t)^{-1}\) | Planned |
+| **A3** | Stateful tracking of time-varying $M(t)^{-1}$ | Planned |
 | **A4** | Polynomial correction operators inspired by the prior recurrent solver | Planned |
 | **A5** | Hardware-aware execution on a real QPU with calibration/noise analysis | Planned |
 | **A6** | Structured/sparse matrix scaling study and comparison with classical baselines | Planned |
