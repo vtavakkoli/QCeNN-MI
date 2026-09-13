@@ -17,11 +17,7 @@ The project builds on the dynamical matrix-inversion formulation developed in:
 
 That work formulates time-varying matrix inversion as a dynamical residual-reduction problem. QCeNN-MI starts from the same objective,
 
-$$
-MX = I,
-\qquad
-E = MX - I,
-$$
+$$ MX = I,\qquad E = MX - I. $$
 
 and investigates quantum representations and local quantum interactions that can participate in driving the residual toward zero.
 
@@ -33,37 +29,19 @@ The first milestone is intentionally small, falsifiable, and executable on prese
 
 For column $j$, the target is $b=e_j$. A single quantum cell prepares
 
-$$
-|q(\theta)\rangle
-= R_y(\theta)|0\rangle
-= \cos\left(\frac{\theta}{2}\right)|0\rangle
-+ \sin\left(\frac{\theta}{2}\right)|1\rangle.
-$$
+$$ |q(\theta)\rangle = R_y(\theta)|0\rangle = \cos\!\left(\frac{\theta}{2}\right)|0\rangle + \sin\!\left(\frac{\theta}{2}\right)|1\rangle. $$
 
 A scalar $s$ reconstructs the magnitude:
 
-$$
-x_j = s\,q(\theta).
-$$
+$$ x_j = s\,q(\theta). $$
 
-For a fixed quantum direction, the least-squares optimal scale is:
+For a fixed quantum direction, the least-squares optimal scale is
 
-$$
-s^*(\theta)
-=
-\frac{\bigl(Mq(\theta)\bigr)^T b}
-     {\bigl(Mq(\theta)\bigr)^T\bigl(Mq(\theta)\bigr)}.
-$$
+$$ s^*(\theta)=\frac{\bigl(Mq(\theta)\bigr)^T b}{\bigl(Mq(\theta)\bigr)^T\bigl(Mq(\theta)\bigr)}. $$
 
 The one-dimensional quantum-state parameter is then selected by minimizing
 
-$$
-\mathcal{L}_j(\theta)
-=
-\left\lVert
-M\Bigl(s^*(\theta)q(\theta)\Bigr)-e_j
-\right\rVert_2^2.
-$$
+$$ \mathcal{L}_j(\theta)=\left\|M\!\left(s^*(\theta)q(\theta)\right)-e_j\right\|_2^2. $$
 
 Solving both basis-vector targets gives the two columns of the inverse.
 
@@ -75,7 +53,7 @@ A1 isolates the most basic representation question before introducing multi-qubi
 2. uses Qiskit's statevector machinery during the deterministic feasibility solve;
 3. verifies the final states with finite-shot **X** and **Z** measurements on `AerSimulator`;
 4. reconstructs the measured state direction without direct statevector access;
-5. computes the physically relevant residual $\lVert MX-I\rVert_F$;
+5. computes the physically relevant residual $\|MX-I\|_F$;
 6. fails CI if the predefined feasibility thresholds are not met.
 
 The X/Z readout pattern is deliberately hardware-compatible and is the bridge to a future real-QPU backend.
@@ -84,28 +62,16 @@ The X/Z readout pattern is deliberately hardware-compatible and is the bridge to
 
 The CI benchmark uses
 
-$$
-M=
-\begin{bmatrix}
-2 & 0.5\\
-0.5 & 1.5
-\end{bmatrix},
-$$
+$$ M=\begin{bmatrix}2 & 0.5 \\ 0.5 & 1.5\end{bmatrix}. $$
 
-whose classical reference inverse is
+Its classical reference inverse is
 
-$$
-M^{-1}=
-\begin{bmatrix}
-0.5454545 & -0.1818182\\
--0.1818182 & 0.7272727
-\end{bmatrix}.
-$$
+$$ M^{-1}=\begin{bmatrix}0.5454545 & -0.1818182 \\ -0.1818182 & 0.7272727\end{bmatrix}. $$
 
 The workflow requires:
 
-- ideal Qiskit-statevector residual $\lVert MX-I\rVert_F < 10^{-7}$;
-- finite-shot residual $\lVert MX-I\rVert_F < 8\times10^{-2}$ with 8192 shots.
+- ideal Qiskit-statevector residual $\|MX-I\|_F < 10^{-7}$;
+- finite-shot residual $\|MX-I\|_F < 8\times10^{-2}$ with 8192 shots.
 
 These thresholds validate feasibility only; they are not evidence of quantum advantage.
 
