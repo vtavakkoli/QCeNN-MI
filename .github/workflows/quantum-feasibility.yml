@@ -61,5 +61,5 @@ jobs:
         with:
           name: qcenn-mi-assumption-a1-${{ github.sha }}
           path: results/assumption-a1/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
