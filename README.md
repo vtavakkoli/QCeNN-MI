@@ -6,7 +6,7 @@
 
 **QCeNN-MI** is a research prototype for **Quantum Cellular Nonlinear Networks for Matrix Inversion**. The project investigates whether matrix-inversion dynamics can be mapped to small, hardware-compatible quantum cell states and then extended toward locally coupled QCeNN dynamics for static and time-varying matrices.
 
-> **Research status:** early feasibility prototype. The current implementation validates the smallest quantum representation assumption on Qiskit. It does **not** claim quantum speed-up or a complete QCeNN implementation.
+> **Research status:** early feasibility prototype. The implementation covers A1–A4 as a small hybrid simulator prototype on Qiskit. It does **not** claim quantum speed-up or a scalable quantum matrix-inversion algorithm.
 
 ## Scientific motivation
 
@@ -154,13 +154,13 @@ QCeNN-MI/
 | Milestone | Goal | Status |
 |---|---|---|
 | **A1** | One-qubit inverse-column representation for real $2\times2$ matrices | Implemented |
-| **A2** | Multi-cell local quantum coupling and shared QCeNN interaction templates | Planned |
-| **A3** | Stateful tracking of time-varying $M(t)^{-1}$ | Planned |
-| **A4** | Polynomial correction operators inspired by the prior recurrent solver | Planned |
+| **A2** | Multi-cell local quantum coupling and shared QCeNN interaction templates | Implemented: simulator prototype |
+| **A3** | Stateful tracking of time-varying $M(t)^{-1}$ | Implemented: hybrid warm-start tracker |
+| **A4** | Polynomial correction operators inspired by the prior recurrent solver | Implemented: hybrid correction + dense quantum dilation |
 | **A5** | Hardware-aware execution on a real QPU with calibration/noise analysis | Planned |
 | **A6** | Structured/sparse matrix scaling study and comparison with classical baselines | Planned |
 
-A later research branch will investigate whether the polynomial term used in the earlier dynamical formulation can be mapped efficiently to quantum polynomial/block-encoding techniques. That is intentionally outside A1.
+A4 includes a classical safeguarded correction and a small dense quantum dilation with ancilla postselection. Efficient quantum polynomial synthesis and scalable block encoding remain future research.
 
 ## Scope and scientific claims
 
@@ -170,7 +170,7 @@ The current prototype demonstrates **representational and execution feasibility*
 - superiority over classical matrix inversion;
 - efficient dense-matrix data loading;
 - scalable extraction of a complete classical inverse from an amplitude-encoded state;
-- full QCeNN local dynamics.
+- a full physical QCeNN dynamical system beyond the local gate ansatz.
 
 Those questions are explicit targets for later milestones and will be evaluated experimentally rather than assumed.
 
@@ -196,3 +196,45 @@ See [`CITATION.cff`](CITATION.cff) for software citation metadata.
 ## License
 
 QCeNN-MI is released under the [MIT License](LICENSE).
+
+## A2–A4: simulator implementation and hardware handoff
+
+```bash
+python -m qcenn_mi.experiments --output-dir results/a2-a4
+# Optional longer depth sweep; optimization cost grows with depth:
+python -m qcenn_mi.experiments --depths 1 2 4 8 16 32 64 150 --output-dir results/depth-sweep
+```
+
+The default campaign checks SPD, signed and nonsymmetric matrices (2×2 and
+4×4), depths 1/2/4, ideal statevector convergence, finite-shot Pauli tomography,
+synthetic depolarizing noise, polynomial correction and time-varying tracking.
+It exits nonzero on failed acceptance gates and writes JSON, Markdown and QPY
+circuits. A4 also checks a dense polynomial dilation with ideal and finite-shot ancilla
+postselection. Noise is synthetic, not calibration-derived. The 150-layer sweep is
+available but is not implied to have passed by the default campaign.
+
+- **A2:** inverse columns use one or two qubit cells with local RY layers and
+  nearest-neighbor controlled-RY interactions. Interaction angles are optimized
+  jointly and shared across columns; local rotations are column-specific.
+  Full X/Y/Z Pauli tomography recovers signed entangled directions. Classical
+  least-squares scalars recover magnitudes. Measurement costs 3^q settings per
+  column, so this readout is intentionally limited to small experiments.
+- **A3:** `InverseTracker.update(matrix, time=t)` preserves quantum circuit
+  parameters, warm starts each variational solve and tracks a classical inverse
+  estimate with the first-order predictor `X - X @ (M_new-M_old) @ X`.
+  Times must increase, dimensions stay fixed, and failed solves do not commit
+  state. Quantum, predictor and classically corrected residuals are separate.
+- **A4:** `polynomial_correct(M, X, order=p)` computes
+  `X @ sum((I-MX)^k, k=0..p)`. Before safeguarding, its residual is
+  `(I-MX)^(p+1)`. Backtracking accepts only finite, non-increasing residuals.
+  This is inspired by recurrent residual reduction, not an implementation of
+  the exact 2019 solver. `quantum_polynomial_correct` also builds a dense unitary
+  dilation of the left correction polynomial `sum((I-XM)^k)`, applies it to
+  amplitude-encoded columns and postselects an ancilla. Ideal statevector output
+  is compared with the classical polynomial; shot-based readout uses actual
+  ancilla=0 counts and classical least-squares scales. The polynomial and dense
+  dilation are constructed classically, so this does not claim efficient quantum
+  polynomial synthesis or scalable data access.
+
+See [the simulator and hardware protocol](docs/simulator-to-hardware.md).
+The physical experiment and calibration analysis (A5) remain pending.

@@ -27,3 +27,6 @@ results/assumption-a1/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Regenerated quantum circuit exports (uploaded by CI)
+results/a2-a4/*.qpy
