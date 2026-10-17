@@ -68,3 +68,16 @@ algorithm. Scalable block encoding, scaling studies and quantum advantage remain
 open work. The A4 ideal path restores amplitude magnitude using the dilation
 normalization; the finite-shot path refits classical least-squares column scales.
 These are separate checks and should not be treated as identical procedures.
+
+
+## Larger block-hybrid checks
+
+`python -m qcenn_mi.scaling` tests symmetric/nonsymmetric 10×10 and 100×100
+fixtures, both with ideal and 4096-shot quantum 2×2 diagonal-block seeds.
+Full-matrix correction is classical, including every cross-block coupling.
+The amplitude-encoded circuit solver and dense quantum dilation remain limited
+to 2×2/4×4; no 100-dimensional quantum state solve is asserted. Diagonal-block
+invertibility and convergence are required and explicitly checked. The generated
+`results/scaling/result.json` includes per-block residuals and correction history.
+A separate dynamic 2×2 trajectory changes all matrix entries over a full period
+and verifies warm-started circuits using finite-shot readout at every time point.

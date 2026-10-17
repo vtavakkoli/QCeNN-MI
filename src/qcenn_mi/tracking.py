@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .coupled import solve_coupled, validate_matrix
+from .coupled import solve_coupled, validate_matrix, validate_square_matrix
 
 
 def polynomial_correct(matrix, estimate, *, order=2, max_backtracks=20):
@@ -15,7 +15,9 @@ def polynomial_correct(matrix, estimate, *, order=2, max_backtracks=20):
     block-encoded quantum polynomial operator or a reproduction of the paper.
     Backtracking rejects nonfinite/non-improving proposals for large residuals.
     """
-    m = validate_matrix(matrix)
+    m = validate_square_matrix(matrix)
+    if np.iscomplexobj(estimate):
+        raise ValueError("Only real estimates are supported")
     x = np.asarray(estimate, dtype=float)
     if x.shape != m.shape or not np.isfinite(x).all():
         raise ValueError("Estimate must be finite and match matrix shape")

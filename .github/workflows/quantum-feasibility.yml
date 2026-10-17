@@ -81,3 +81,21 @@ jobs:
           name: qcenn-mi-a2-a4-${{ github.sha }}
           path: results/a2-a4/
           retention-days: 30
+
+      - name: Run larger matrix and dynamic simulator checks
+        run: python -m qcenn_mi.scaling --output-dir results/scaling
+
+      - name: Publish scaling summary
+        if: always()
+        run: |
+          if [ -f results/scaling/summary.md ]; then
+            cat results/scaling/summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload scaling and dynamic results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qcenn-mi-scaling-${{ github.sha }}
+          path: results/scaling/
+          retention-days: 30

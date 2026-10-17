@@ -238,3 +238,25 @@ available but is not implied to have passed by the default campaign.
 
 See [the simulator and hardware protocol](docs/simulator-to-hardware.md).
 The physical experiment and calibration analysis (A5) remain pending.
+
+## 10×10 / 100×100 and dynamic 2×2 checks
+
+```bash
+python -m qcenn_mi.scaling --output-dir results/scaling
+```
+
+The larger cases use a **block-hybrid** solver: actual Qiskit variational 2×2
+quantum solves seed diagonal blocks, followed by classical dense polynomial
+corrections using the entire matrix, including off-block entries. This is not
+an extension of the amplitude-encoded ansatz to 100 dimensions. The campaign
+checks symmetric and nonsymmetric diagonally dominant 10×10 and 100×100
+matrices with both ideal and finite-shot quantum seeds, reporting full-matrix
+residuals, relative errors and correction history.
+No classical inverse is used by the solver; NumPy inversion is reporting-only.
+Singular diagonal blocks and nonconvergence are explicit failures. These fixtures
+do not establish convergence for arbitrary matrices or quantum speed-up.
+
+A dynamic 2×2 experiment varies all four entries over 21 time points in a full
+period, warm starts quantum circuit parameters, and checks ideal, corrected and
+finite-shot residuals (4096 shots per measurement setting). Automated tests also
+check finite-shot seeds for the block-hybrid solver.

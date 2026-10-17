@@ -17,15 +17,22 @@ from qiskit_aer import AerSimulator
 from scipy.optimize import least_squares
 
 
-def validate_matrix(matrix):
+def validate_square_matrix(matrix):
     raw = np.asarray(matrix)
     if np.iscomplexobj(raw):
         raise ValueError("Only real matrices are supported")
     m = np.asarray(raw, dtype=float)
-    if m.ndim != 2 or m.shape[0] != m.shape[1] or m.shape[0] not in (2, 4):
-        raise ValueError("Simulator prototype supports 2x2 or 4x4 matrices")
+    if m.ndim != 2 or m.shape[0] != m.shape[1] or m.shape[0] < 1:
+        raise ValueError("Matrix must be nonempty and square")
     if not np.isfinite(m).all() or np.linalg.matrix_rank(m) < len(m):
         raise ValueError("Matrix must be finite and nonsingular")
+    return m
+
+
+def validate_matrix(matrix):
+    m = validate_square_matrix(matrix)
+    if len(m) not in (2, 4):
+        raise ValueError("Simulator prototype supports 2x2 or 4x4 matrices")
     return m
 
 
