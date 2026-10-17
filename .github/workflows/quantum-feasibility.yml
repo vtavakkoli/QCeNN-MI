@@ -63,3 +63,21 @@ jobs:
           path: results/assumption-a1/
           if-no-files-found: warn
           retention-days: 30
+
+      - name: Run A2-A4 simulator campaign
+        run: python -m qcenn_mi.experiments --output-dir results/a2-a4
+
+      - name: Publish A2-A4 summary
+        if: always()
+        run: |
+          if [ -f results/a2-a4/summary.md ]; then
+            cat results/a2-a4/summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload A2-A4 simulator results and circuit exports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qcenn-mi-a2-a4-${{ github.sha }}
+          path: results/a2-a4/
+          retention-days: 30
