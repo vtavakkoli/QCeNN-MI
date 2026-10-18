@@ -260,3 +260,57 @@ A dynamic 2×2 experiment varies all four entries over 21 time points in a full
 period, warm starts quantum circuit parameters, and checks ideal, corrected and
 finite-shot residuals (4096 shots per measurement setting). Automated tests also
 check finite-shot seeds for the block-hybrid solver.
+
+## Standalone coherent inverse action
+
+```bash
+python -m qcenn_mi.coherent_benchmark --output-dir results/coherent
+```
+
+This additional baseline performs inverse action inside a quantum circuit,
+without a variational optimizer, a classically computed inverse, solution-state
+fitting, least-squares scale refitting, or classical residual correction.
+For real symmetric 2×2/4×4 matrices certified positive definite by Gershgorin
+bounds, it implements a truncated Neumann series using coherent selection of
+repeated block-encoded factors. It accepts arbitrary real nonzero input vectors.
+The same inverse-action operator can be reused for different inputs.
+
+The campaign checks degrees 1/3/7, every inverse column, a superposition input,
+ideal residual bounds, finite-shot tomography, measured postselection probability,
+and native-basis resource counts. Default readout uses 131072 shots per setting.
+The resulting classical inverse is validation readout; the circuit output itself
+is an approximate inverse-applied quantum state, conditioned on ancilla success.
+
+This remains a small simulator prototype. Classical dense square-root dilation
+constructs the input block encoding; it is not an efficient scalable input oracle.
+The method uses extra ancillas, has low postselection probability and substantial
+native gate counts. It is a coherent linear-algebra baseline, not local QCeNN
+dynamics or evidence of quantum advantage. Hardware and noisy-native-circuit
+validation remain pending. See [the coherent protocol](docs/coherent-inverse.md).
+
+## Standalone size study: 10×10, 100×100 and 1000×1000
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.coherent_large_benchmark
+```
+
+The large path pads to 16/128/1024 dimensions and implements the same coherent
+Neumann-LCU inverse action using classical spectral input encoding. It simulates
+the entire selector/flag/data state exactly in that encoding basis and transforms
+the success sector back to the input basis. It does not fit a solution, form
+inverse eigenvalues, or apply classical residual corrections. Explicit classical
+dense eigendecomposition is required and prevents a quantum speed-up claim.
+
+The study checks dense SPD, tridiagonal SPD, dense nonsymmetric and signed
+indefinite real matrices at all three requested sizes,
+three input vectors, degree convergence and numerical references. Independent
+native-gate Aer checks validate 10×10 at degree 3 and 100×100 at degree 1.
+The 1000×1000 result is a structured exact-statevector simulation, **not** a
+native-gate Aer/hardware result. Computational-basis shot sampling is provided;
+it does not reconstruct a signed full classical inverse. Full-inverse residual
+bounds are analytical, separately labeled from observed input-vector residuals.
+
+A condition-number-100 counterexample demonstrates failure to reach the accuracy
+target at degree 7. Singular, numerically singular and complex matrices are
+rejected. Success on these fixtures does not imply success on every matrix.
+See [the large simulation protocol](docs/coherent-large.md).
