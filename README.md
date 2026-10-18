@@ -260,3 +260,30 @@ A dynamic 2×2 experiment varies all four entries over 21 time points in a full
 period, warm starts quantum circuit parameters, and checks ideal, corrected and
 finite-shot residuals (4096 shots per measurement setting). Automated tests also
 check finite-shot seeds for the block-hybrid solver.
+
+## Standalone coherent inverse action
+
+```bash
+python -m qcenn_mi.coherent_benchmark --output-dir results/coherent
+```
+
+This additional baseline performs inverse action inside a quantum circuit,
+without a variational optimizer, a classically computed inverse, solution-state
+fitting, least-squares scale refitting, or classical residual correction.
+For real symmetric 2×2/4×4 matrices certified positive definite by Gershgorin
+bounds, it implements a truncated Neumann series using coherent selection of
+repeated block-encoded factors. It accepts arbitrary real nonzero input vectors.
+The same inverse-action operator can be reused for different inputs.
+
+The campaign checks degrees 1/3/7, every inverse column, a superposition input,
+ideal residual bounds, finite-shot tomography, measured postselection probability,
+and native-basis resource counts. Default readout uses 131072 shots per setting.
+The resulting classical inverse is validation readout; the circuit output itself
+is an approximate inverse-applied quantum state, conditioned on ancilla success.
+
+This remains a small simulator prototype. Classical dense square-root dilation
+constructs the input block encoding; it is not an efficient scalable input oracle.
+The method uses extra ancillas, has low postselection probability and substantial
+native gate counts. It is a coherent linear-algebra baseline, not local QCeNN
+dynamics or evidence of quantum advantage. Hardware and noisy-native-circuit
+validation remain pending. See [the coherent protocol](docs/coherent-inverse.md).

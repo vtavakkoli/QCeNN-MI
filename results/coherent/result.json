@@ -1,0 +1,786 @@
+{
+  "passed": true,
+  "shots": 131072,
+  "seed": 42,
+  "cases": [
+    {
+      "case": "spd2",
+      "matrix": [
+        [
+          2.0,
+          0.3
+        ],
+        [
+          0.3,
+          1.5
+        ]
+      ],
+      "degree_sweep": [
+        {
+          "degree": 1,
+          "qubits": 3,
+          "residual": 0.07042206310592514,
+          "residual_bound": 0.13968966616093426
+        },
+        {
+          "degree": 3,
+          "qubits": 6,
+          "residual": 0.0035067313056829533,
+          "residual_bound": 0.01379791804528411
+        },
+        {
+          "degree": 7,
+          "qubits": 11,
+          "residual": 8.695408371845941e-06,
+          "residual_bound": 0.00013462078673952822
+        }
+      ],
+      "degree": 7,
+      "qubits": 11,
+      "tau": 0.5714285714285714,
+      "contraction_bound": 0.3142857142857142,
+      "normalization": 4.571428571428571,
+      "ideal_residual": 8.695408371845941e-06,
+      "shot_residual": 0.022811646183218647,
+      "ideal_relative_inverse_error": 6.148582224869169e-06,
+      "shot_relative_inverse_error": 0.012449354745187022,
+      "ideal_inverse": [
+        [
+          0.5154607481534923,
+          -0.10309214963069846
+        ],
+        [
+          -0.10309214963069846,
+          0.6872809975379898
+        ]
+      ],
+      "shot_inverse": [
+        [
+          0.5070979318310123,
+          -0.10571906444519732
+        ],
+        [
+          -0.10947301308511848,
+          0.6875851287984673
+        ]
+      ],
+      "superposition_residual": 1.3748647819171748e-05,
+      "superposition_relative_residual": 6.1485822244744526e-06,
+      "measurements": [
+        {
+          "column": 0,
+          "ideal_success_probability": 0.013222715757733771,
+          "measured_success_probability": 0.01287841796875,
+          "measured_residual": 0.022217214087765662,
+          "audit_file": "audit/spd2-column0.json",
+          "measurement_summary": {
+            "job_id": "bf400ee4-6375-4542-aa21-7b3cf48546cb",
+            "backend": "aer_simulator",
+            "shots": 131072,
+            "settings": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "retained_shots": [
+              1659,
+              1701,
+              1704
+            ],
+            "compiled_depths": [
+              31,
+              31,
+              31
+            ],
+            "compiled_operations": [
+              {
+                "unitary": 28,
+                "measure": 11,
+                "u": 7,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 11,
+                "u": 7,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 11,
+                "u": 6,
+                "barrier": 1
+              }
+            ],
+            "postselect_ancilla_zero": true,
+            "postselected_ancillas": 10,
+            "simulator_fused_controlled_unitaries": true
+          }
+        },
+        {
+          "column": 1,
+          "ideal_success_probability": 0.0231114989098851,
+          "measured_success_probability": 0.023157755533854168,
+          "measured_residual": 0.005173644727534021,
+          "audit_file": "audit/spd2-column1.json",
+          "measurement_summary": {
+            "job_id": "8fda24aa-3014-4db5-927d-a4fb2b4201ce",
+            "backend": "aer_simulator",
+            "shots": 131072,
+            "settings": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "retained_shots": [
+              3020,
+              3011,
+              3075
+            ],
+            "compiled_depths": [
+              31,
+              31,
+              31
+            ],
+            "compiled_operations": [
+              {
+                "unitary": 28,
+                "measure": 11,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 11,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 11,
+                "u": 7,
+                "barrier": 1
+              }
+            ],
+            "postselect_ancilla_zero": true,
+            "postselected_ancillas": 10,
+            "simulator_fused_controlled_unitaries": true
+          }
+        }
+      ],
+      "qpy_file": "spd2-coherent.qpy",
+      "native_basis_depths": [
+        26913,
+        26913
+      ],
+      "native_basis_operations": [
+        {
+          "rz": 24741,
+          "sx": 14762,
+          "cx": 6608,
+          "x": 1
+        },
+        {
+          "rz": 24741,
+          "sx": 14762,
+          "cx": 6608,
+          "x": 2
+        }
+      ]
+    },
+    {
+      "case": "spd4",
+      "matrix": [
+        [
+          2.0,
+          0.1,
+          0.0,
+          0.1
+        ],
+        [
+          0.1,
+          1.7,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          1.8,
+          0.1
+        ],
+        [
+          0.1,
+          0.0,
+          0.1,
+          2.1
+        ]
+      ],
+      "degree_sweep": [
+        {
+          "degree": 1,
+          "qubits": 4,
+          "residual": 0.033471041478101475,
+          "residual_bound": 0.0886426592797785
+        },
+        {
+          "degree": 3,
+          "qubits": 7,
+          "residual": 0.0007897971831823174,
+          "residual_bound": 0.003928760522095451
+        },
+        {
+          "degree": 7,
+          "qubits": 12,
+          "residual": 4.4107475424268236e-07,
+          "residual_bound": 7.71757961998786e-06
+        }
+      ],
+      "degree": 7,
+      "qubits": 12,
+      "tau": 0.5263157894736842,
+      "contraction_bound": 0.2105263157894738,
+      "normalization": 4.2105263157894735,
+      "ideal_residual": 4.4107475424268236e-07,
+      "shot_residual": 0.03645495905605212,
+      "ideal_relative_inverse_error": 2.242153557449965e-07,
+      "shot_relative_inverse_error": 0.018233511100057814,
+      "ideal_inverse": [
+        [
+          0.5026912550322722,
+          -0.029745950763124137,
+          0.0029902947854580286,
+          -0.0240801290643615
+        ],
+        [
+          -0.029745950763124092,
+          0.591929107321644,
+          -0.033051013420735596,
+          0.002990294785458027
+        ],
+        [
+          0.0029902947854580286,
+          -0.03305101342073558,
+          0.5588780939009088,
+          -0.02675565597766605
+        ],
+        [
+          -0.024080129064361508,
+          0.00299029478545803,
+          -0.026755655977666062,
+          0.47861112596791033
+        ]
+      ],
+      "shot_inverse": [
+        [
+          0.4992048369871018,
+          -0.02798164165496835,
+          0.0031944532287232256,
+          -0.026577260047726203
+        ],
+        [
+          -0.036582047957026805,
+          0.5947938579810516,
+          -0.03142547261356343,
+          0.006549689449065586
+        ],
+        [
+          0.010067173213591418,
+          -0.02036314482234765,
+          0.5574526908854367,
+          -0.020662417789222075
+        ],
+        [
+          -0.02130334090078424,
+          0.0038311083912920614,
+          -0.022344054330476138,
+          0.48218719507307195
+        ]
+      ],
+      "superposition_residual": 1.5058141957321638e-06,
+      "superposition_relative_residual": 2.749228008046685e-07,
+      "measurements": [
+        {
+          "column": 0,
+          "ideal_success_probability": 0.014336895802570216,
+          "measured_success_probability": 0.014163547092013888,
+          "measured_residual": 0.019279326306569932,
+          "audit_file": "audit/spd4-column0.json",
+          "measurement_summary": {
+            "job_id": "b2209e05-90b1-46a8-bf5a-4bdb67e51e3c",
+            "backend": "aer_simulator",
+            "shots": 131072,
+            "settings": [
+              "XX",
+              "XY",
+              "XZ",
+              "YX",
+              "YY",
+              "YZ",
+              "ZX",
+              "ZY",
+              "ZZ"
+            ],
+            "retained_shots": [
+              1796,
+              1858,
+              1840,
+              1821,
+              1878,
+              1916,
+              1896,
+              1851,
+              1852
+            ],
+            "compiled_depths": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ],
+            "compiled_operations": [
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 7,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 7,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 7,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 7,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 6,
+                "barrier": 1
+              }
+            ],
+            "postselect_ancilla_zero": true,
+            "postselected_ancillas": 10,
+            "simulator_fused_controlled_unitaries": true
+          }
+        },
+        {
+          "column": 1,
+          "ideal_success_probability": 0.019875656026986196,
+          "measured_success_probability": 0.020023769802517362,
+          "measured_residual": 0.024577300840033768,
+          "audit_file": "audit/spd4-column1.json",
+          "measurement_summary": {
+            "job_id": "e8aefea6-8294-4e0d-96bf-1889fe73f2ea",
+            "backend": "aer_simulator",
+            "shots": 131072,
+            "settings": [
+              "XX",
+              "XY",
+              "XZ",
+              "YX",
+              "YY",
+              "YZ",
+              "ZX",
+              "ZY",
+              "ZZ"
+            ],
+            "retained_shots": [
+              2599,
+              2608,
+              2669,
+              2646,
+              2692,
+              2614,
+              2548,
+              2697,
+              2548
+            ],
+            "compiled_depths": [
+              33,
+              33,
+              33,
+              33,
+              33,
+              33,
+              33,
+              33,
+              33
+            ],
+            "compiled_operations": [
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "cx": 1,
+                "barrier": 1
+              }
+            ],
+            "postselect_ancilla_zero": true,
+            "postselected_ancillas": 10,
+            "simulator_fused_controlled_unitaries": true
+          }
+        },
+        {
+          "column": 2,
+          "ideal_success_probability": 0.017720694689933456,
+          "measured_success_probability": 0.017612881130642362,
+          "measured_residual": 0.009768868976948605,
+          "audit_file": "audit/spd4-column2.json",
+          "measurement_summary": {
+            "job_id": "f279e2b8-8f00-448e-bbae-6bff2f499641",
+            "backend": "aer_simulator",
+            "shots": 131072,
+            "settings": [
+              "XX",
+              "XY",
+              "XZ",
+              "YX",
+              "YY",
+              "YZ",
+              "ZX",
+              "ZY",
+              "ZZ"
+            ],
+            "retained_shots": [
+              2380,
+              2274,
+              2313,
+              2297,
+              2271,
+              2340,
+              2355,
+              2264,
+              2283
+            ],
+            "compiled_depths": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ],
+            "compiled_operations": [
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 8,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 7,
+                "barrier": 1
+              }
+            ],
+            "postselect_ancilla_zero": true,
+            "postselected_ancillas": 10,
+            "simulator_fused_controlled_unitaries": true
+          }
+        },
+        {
+          "column": 3,
+          "ideal_success_probability": 0.012994492233057382,
+          "measured_success_probability": 0.013181050618489584,
+          "measured_residual": 0.016056061138178427,
+          "audit_file": "audit/spd4-column3.json",
+          "measurement_summary": {
+            "job_id": "d2171247-061f-4748-95cb-1f880d909dd1",
+            "backend": "aer_simulator",
+            "shots": 131072,
+            "settings": [
+              "XX",
+              "XY",
+              "XZ",
+              "YX",
+              "YY",
+              "YZ",
+              "ZX",
+              "ZY",
+              "ZZ"
+            ],
+            "retained_shots": [
+              1727,
+              1780,
+              1733,
+              1672,
+              1752,
+              1719,
+              1703,
+              1731,
+              1732
+            ],
+            "compiled_depths": [
+              33,
+              33,
+              33,
+              33,
+              33,
+              33,
+              33,
+              33,
+              33
+            ],
+            "compiled_operations": [
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 11,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 11,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 11,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 11,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 10,
+                "cx": 1,
+                "barrier": 1
+              },
+              {
+                "unitary": 28,
+                "measure": 12,
+                "u": 9,
+                "cx": 1,
+                "barrier": 1
+              }
+            ],
+            "postselect_ancilla_zero": true,
+            "postselected_ancillas": 10,
+            "simulator_fused_controlled_unitaries": true
+          }
+        }
+      ],
+      "qpy_file": "spd4-coherent.qpy",
+      "native_basis_depths": [
+        112565,
+        112565,
+        112565,
+        112565
+      ],
+      "native_basis_operations": [
+        {
+          "rz": 102751,
+          "sx": 59590,
+          "cx": 28112,
+          "x": 1
+        },
+        {
+          "rz": 102754,
+          "sx": 59592,
+          "cx": 28113,
+          "x": 1
+        },
+        {
+          "rz": 102751,
+          "sx": 59590,
+          "cx": 28112,
+          "x": 2
+        },
+        {
+          "rz": 102754,
+          "sx": 59592,
+          "cx": 28113,
+          "x": 2
+        }
+      ]
+    }
+  ],
+  "versions": {
+    "qiskit": "2.6.0",
+    "qiskit-aer": "0.17.2",
+    "numpy": "2.3.5"
+  },
+  "physical_hardware_tested": false,
+  "noise_model": null,
+  "classical_work": "Matrix validation, dense square-root block encoding, input and selector preparation, circuit compilation, final tomography; no inverse, target fitting or residual correction",
+  "acceptance": {
+    "ideal_residual": 0.001,
+    "shot_residual": 0.15,
+    "superposition_relative_residual": 0.001
+  }
+}

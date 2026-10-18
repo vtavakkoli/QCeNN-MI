@@ -66,7 +66,17 @@ def direction(circuit):
     return np.asarray(Statevector.from_instruction(circuit).data.real)
 
 
-def readout_direction(circuit, *, backend=None, shots=8192, seed=42, postselect=False, audit=None):
+def readout_direction(
+    circuit,
+    *,
+    backend=None,
+    shots=8192,
+    seed=42,
+    postselect=False,
+    postselect_ancillas=0,
+    basis_gates=None,
+    audit=None,
+):
     """Full Pauli tomography; principal eigenvector gives a pure-state estimate.
 
     Includes Y settings because real entangled states can have YY correlations.
@@ -74,7 +84,9 @@ def readout_direction(circuit, *, backend=None, shots=8192, seed=42, postselect=
     3**qubits settings; mixed/noisy states are projected onto a pure real state.
     Returns direction, raw density minimum eigenvalue and raw purity.
     With postselect=True the highest-index qubit is measured in Z and only
-    ancilla=0 counts enter data-qubit tomography. Optional audit captures raw
+    ancilla=0 counts enter data-qubit tomography. With postselect_ancillas=N,
+    all N highest-index qubits must measure zero. basis_gates can constrain
+    compilation for backend compatibility. Optional audit captures raw
     counts, job ID, retained shots, backend name and compiled resource counts.
     Backend must implement the Qiskit Backend.run interface. A simulator seed
     is passed only to Aer; physical backends receive no simulator options.
@@ -82,7 +94,14 @@ def readout_direction(circuit, *, backend=None, shots=8192, seed=42, postselect=
     if isinstance(shots, bool) or not isinstance(shots, int) or shots < 1:
         raise ValueError("shots must be a positive integer")
     backend = AerSimulator() if backend is None else backend
-    n = circuit.num_qubits - int(postselect)
+    if (
+        isinstance(postselect_ancillas, bool)
+        or not isinstance(postselect_ancillas, int)
+        or postselect_ancillas < 0
+    ):
+        raise ValueError("postselect_ancillas must be a nonnegative integer")
+    ancillas = max(int(postselect), postselect_ancillas)
+    n = circuit.num_qubits - ancillas
     if n < 1:
         raise ValueError("Readout requires at least one data qubit")
     settings = list(product("XYZ", repeat=n))
@@ -97,7 +116,13 @@ def readout_direction(circuit, *, backend=None, shots=8192, seed=42, postselect=
                 qc.h(q)
         qc.measure_all()
         circuits.append(qc)
-    compiled = transpile(circuits, backend, optimization_level=1, seed_transpiler=seed)
+    compiled = transpile(
+        circuits,
+        backend,
+        basis_gates=basis_gates,
+        optimization_level=1,
+        seed_transpiler=seed,
+    )
     options = {"shots": shots}
     if isinstance(backend, AerSimulator):
         options["seed_simulator"] = seed
@@ -106,11 +131,11 @@ def readout_direction(circuit, *, backend=None, shots=8192, seed=42, postselect=
     raw_counts = [result.get_counts(i) for i in range(len(settings))]
     selected = []
     for counts in raw_counts:
-        if postselect:
+        if ancillas:
             counts = {
                 bits: count
                 for bits, count in counts.items()
-                if bits.replace(" ", "")[-1 - n] == "0"
+                if set(bits.replace(" ", "")[:ancillas]) <= {"0"}
             }
         if sum(counts.values()) == 0:
             raise RuntimeError("No accepted postselection shots; increase shot budget")
@@ -125,7 +150,8 @@ def readout_direction(circuit, *, backend=None, shots=8192, seed=42, postselect=
             retained_shots=[sum(c.values()) for c in selected],
             compiled_depths=[qc.depth() for qc in compiled],
             compiled_operations=[dict(qc.count_ops()) for qc in compiled],
-            postselect_ancilla_zero=bool(postselect),
+            postselect_ancilla_zero=bool(ancillas),
+            postselected_ancillas=ancillas,
         )
     rho = np.zeros((2**n, 2**n), dtype=complex)
     for labels in product("IXYZ", repeat=n):

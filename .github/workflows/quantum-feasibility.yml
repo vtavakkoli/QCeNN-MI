@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+env:
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+
 jobs:
   assumption-a1:
     name: Assumption A1 / Qiskit proof
@@ -98,4 +102,22 @@ jobs:
         with:
           name: qcenn-mi-scaling-${{ github.sha }}
           path: results/scaling/
+          retention-days: 30
+
+      - name: Run standalone coherent inverse-action benchmark
+        run: python -m qcenn_mi.coherent_benchmark --output-dir results/coherent
+
+      - name: Publish coherent inverse-action summary
+        if: always()
+        run: |
+          if [ -f results/coherent/summary.md ]; then
+            cat results/coherent/summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload coherent results, circuits and raw-count audits
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qcenn-mi-coherent-${{ github.sha }}
+          path: results/coherent/
           retention-days: 30

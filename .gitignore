@@ -30,3 +30,7 @@ results/assumption-a1/
 
 # Regenerated quantum circuit exports (uploaded by CI)
 results/a2-a4/*.qpy
+
+# Regenerated coherent-circuit exports and raw readout audits
+results/coherent/*.qpy
+results/coherent/audit/
