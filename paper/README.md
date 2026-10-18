@@ -1,10 +1,19 @@
 # IEEE manuscript and EuroHPC evidence report
 
-`manuscript.tex` is a full IEEEtran journal-style manuscript. It develops the
-specific Chebyshev-LCU bounds, separates the spectral access assumption from
-quantum execution, and reports the complete simulated operator audits and noisy
-failures. `eurohpc_report.tex` is an accompanying technical-feasibility report.
-Neither document claims physical execution or quantum speedup.
+`manuscript.tex` is a full IEEEtran journal-style manuscript titled **Quantum
+Matrix Inversion via Coherent Chebyshev-LCU Circuits: Theory and Simulation to
+Dimension 1000**. Its primary target is a coherent quantum operation that
+heralds a solution state proportional to `M^{-1}|b>`. The title, abstract,
+introduction, input-output specification, circuit construction, and conclusion
+are organized around this quantum computational objective.
+
+The paper certifies the specific Chebyshev-LCU circuit, reports complete
+simulated operator audits and noisy failures, and sets out a physical quantum
+validation protocol. Classical dense spectral encoding remains an explicit
+assumption; the quantum core is separate from the project's earlier hybrid
+tracking and correction methods. `eurohpc_report.tex` is an accompanying
+technical-feasibility report. Neither document claims physical execution or
+end-to-end quantum speedup.
 
 The builder reads a complete validation run and derives every numerical table,
 figure and headline metric from its JSON/JUnit outputs:

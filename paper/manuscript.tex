@@ -10,84 +10,84 @@
 \newcommand{\bra}[1]{\langle#1\rvert}
 \newcommand{\R}{\mathbb{R}}
 \input{generated/metrics}
+\hypersetup{
+ pdftitle={Quantum Matrix Inversion via Coherent Chebyshev-LCU Circuits: Theory and Simulation to Dimension 1000},
+ pdfauthor={Vahid Tavakkoli, Kabeh Mohsenzadegan, and Kyandoghere Kyamakya},
+ pdfsubject={Coherent quantum inverse action, error certification, and hardware validation},
+ pdfkeywords={quantum matrix inversion, quantum linear systems, Chebyshev, LCU, quantum circuits}
+}
 \begin{document}
-\title{A Resource-Explicit Chebyshev-LCU Baseline for Coherent Matrix Inversion: Theory and Emulation to Order 1000}
+\title{Quantum Matrix Inversion via Coherent Chebyshev--LCU Circuits: Theory and Simulation to Dimension 1000}
 \author{Vahid Tavakkoli, Kabeh Mohsenzadegan, and Kyandoghere Kyamakya%
 \thanks{QCeNN-MI research project. Reproducible implementation and experiment sources: \url{https://github.com/vtavakkoli/QCeNN-MI}. This manuscript reports simulator evidence; physical quantum-device execution is future work.}}
 \maketitle
 \begin{abstract}
-Quantum inverse-action circuits can encode an $N$-dimensional vector with
-$\lceil\log_2 N\rceil$ data qubits, but this representation does not remove
-matrix-loading, conditioning, gate-depth, or readout costs. This paper develops
-a resource-explicit spectral baseline for real nonsingular matrices. An analytic
-Chebyshev reciprocal expansion is implemented by linear combination of unitaries
-(LCU), a single walk ancilla, and a binary selector. We derive a uniform operator
-residual bound, relative solution and normalized-state bounds, and a conditional
-success-probability guarantee. The construction uses classical dense spectral or
-singular-value decomposition; it is therefore not an efficient black-box input
-oracle or a quantum-speedup claim. A structured gate-statevector simulator
-retains all selector and walk amplitudes and evaluates selector uncomputation
-through an exact success projection. The reproducible validation package checks
-\TheoryCaseCount{} degree/conditioning cases and audits the complete success
-operator for \PrecisionCaseCount{} real $1000\times1000$ matrices. The recorded
-largest operator residual is \WorstOperatorResidual{} with a polynomial target
-of $10^{-12}$ and a separate numerical acceptance limit of $10^{-10}$.
-The large instances use 15--21 raw qubits. At condition number 1000, the
-worst-input success probability is approximately $10^{-6}$. Native-gate and
-synthetic-noise checks through dimension 100 expose the distinction between
-ideal numerical accuracy and useful hardware quality. A single containerized
-workflow regenerates numerical evidence, resource logs, tables, figures, and
-an accompanying hardware-access assessment report.
+The primary target of this work is quantum matrix inversion as a coherent
+inverse-action operation: a quantum circuit maps an encoded input state to a
+state proportional to $M^{-1}b_0$, conditioned on an ancilla success outcome.
+For real nonsingular matrices, we construct this operation using an analytic
+Chebyshev reciprocal polynomial, linear combination of unitaries (LCU), one
+walk ancilla, and a binary selector register. We derive operator-residual,
+relative-solution, normalized-state, and success-probability bounds, and
+validate the quantum construction through ideal and native-gate simulation.
+The reproducible study checks \TheoryCaseCount{} degree/conditioning cases
+and audits the complete simulated success operator for \PrecisionCaseCount{}
+real $1000\times1000$ matrices. The largest recorded operator residual is
+\WorstOperatorResidual{}, with a polynomial target of $10^{-12}$ and a
+separate numerical acceptance limit of $10^{-10}$. These large cases use
+15--21 raw qubits; worst-input success is approximately $10^{-6}$ at condition
+number 1000. Classical dense spectral encoding is an explicit input-access
+assumption, so the results do not establish end-to-end quantum speedup or
+efficient classical reconstruction of the full inverse. Native-gate and
+synthetic-noise experiments through dimension 100 quantify the remaining
+hardware constraints. A containerized evidence workflow supports subsequent
+physical quantum-device validation; no physical execution is reported here.
 \end{abstract}
 \begin{IEEEkeywords}
-Quantum linear systems, coherent inverse action, Chebyshev approximation,
-linear combination of unitaries, reproducible emulation, resource estimation.
+Quantum matrix inversion, quantum linear systems, coherent inverse action,
+Chebyshev approximation, linear combination of unitaries, quantum simulation.
 \end{IEEEkeywords}
 
 \section{Introduction}
-\IEEEPARstart{M}{atrix} inversion is often posed as the search for $X$ satisfying
-$MX=I$. In applications, the desired object may instead be one inverse action
-$x=M^{-1}b$, a normalized quantum state proportional to that vector, or an
-observable of the solution. These outputs are not interchangeable. A quantum
-state may represent a long vector compactly without making its classical
-entries inexpensive to recover. The distinction is central to quantum
-linear-system algorithms and to credible evaluations of their implementations
-\cite{harrow2009,childs2017,gilyen2019}.
+\IEEEPARstart{Q}{uantum} matrix inversion aims to apply inverse action to a
+quantum state and retain the result as a quantum state for subsequent use.
+For an encoded right-hand side $\ket{b_0}$, the computational target is
+$\ket{x}\propto M^{-1}\ket{b_0}$, together with a success indication and a
+quantified error \cite{harrow2009,childs2017,gilyen2019}. Our primary
+objective is to construct and certify this quantum operation. Its output
+and measurement costs differ from writing every entry of a classical
+inverse. The simulations assess circuit realization and guide a later
+physical quantum-device experiment.
 
-The QCeNN-MI project explores matrix-inversion dynamics motivated by recurrent
-neural formulations of time-varying inversion \cite{tavakkoli2019}. Its early
-experiments comprise small variational cells, coupled ansatz templates,
-stateful classical tracking, and safeguarded polynomial corrections. Those
-hybrid experiments motivate a separate question: can an input-independent
-coherent operation approximate inverse action without fitting the solution
-state or applying a classical residual correction inside the solver?
+The quantum mechanism is a coherent superposition of polynomial walk powers.
+An analytic Chebyshev approximation to the reciprocal supplies LCU weights;
+selector interference and ancilla postselection expose an approximation to
+$M^{-1}$. Classical spectral decomposition supplies the circuit encoding.
+The compiled, unfused operation acts on different inputs without receiving
+their solution states or classical residual feedback. ``Standalone''
+describes this quantum inverse-action core; encoding and control remain
+classical.
 
-This paper studies that question through a deliberately explicit compiled
-baseline. A dense classical decomposition supplies input singular bases and
-positive singular values. A reciprocal polynomial, whose coefficients depend
-only on the extremal singular values, is implemented in a unitary dilation.
-Ancilla postselection exposes the inverse-action block. The method is
-standalone at the level of the coherent inverse-action subroutine, while the
-encoding remains classical and dense. It is not a physical realization of a
-local quantum cellular network, nor a conversion of every hybrid tracking
-step into a quantum operation.
+QCeNN-MI originated in matrix-inversion dynamics inspired by recurrent
+formulations of time-varying inversion \cite{tavakkoli2019}. Its coupled
+variational cells and classical tracking provide project context. The
+present quantum circuit is evaluated independently of those hybrid
+methods; it does not establish a physical local quantum cellular network.
 
-The contributions are fourfold. First, we give a self-contained certification
-of the particular single-flag Chebyshev-LCU construction used in the code,
-including its residual, output-state, and success bounds. The approximation
-and LCU ingredients are established techniques, not new general quantum
-linear-system theory. Second, we expose the conditions under which the
-logarithmic data-register count coexists with substantial encoding and
-sampling costs. Third, we audit full simulated operators at dimension 1000
-and cross-check manageable instances with independently executed native
-circuits. Fourth, we supply an executable evidence pipeline that retains
-failed noisy-quality outcomes and supports a staged physical-device study.
+The contributions address four aspects of the quantum target. First, we
+certify the implemented Chebyshev--LCU circuit with residual, state-error,
+and success bounds. The underlying approximation and LCU techniques are
+established; our certification concerns this implementation and access
+model. Second, we account for quantum registers, postselection, and
+classical encoding. Third, we audit complete simulated success operators
+through dimension 1000 and cross-check smaller native circuits. Fourth,
+we provide a reproducible validation workflow retaining noisy failures
+and a staged physical-device protocol.
 
-Our main empirical result is ideal-simulation feasibility for the tested
-families with quantified error. It does not prove uniform performance over
-all nonsingular matrices. The exact-arithmetic convergence theorem applies
-to a finite positive singular-value interval; degree, floating-point
-resolution, and postselection resources remain explicit parameters.
+The results establish ideal-simulation feasibility for the tested families.
+Convergence on a finite positive singular-value interval does not remove
+degree, numerical-resolution, depth, or sampling constraints. End-to-end
+quantum advantage and physical-device performance remain open.
 
 \section{Problem, Encoding, and Evidence Model}
 \subsection{Domain and outputs}
@@ -117,12 +117,6 @@ an inverse; it places no useful uniform upper bound on $\kappa$. The solver
 does not explicitly form or solve the normal equations $MM^T$, which would
 square the spectral condition number.
 
-An arbitrary inverse is generally nonunitary. Consequently, the target of
-this work is a postselected block of a larger unitary. The successful circuit
-output is a normalized solution state; the matrix norm scale remains encoded
-in the known LCU normalization and success probability. Full classical
-inverse reconstruction is a separate measurement and output task.
-
 \subsection{Registers and padding}
 Set $n=\lceil\log_2N\rceil$ and $P=2^n$. Valid amplitudes occupy the first
 $N$ data coordinates. The singular bases are embedded as block-diagonal
@@ -140,6 +134,30 @@ one walk ancilla are used, giving
 \end{equation}
 These are raw algorithmic qubits. Provider compiler ancillas and quantum
 error-correction overhead are excluded.
+
+\subsection{Quantum computational target}
+An arbitrary matrix inverse is generally nonunitary. We implement its
+approximation as the successful block of a larger quantum unitary
+$\mathcal Q_d$, with input--output relation
+\begin{equation}
+ \begin{split}
+ \mathcal Q_d(\ket{0^s}\ket0\ket{b_0})
+ ={}&\ket{0^s}\ket0\frac{X_d\ket{b_0}}{\alpha_d}
+       +\ket{\Phi_\perp},
+ \end{split}
+ \label{eq:quantumtarget}
+\end{equation}
+where $X_d$ is the degree-$d$ inverse approximation, $\alpha_d>0$ is its
+LCU normalization, and $\ket{\Phi_\perp}$ has no component in the all-zero
+ancilla subspace. The all-zero outcome heralds the quantum output
+\begin{equation}
+ \ket{x_d}=\frac{X_d\ket{b_0}}{\norm{X_d\ket{b_0}}_2}
+ \ \approx\ \frac{M^{-1}\ket{b_0}}{\norm{M^{-1}\ket{b_0}}_2}.
+ \label{eq:quantumoutput}
+\end{equation}
+Sections III and IV give the error and success guarantees. The accepted
+register remains available for quantum computation. Full classical
+inverse readout requires additional inputs and measurements.
 
 \subsection{What is classical and what is coherent}
 The decomposition~\eqref{eq:svd}, scalar interval analysis, coefficient
@@ -269,7 +287,7 @@ polynomial-degree statement for a known spectral interval, not an oracle
 query-complexity result. No fixed degree budget works uniformly as the
 smallest singular value tends to zero.
 
-\section{Single-Flag Coherent LCU Construction}
+\section{Quantum Circuit for Coherent Inverse Action}
 \subsection{Walk and coefficient selection}
 For $t_j=(\sigma_j-c)/h$ and $\theta_j=\arccos(t_j)$, define an encoded walk
 whose flag block on spectral coordinate $j$ is
@@ -681,14 +699,14 @@ nor that report claims a physical allocation decision or execution on a
 specific allocated EuroHPC node.
 
 \section{Discussion and Conclusion}
-The specialized certification and implementation show that finite real
-nonsingular matrices admit coherent approximate inverse action in the
-specified spectral access model. The demonstration is stronger than a
-few successful right-hand sides because the large-instance audit measures
-the induced residual of each full simulated success operator. It is also
-more limited than a scalable quantum inversion claim: dense classical
-encoding is required, the quantum output is postselected, and full measured
-matrix readout is absent.
+The principal outcome is a specified, certified, and simulator-validated
+quantum matrix-inversion primitive. Coherent polynomial interference
+realizes the heralded transformation~\eqref{eq:quantumtarget}, producing
+a state proportional to $X_d\ket{b_0}$ without a fitted solution or
+classical correction inside the quantum core. The full-operator audit
+tests action across the valid input subspace. Dense classical spectral
+encoding remains an explicit assumption; end-to-end quantum advantage
+and full measured inverse reconstruction are not established.
 
 In the recorded experiment, \PrecisionCaseCount{} order-1000 operators
 reach a largest residual of \WorstOperatorResidual{} and a largest relative
@@ -700,13 +718,13 @@ Native synthetic-noise failures are an essential part of the result,
 demonstrating that ideal numerical precision is insufficient evidence
 for hardware utility.
 
-The next research step is calibrated small-instance physical validation
-with reproducible measurement evidence. Longer-term work should replace
-dense spectral access with structured block encodings, evaluate the cost
-of amplification or preconditioning, and choose observables that can be
-estimated without full inverse readout. The present artifact provides a
-testable baseline for those comparisons rather than removing their
-resource constraints.
+The immediate quantum research objective is physical validation of the
+same circuit on small instances with calibrated measurements and
+prespecified acceptance criteria. Longer-term work should investigate
+structured block encodings, amplification and preconditioning costs,
+and solution observables that avoid full inverse readout. This theory
+and circuit evidence provide a concrete starting point for that hardware
+program.
 
 \appendix[Reproduction and Evidence Integrity]
 The default command is
@@ -714,25 +732,19 @@ The default command is
 \texttt{--abort-on-container-exit}\\
 \texttt{--exit-code-from validation}.
 \end{quote}
-Outputs are written to the mounted artifact directory. A fresh output
-directory is required for a new run to prevent silent mixing of stale
-results. The same Python suite can be executed on a system where Docker
-is not available, including an HPC environment using its supported
-container conversion or a managed Python environment. Actual site
-software and scheduler policy must be checked before deployment.
+Outputs are written to the mounted artifact directory; use a fresh directory
+for each run. The Python suite also runs without Docker. HPC deployment
+requires the site's supported container or Python environment and scheduler.
 
 This manuscript was prepared for reporting on \ReportDate{} from a run whose
 execution-environment clock reported \RunDate{}, source commit
 \texttt{\SourceCommit}, with execution label \texttt{\RunContext}.
-The source-tree fingerprint and full commands are retained in the
-artifact, including an explicit dirty-tree indicator for local development
-runs. The measured benchmark portion used \SuiteWallSeconds{} wall seconds,
+The artifact retains commands, the source-tree fingerprint, and a dirty-tree
+indicator. The benchmark used \SuiteWallSeconds{} wall seconds,
 \SuiteCPUSeconds{} CPU seconds and a maximum per-stage child RSS of
-\SuitePeakMiB{} MiB. These figures are local process measurements, not
-EuroHPC node-hour accounting and not physical QPU runtime. Document
-rendering is excluded from these benchmark totals.
-The raw process clock is not independently synchronized; scheduler-attested
-execution dates are not inferred from it.
+\SuitePeakMiB{} MiB, excluding document rendering. These are local process
+measurements, not EuroHPC node-hours or QPU runtime. The process clock is
+not independently synchronized or scheduler-attested.
 
 \section*{Acknowledgment and AI Assistance Disclosure}
 OpenAI ChatGPT/Codex assisted in drafting and revising Sections I--IX and
