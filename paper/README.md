@@ -1,8 +1,8 @@
 # IEEE manuscript and EuroHPC evidence report
 
 `manuscript.tex` is a full IEEEtran journal-style manuscript titled **Quantum
-Inversion of Time-Varying Matrices: Theory for Arbitrary Finite Dimensions and
-Simulations up to 1000x1000**. Its primary target is a coherent quantum operation
+Matrix Inversion via Chebyshev Polynomials and LCU: Arbitrary Dimensions,
+Temporal Dynamics, and Noise Resilience**. Its primary target is a coherent quantum operation
 that heralds a solution state proportional to `M(t)^{-1}|b>`. The title, abstract,
 introduction, input-output specification, circuit construction, and conclusion
 are organized around this quantum computational objective.
