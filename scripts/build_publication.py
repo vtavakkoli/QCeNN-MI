@@ -413,6 +413,8 @@ def build(results, output, metadata_file=None):
         log = (source / f"{stem}.log").read_text(errors="replace")
         if "There were undefined references" in log or "Citation `" in log:
             raise RuntimeError(f"Unresolved references in {stem}")
+        if any(marker in log for marker in (r"Overfull \hbox", r"Overfull \vbox")):
+            raise RuntimeError(f"Overfull typesetting boxes in {stem}")
         target = output / name
         shutil.copy2(source / f"{stem}.pdf", target)
         reader = PdfReader(target)

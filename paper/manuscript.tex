@@ -457,8 +457,10 @@ makes the scope of the specific implemented construction explicit.
 Let $M:[0,T]\to\R^{N\times N}$ be continuous and nonsingular, with fixed
 finite $N$. Compactness and continuity of singular values imply
 \begin{equation}
- 0<a_*:=\min_t\sigma_{\min}(M(t)),\qquad
+ \begin{gathered}
+ 0<a_*:=\min_t\sigma_{\min}(M(t)),\\
  b_*:=\max_t\sigma_{\max}(M(t))<\infty.
+ \end{gathered}
  \label{eq:uniformgap}
 \end{equation}
 Using $[a_*,b_*]$ in~\eqref{eq:degree} gives one finite sufficient degree
@@ -491,13 +493,18 @@ correction is applied to the accepted quantum output.
 
 \begin{theorem}[Drift, acquisition error, and update delay]
 Define $D_k(t)=\norm{M(t)-M(t_k)}_2$. Then
-\begin{align}
- \max\{\norm{M(t)X_k-I}_2,\norm{X_kM(t)-I}_2\}
- &\leq\rho_k(t),\label{eq:heldbound}\\
- \rho_k(t)&:=\delta+
+\begin{equation}
+ \begin{aligned}
+ \norm{M(t)X_k-I}_2&\leq\rho_k(t),\\
+ \norm{X_kM(t)-I}_2&\leq\rho_k(t),
+ \end{aligned}
+ \label{eq:heldbound}
+\end{equation}
+\begin{equation}
+ \rho_k(t):=\delta+
  \frac{(D_k(t)+\nu)(1+\delta)}{a_*-\nu}.
  \label{eq:rho}
-\end{align}
+\end{equation}
 For every nonzero current right-hand side, the relative solution error is
 at most $\rho_k(t)$. If $\rho_k(t)<1$, the normalized accepted-state
 error is at most $2\rho_k(t)$. These assertions require the input state
@@ -1037,6 +1044,8 @@ identifies the use of AI assistance in accordance with IEEE guidance
 \cite{ieeeai}. Author affiliations and final venue-specific submission
 metadata are not inferred from the software repository.
 
+% Balance the final reference page of this 39-reference publication build.
+\IEEEtriggeratref{29}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
