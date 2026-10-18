@@ -314,3 +314,36 @@ A condition-number-100 counterexample demonstrates failure to reach the accuracy
 target at degree 7. Singular, numerically singular and complex matrices are
 rejected. Success on these fixtures does not imply success on every matrix.
 See [the large simulation protocol](docs/coherent-large.md).
+
+## Compact circuits and preparation for hardware simulation
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.compact_benchmark
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.hardware --qubit-budget 42
+```
+
+The compact path replaces fresh-flag Neumann powers with a Chebyshev-LCU walk
+using one walk flag and binary-controlled powers. Degree adapts to a requested
+ideal residual bound. On the existing 10×10/100×100 fixtures, worst ideal input
+residuals improve to approximately 1e-7, with postselection success around
+43–62%. Classical spectral/SVD encoding remains necessary.
+
+Amplitude encoding requires `ceil(log2(N))` **data** qubits for inverse action on
+an N-dimensional vector. The matrix is an operator, not one qubit per row.
+Degree-7 compact totals are 8 qubits for 10×10 and 11 for 100×100; some adaptive
+cases use one additional selector qubit. A 42-qubit device has enough raw qubits
+for these circuits. Gate count, connectivity and noise remain decisive.
+
+The hardware campaign compiles to rz/sx/x/cx on an assumed bidirectional line,
+checks native ideal inverse accuracy with routing restored, exports action and
+independent reference-verifier circuits, and executes synthetic native-gate noise.
+It does **not** submit physical jobs or claim device-specific calibration.
+
+Current evidence: 10×10 passes the optimistic synthetic echo-quality gate but
+fails the stress profile. Dense 100×100 fails even the optimistic profile in a
+bounded 64-shot trajectory test. Thus hardware accuracy is not perfect or
+qualified. The JSON report and job summary keep native correctness and noisy
+quality separate. `--require-noisy-quality` exits nonzero when noisy gates fail.
+
+See [compact hardware preparation](docs/compact-hardware.md) and the generated
+reports in `results/compact/` and `results/hardware/`.

@@ -37,3 +37,8 @@ results/coherent/audit/
 
 # Regenerated larger-circuit Z-distribution sampling audits
 results/coherent-large/audit/
+
+# Regenerated hardware simulation circuits, shot audits and scratch runs
+results/hardware/*.qpy
+results/hardware/audit/
+results/hardware-small/

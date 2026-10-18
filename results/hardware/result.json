@@ -1,0 +1,405 @@
+{
+  "native_validation_passed": true,
+  "all_synthetic_quality_gates_passed": false,
+  "physical_hardware_tested": false,
+  "calibration_derived_noise": false,
+  "qubit_budget": 42,
+  "target_tolerance": 1e-06,
+  "cases": [
+    {
+      "size": 2,
+      "input_family": "dense_spd",
+      "degree": 7,
+      "required_qubits": 5,
+      "data_qubits": 1,
+      "device_qubit_budget": 42,
+      "fits_qubit_budget": true,
+      "classical_encoding": "classical SPD eigendecomposition",
+      "residual_bound": 1.7829963254963205e-07,
+      "structured_ideal_residual": 1.2422962585434883e-07,
+      "native_ideal_residual": 1.242296233905901e-07,
+      "ideal_success_probability": 0.6806480185682896,
+      "native_action_operations": {
+        "rz": 56,
+        "sx": 38,
+        "cx": 22,
+        "x": 5
+      },
+      "native_action_depth": 72,
+      "native_verifier_operations": {
+        "rz": 56,
+        "sx": 38,
+        "cx": 22,
+        "x": 5,
+        "measure": 5,
+        "barrier": 1
+      },
+      "native_verifier_depth": 73,
+      "topology": "active-width bidirectional line; not a calibrated 42-qubit backend",
+      "basis_gates": [
+        "rz",
+        "sx",
+        "x",
+        "cx"
+      ],
+      "qpy_file": "2-inverse-action.qpy",
+      "ideal_echo": {
+        "shots": 32768,
+        "accepted": 22371,
+        "returned": 22371,
+        "success_frequency": 0.682708740234375,
+        "observed_echo_return": 1.0,
+        "echo_return_95ci": [
+          0.9998283134730693,
+          1.0
+        ],
+        "quality_gate": true,
+        "job_id": "bcf6bfc2-158f-4ad2-a30a-1d097d0ce16a",
+        "audit_file": "audit/2-ideal.json"
+      },
+      "noise": [
+        {
+          "shots": 32768,
+          "accepted": 21946,
+          "returned": 21798,
+          "success_frequency": 0.66973876953125,
+          "observed_echo_return": 0.9932561742458762,
+          "echo_return_95ci": [
+            0.9920836930920269,
+            0.9942560051065583
+          ],
+          "quality_gate": true,
+          "profile": "optimistic_synthetic",
+          "parameters": {
+            "one_qubit": 1e-05,
+            "two_qubit": 0.0001,
+            "readout": 0.005
+          },
+          "job_id": "2712f573-1b1a-4e49-9813-7b82641eb504",
+          "simulation_method": "density_matrix",
+          "seconds": 0.08357009900009871,
+          "audit_file": "audit/2-optimistic_synthetic.json"
+        },
+        {
+          "shots": 32768,
+          "accepted": 20519,
+          "returned": 19935,
+          "success_frequency": 0.626190185546875,
+          "observed_echo_return": 0.9715385740045811,
+          "echo_return_95ci": [
+            0.969173567104536,
+            0.9737270560293508
+          ],
+          "quality_gate": true,
+          "profile": "stress_synthetic",
+          "parameters": {
+            "one_qubit": 0.0001,
+            "two_qubit": 0.001,
+            "readout": 0.02
+          },
+          "job_id": "cbffc20a-c95d-41f2-88e0-4877775a6ddb",
+          "simulation_method": "density_matrix",
+          "seconds": 0.08403631200008022,
+          "audit_file": "audit/2-stress_synthetic.json"
+        }
+      ],
+      "native_correctness_passed": true,
+      "qpy_circuit_order": [
+        "inverse_action",
+        "reference_verifier_with_measurements"
+      ]
+    },
+    {
+      "size": 4,
+      "input_family": "dense_spd",
+      "degree": 7,
+      "required_qubits": 6,
+      "data_qubits": 2,
+      "device_qubit_budget": 42,
+      "fits_qubit_budget": true,
+      "classical_encoding": "classical SPD eigendecomposition",
+      "residual_bound": 2.3633548046127561e-07,
+      "structured_ideal_residual": 1.5716832691624635e-07,
+      "native_ideal_residual": 1.5716832732727092e-07,
+      "ideal_success_probability": 0.6273930390371386,
+      "native_action_operations": {
+        "rz": 93,
+        "cx": 79,
+        "sx": 75
+      },
+      "native_action_depth": 142,
+      "native_verifier_operations": {
+        "rz": 95,
+        "cx": 78,
+        "sx": 75,
+        "measure": 6,
+        "barrier": 1
+      },
+      "native_verifier_depth": 143,
+      "topology": "active-width bidirectional line; not a calibrated 42-qubit backend",
+      "basis_gates": [
+        "rz",
+        "sx",
+        "x",
+        "cx"
+      ],
+      "qpy_file": "4-inverse-action.qpy",
+      "ideal_echo": {
+        "shots": 32768,
+        "accepted": 20605,
+        "returned": 20605,
+        "success_frequency": 0.628814697265625,
+        "observed_echo_return": 1.0,
+        "echo_return_95ci": [
+          0.9998136014181888,
+          0.9999999999999999
+        ],
+        "quality_gate": true,
+        "job_id": "e5938a18-500a-4513-afa1-996c4e93fa14",
+        "audit_file": "audit/4-ideal.json"
+      },
+      "noise": [
+        {
+          "shots": 32768,
+          "accepted": 20176,
+          "returned": 19892,
+          "success_frequency": 0.61572265625,
+          "observed_echo_return": 0.9859238699444886,
+          "echo_return_95ci": [
+            0.9842033677383701,
+            0.9874593700493572
+          ],
+          "quality_gate": true,
+          "profile": "optimistic_synthetic",
+          "parameters": {
+            "one_qubit": 1e-05,
+            "two_qubit": 0.0001,
+            "readout": 0.005
+          },
+          "job_id": "fa16e70f-be2e-4939-9e3f-545e2ab24984",
+          "simulation_method": "density_matrix",
+          "seconds": 0.11772566299987375,
+          "audit_file": "audit/4-optimistic_synthetic.json"
+        },
+        {
+          "shots": 32768,
+          "accepted": 18324,
+          "returned": 17127,
+          "success_frequency": 0.5592041015625,
+          "observed_echo_return": 0.9346758349705304,
+          "echo_return_95ci": [
+            0.9310062311612347,
+            0.9381632253616076
+          ],
+          "quality_gate": true,
+          "profile": "stress_synthetic",
+          "parameters": {
+            "one_qubit": 0.0001,
+            "two_qubit": 0.001,
+            "readout": 0.02
+          },
+          "job_id": "83c05034-3d93-4594-8789-8d7a52323b82",
+          "simulation_method": "density_matrix",
+          "seconds": 0.09650275600006353,
+          "audit_file": "audit/4-stress_synthetic.json"
+        }
+      ],
+      "native_correctness_passed": true,
+      "qpy_circuit_order": [
+        "inverse_action",
+        "reference_verifier_with_measurements"
+      ]
+    },
+    {
+      "size": 10,
+      "input_family": "dense_spd",
+      "degree": 7,
+      "required_qubits": 8,
+      "data_qubits": 4,
+      "device_qubit_budget": 42,
+      "fits_qubit_budget": true,
+      "classical_encoding": "classical SPD eigendecomposition",
+      "residual_bound": 2.135818084929519e-07,
+      "structured_ideal_residual": 1.126414192788714e-07,
+      "native_ideal_residual": 1.126414149321305e-07,
+      "ideal_success_probability": 0.6020063468865956,
+      "native_action_operations": {
+        "rz": 725,
+        "sx": 533,
+        "cx": 406,
+        "x": 29
+      },
+      "native_action_depth": 1033,
+      "native_verifier_operations": {
+        "rz": 759,
+        "sx": 558,
+        "cx": 423,
+        "x": 30,
+        "measure": 8,
+        "barrier": 1
+      },
+      "native_verifier_depth": 1090,
+      "topology": "active-width bidirectional line; not a calibrated 42-qubit backend",
+      "basis_gates": [
+        "rz",
+        "sx",
+        "x",
+        "cx"
+      ],
+      "qpy_file": "10-inverse-action.qpy",
+      "ideal_echo": {
+        "shots": 32768,
+        "accepted": 19754,
+        "returned": 19754,
+        "success_frequency": 0.60284423828125,
+        "observed_echo_return": 1.0,
+        "echo_return_95ci": [
+          0.9998055729504306,
+          0.9999999999999999
+        ],
+        "quality_gate": true,
+        "job_id": "92448a91-192c-4993-85e1-84f66a406844",
+        "audit_file": "audit/10-ideal.json"
+      },
+      "noise": [
+        {
+          "shots": 32768,
+          "accepted": 19180,
+          "returned": 18281,
+          "success_frequency": 0.5853271484375,
+          "observed_echo_return": 0.9531282586027111,
+          "echo_return_95ci": [
+            0.9500451798454567,
+            0.9560298644730413
+          ],
+          "quality_gate": true,
+          "profile": "optimistic_synthetic",
+          "parameters": {
+            "one_qubit": 1e-05,
+            "two_qubit": 0.0001,
+            "readout": 0.005
+          },
+          "job_id": "129dd7db-2d3e-4108-8381-d6f74e80d38d",
+          "simulation_method": "density_matrix",
+          "seconds": 0.5996159540000008,
+          "audit_file": "audit/10-optimistic_synthetic.json"
+        },
+        {
+          "shots": 32768,
+          "accepted": 16348,
+          "returned": 11460,
+          "success_frequency": 0.4989013671875,
+          "observed_echo_return": 0.7010031808172253,
+          "echo_return_95ci": [
+            0.6939386952571533,
+            0.7079732249721649
+          ],
+          "quality_gate": false,
+          "profile": "stress_synthetic",
+          "parameters": {
+            "one_qubit": 0.0001,
+            "two_qubit": 0.001,
+            "readout": 0.02
+          },
+          "job_id": "5b4d3f47-a898-4224-bf40-534432c7b650",
+          "simulation_method": "density_matrix",
+          "seconds": 0.5844537650000348,
+          "audit_file": "audit/10-stress_synthetic.json"
+        }
+      ],
+      "native_correctness_passed": true,
+      "qpy_circuit_order": [
+        "inverse_action",
+        "reference_verifier_with_measurements"
+      ]
+    },
+    {
+      "size": 100,
+      "input_family": "dense_spd",
+      "degree": 7,
+      "required_qubits": 11,
+      "data_qubits": 7,
+      "device_qubit_budget": 42,
+      "fits_qubit_budget": true,
+      "classical_encoding": "classical SPD eigendecomposition",
+      "residual_bound": 2.0708922362778948e-07,
+      "structured_ideal_residual": 1.033253396609946e-07,
+      "native_ideal_residual": 1.0332528693618765e-07,
+      "ideal_success_probability": 0.5995056191325401,
+      "native_action_operations": {
+        "rz": 30420,
+        "sx": 22407,
+        "cx": 14625,
+        "x": 315
+      },
+      "native_action_depth": 41024,
+      "native_verifier_operations": {
+        "rz": 30844,
+        "sx": 22733,
+        "cx": 14906,
+        "x": 324,
+        "measure": 11,
+        "barrier": 1
+      },
+      "native_verifier_depth": 41782,
+      "topology": "active-width bidirectional line; not a calibrated 42-qubit backend",
+      "basis_gates": [
+        "rz",
+        "sx",
+        "x",
+        "cx"
+      ],
+      "qpy_file": "100-inverse-action.qpy",
+      "ideal_echo": {
+        "shots": 32768,
+        "accepted": 19680,
+        "returned": 19680,
+        "success_frequency": 0.6005859375,
+        "observed_echo_return": 1.0,
+        "echo_return_95ci": [
+          0.9998048420157858,
+          0.9999999999999999
+        ],
+        "quality_gate": true,
+        "job_id": "836e419a-36f9-4e9b-9e41-31531b06320e",
+        "audit_file": "audit/100-ideal.json"
+      },
+      "noise": [
+        {
+          "shots": 64,
+          "accepted": 34,
+          "returned": 8,
+          "success_frequency": 0.53125,
+          "observed_echo_return": 0.23529411764705882,
+          "echo_return_95ci": [
+            0.12436985532639575,
+            0.3999613792253638
+          ],
+          "quality_gate": false,
+          "profile": "optimistic_synthetic",
+          "parameters": {
+            "one_qubit": 1e-05,
+            "two_qubit": 0.0001,
+            "readout": 0.005
+          },
+          "job_id": "fb9b2cdb-c9b0-4acb-b140-2103a574be49",
+          "simulation_method": "statevector",
+          "seconds": 42.80731869400006,
+          "audit_file": "audit/100-optimistic_synthetic.json"
+        }
+      ],
+      "native_correctness_passed": true,
+      "qpy_circuit_order": [
+        "inverse_action",
+        "reference_verifier_with_measurements"
+      ]
+    }
+  ],
+  "noise_quality_gate": "at least 20 accepted shots and 95% Wilson lower bound of reference return >= 0.9",
+  "versions": {
+    "numpy": "2.3.5",
+    "qiskit": "2.6.0",
+    "qiskit-aer": "0.17.2"
+  },
+  "limits": "Synthetic noise, assumed line topology; 100x100 uses bounded trajectory statistics. Echo includes reference-verifier errors. No full inverse tomography."
+}

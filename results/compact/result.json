@@ -1,0 +1,244 @@
+{
+  "passed": true,
+  "target_tolerance": 1e-06,
+  "cases": [
+    {
+      "size": 10,
+      "family": "dense_spd",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 4,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 8,
+        "padded_size": 16,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical SPD eigendecomposition"
+      },
+      "residual_bound": 2.135818084929519e-07,
+      "worst_relative_residual": 1.2755413023338317e-07,
+      "minimum_success_probability": 0.6020063468865956,
+      "old_degree7_neumann_qubits": 14
+    },
+    {
+      "size": 10,
+      "family": "tridiagonal_spd",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 4,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 8,
+        "padded_size": 16,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical SPD eigendecomposition"
+      },
+      "residual_bound": 4.451868011314187e-07,
+      "worst_relative_residual": 2.531424319237631e-07,
+      "minimum_success_probability": 0.49377316437299346,
+      "old_degree7_neumann_qubits": 14
+    },
+    {
+      "size": 10,
+      "family": "dense_nonsymmetric",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 4,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 8,
+        "padded_size": 16,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical real singular-value decomposition"
+      },
+      "residual_bound": 1.950454293974767e-07,
+      "worst_relative_residual": 1.1707210901343205e-07,
+      "minimum_success_probability": 0.6161799899761397,
+      "old_degree7_neumann_qubits": 14
+    },
+    {
+      "size": 10,
+      "family": "signed_indefinite",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 4,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 8,
+        "padded_size": 16,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical real singular-value decomposition"
+      },
+      "residual_bound": 1.9008984431728594e-07,
+      "worst_relative_residual": 1.1442209598667659e-07,
+      "minimum_success_probability": 0.6074238550603086,
+      "old_degree7_neumann_qubits": 14
+    },
+    {
+      "size": 100,
+      "family": "dense_spd",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 7,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 11,
+        "padded_size": 128,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical SPD eigendecomposition"
+      },
+      "residual_bound": 2.0708922362778948e-07,
+      "worst_relative_residual": 1.2151477033160016e-07,
+      "minimum_success_probability": 0.5995056191325401,
+      "old_degree7_neumann_qubits": 17
+    },
+    {
+      "size": 100,
+      "family": "tridiagonal_spd",
+      "degree": 8,
+      "resources": {
+        "data_qubits": 7,
+        "walk_ancillas": 1,
+        "selector_qubits": 4,
+        "total_qubits": 12,
+        "padded_size": 128,
+        "degree": 8,
+        "controlled_walk_power_gadgets": 4,
+        "classical_encoding": "classical SPD eigendecomposition"
+      },
+      "residual_bound": 2.2400568775844485e-07,
+      "worst_relative_residual": 1.0883021156608332e-07,
+      "minimum_success_probability": 0.43049277609231196,
+      "old_degree7_neumann_qubits": 17
+    },
+    {
+      "size": 100,
+      "family": "dense_nonsymmetric",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 7,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 11,
+        "padded_size": 128,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical real singular-value decomposition"
+      },
+      "residual_bound": 2.1025242371165347e-07,
+      "worst_relative_residual": 1.2415641999985522e-07,
+      "minimum_success_probability": 0.5975992397765628,
+      "old_degree7_neumann_qubits": 17
+    },
+    {
+      "size": 100,
+      "family": "signed_indefinite",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 7,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 11,
+        "padded_size": 128,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical real singular-value decomposition"
+      },
+      "residual_bound": 1.9750438728626722e-07,
+      "worst_relative_residual": 1.1815233621195955e-07,
+      "minimum_success_probability": 0.6041159790264125,
+      "old_degree7_neumann_qubits": 17
+    },
+    {
+      "size": 1000,
+      "family": "dense_spd",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 10,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "padded_size": 1024,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical SPD eigendecomposition"
+      },
+      "residual_bound": 2.0574539661355695e-07,
+      "worst_relative_residual": 1.0284323171959233e-07,
+      "minimum_success_probability": 0.5826049797465578,
+      "old_degree7_neumann_qubits": 20
+    },
+    {
+      "size": 1000,
+      "family": "tridiagonal_spd",
+      "degree": 8,
+      "resources": {
+        "data_qubits": 10,
+        "walk_ancillas": 1,
+        "selector_qubits": 4,
+        "total_qubits": 15,
+        "padded_size": 1024,
+        "degree": 8,
+        "controlled_walk_power_gadgets": 4,
+        "classical_encoding": "classical SPD eigendecomposition"
+      },
+      "residual_bound": 3.4549231319821373e-07,
+      "worst_relative_residual": 1.5859252789689894e-07,
+      "minimum_success_probability": 0.4122981569788178,
+      "old_degree7_neumann_qubits": 20
+    },
+    {
+      "size": 1000,
+      "family": "dense_nonsymmetric",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 10,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "padded_size": 1024,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical real singular-value decomposition"
+      },
+      "residual_bound": 2.1374066512724636e-07,
+      "worst_relative_residual": 1.1014603707258079e-07,
+      "minimum_success_probability": 0.5811806749381401,
+      "old_degree7_neumann_qubits": 20
+    },
+    {
+      "size": 1000,
+      "family": "signed_indefinite",
+      "degree": 7,
+      "resources": {
+        "data_qubits": 10,
+        "walk_ancillas": 1,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "padded_size": 1024,
+        "degree": 7,
+        "controlled_walk_power_gadgets": 3,
+        "classical_encoding": "classical real singular-value decomposition"
+      },
+      "residual_bound": 2.0500015507003954e-07,
+      "worst_relative_residual": 1.1788508405058702e-07,
+      "minimum_success_probability": 0.5832328522747566,
+      "old_degree7_neumann_qubits": 20
+    }
+  ],
+  "hard_case": {
+    "condition_number": 100,
+    "degree": 92,
+    "qubits": 12,
+    "relative_residual": 8.638225357238127e-09,
+    "previous_degree7_neumann_residual": 0.852
+  },
+  "classical_encoding": "dense eigendecomposition/SVD and input-basis preparation",
+  "physical_hardware_tested": false,
+  "native_noise_in_separate_campaign": true
+}
