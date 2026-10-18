@@ -121,3 +121,21 @@ jobs:
           name: qcenn-mi-coherent-${{ github.sha }}
           path: results/coherent/
           retention-days: 30
+
+      - name: Run 10x10, 100x100 and 1000x1000 coherent size study
+        run: python -m qcenn_mi.coherent_large_benchmark --output-dir results/coherent-large
+
+      - name: Publish coherent size-study summary
+        if: always()
+        run: |
+          if [ -f results/coherent-large/summary.md ]; then
+            cat results/coherent-large/summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload coherent size-study evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qcenn-mi-coherent-large-${{ github.sha }}
+          path: results/coherent-large/
+          retention-days: 30

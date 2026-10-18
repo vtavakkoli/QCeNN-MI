@@ -287,3 +287,30 @@ The method uses extra ancillas, has low postselection probability and substantia
 native gate counts. It is a coherent linear-algebra baseline, not local QCeNN
 dynamics or evidence of quantum advantage. Hardware and noisy-native-circuit
 validation remain pending. See [the coherent protocol](docs/coherent-inverse.md).
+
+## Standalone size study: 10×10, 100×100 and 1000×1000
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.coherent_large_benchmark
+```
+
+The large path pads to 16/128/1024 dimensions and implements the same coherent
+Neumann-LCU inverse action using classical spectral input encoding. It simulates
+the entire selector/flag/data state exactly in that encoding basis and transforms
+the success sector back to the input basis. It does not fit a solution, form
+inverse eigenvalues, or apply classical residual corrections. Explicit classical
+dense eigendecomposition is required and prevents a quantum speed-up claim.
+
+The study checks dense SPD, tridiagonal SPD, dense nonsymmetric and signed
+indefinite real matrices at all three requested sizes,
+three input vectors, degree convergence and numerical references. Independent
+native-gate Aer checks validate 10×10 at degree 3 and 100×100 at degree 1.
+The 1000×1000 result is a structured exact-statevector simulation, **not** a
+native-gate Aer/hardware result. Computational-basis shot sampling is provided;
+it does not reconstruct a signed full classical inverse. Full-inverse residual
+bounds are analytical, separately labeled from observed input-vector residuals.
+
+A condition-number-100 counterexample demonstrates failure to reach the accuracy
+target at degree 7. Singular, numerically singular and complex matrices are
+rejected. Success on these fixtures does not imply success on every matrix.
+See [the large simulation protocol](docs/coherent-large.md).

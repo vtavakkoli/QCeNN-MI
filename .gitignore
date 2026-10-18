@@ -34,3 +34,6 @@ results/a2-a4/*.qpy
 # Regenerated coherent-circuit exports and raw readout audits
 results/coherent/*.qpy
 results/coherent/audit/
+
+# Regenerated larger-circuit Z-distribution sampling audits
+results/coherent-large/audit/

@@ -1,0 +1,1221 @@
+{
+  "matrix_generation": {
+    "seed": "family-specific fixed seeds plus matrix size",
+    "reference_only_after_simulation": true
+  },
+  "passed": true,
+  "sizes": [
+    10,
+    100,
+    1000
+  ],
+  "shots": 131072,
+  "seed": 42,
+  "cases": [
+    {
+      "size": 10,
+      "family": "dense_spd",
+      "condition_number": 1.6732434200370674,
+      "encoding_kind": "classical SPD eigendecomposition",
+      "encoding_seconds": 0.003486385999963204,
+      "resources": {
+        "size": 10,
+        "padded_size": 16,
+        "data_qubits": 4,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 1064960,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.5006537455648021,
+      "contraction_norm": 0.2518451611966308,
+      "all_input_relative_residual_bound": 1.6183367185643135e-05,
+      "full_inverse_frobenius_residual_bound": 5.1176300517461304e-05,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.6169843051901883e-05,
+          "success_probability": 0.027901801888532796,
+          "state_norm": 0.9999999999999984,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0011017179999726068,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3550,
+            "success_frequency": 0.0270843505859375,
+            "conditional_total_variation": 3.595381867031117e-05,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-dense_spd-basis_first.json"
+          },
+          "relative_solution_error": 1.6173390901694442e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 7.058003526206e-06,
+          "success_probability": 0.01680485551289236,
+          "state_norm": 1.0000000000000049,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0008016670000188242,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2284,
+            "success_frequency": 0.017425537109375,
+            "conditional_total_variation": 0.024359407316059144,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-dense_spd-uniform.json"
+          },
+          "relative_solution_error": 7.40703359570666e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 4.835865074697806e-06,
+          "success_probability": 0.016933393883420807,
+          "state_norm": 1.000000000000007,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0007187179999164073,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2210,
+            "success_frequency": 0.0168609619140625,
+            "conditional_total_variation": 0.03299815428797016,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-dense_spd-signed_random.json"
+          },
+          "relative_solution_error": 4.0351376270865345e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.02287059430277632
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0012721757725453857
+        },
+        {
+          "degree": 7,
+          "relative_residual": 4.835865074697806e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 10,
+      "family": "tridiagonal_spd",
+      "condition_number": 1.7545943236776695,
+      "encoding_kind": "classical SPD eigendecomposition",
+      "encoding_seconds": 0.0026589839999360265,
+      "resources": {
+        "size": 10,
+        "padded_size": 16,
+        "data_qubits": 4,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 1064960,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.49999999999999994,
+      "contraction_norm": 0.27394027396027154,
+      "all_input_relative_residual_bound": 3.171371258940979e-05,
+      "full_inverse_frobenius_residual_bound": 0.00010028756484249126,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 2.686968045967686e-05,
+          "success_probability": 0.02799378295416561,
+          "state_norm": 1.0000000000000053,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.000751164999996945,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3562,
+            "success_frequency": 0.0271759033203125,
+            "conditional_total_variation": 0.0006184115383631266,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-tridiagonal_spd-basis_first.json"
+          },
+          "relative_solution_error": 2.7642730262114485e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 1.6318922684518347e-05,
+          "success_probability": 0.014635133319628192,
+          "state_norm": 0.9999999999999962,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0009779790000266075,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 1994,
+            "success_frequency": 0.0152130126953125,
+            "conditional_total_variation": 0.02998012266793801,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-tridiagonal_spd-uniform.json"
+          },
+          "relative_solution_error": 1.4352328564122543e-05
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 1.2363784971019012e-05,
+          "success_probability": 0.017469910838716362,
+          "state_norm": 0.9999999999999967,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0007772449999947639,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2280,
+            "success_frequency": 0.01739501953125,
+            "conditional_total_variation": 0.03179071344983381,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-tridiagonal_spd-signed_random.json"
+          },
+          "relative_solution_error": 1.3413748963863292e-05
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.03165697331485245
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.002225228022157846
+        },
+        {
+          "degree": 7,
+          "relative_residual": 1.2363784971019012e-05
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 10,
+      "family": "dense_nonsymmetric",
+      "condition_number": 1.6639146729177698,
+      "encoding_kind": "classical real singular-value decomposition",
+      "encoding_seconds": 0.0020366139999623556,
+      "resources": {
+        "size": 10,
+        "padded_size": 16,
+        "data_qubits": 4,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 1064960,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.49754830045458265,
+      "contraction_norm": 0.24922520216857713,
+      "all_input_relative_residual_bound": 1.4884548164033269e-05,
+      "full_inverse_frobenius_residual_bound": 4.706907414082268e-05,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.4854634053588522e-05,
+          "success_probability": 0.027700028415563863,
+          "state_norm": 0.9999999999999913,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.000769771999898694,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3523,
+            "success_frequency": 0.02687835693359375,
+            "conditional_total_variation": 0.00041641819550337087,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-dense_nonsymmetric-basis_first.json"
+          },
+          "relative_solution_error": 1.4859677950049885e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 6.700189915433541e-06,
+          "success_probability": 0.017080668205647805,
+          "state_norm": 0.9999999999999907,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0008469790000162902,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2321,
+            "success_frequency": 0.01770782470703125,
+            "conditional_total_variation": 0.025186363406809964,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-dense_nonsymmetric-uniform.json"
+          },
+          "relative_solution_error": 7.1312129466114415e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 4.595678416642018e-06,
+          "success_probability": 0.017111001890007492,
+          "state_norm": 1.0000000000000018,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.001066396999931385,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2233,
+            "success_frequency": 0.01703643798828125,
+            "conditional_total_variation": 0.031790695196597704,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-dense_nonsymmetric-signed_random.json"
+          },
+          "relative_solution_error": 3.775559388220188e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.023935130453955795
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0012908697700496892
+        },
+        {
+          "degree": 7,
+          "relative_residual": 4.595678416642018e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 10,
+      "family": "signed_indefinite",
+      "condition_number": 1.6612975719456269,
+      "encoding_kind": "classical real singular-value decomposition",
+      "encoding_seconds": 0.0019109280000293438,
+      "resources": {
+        "size": 10,
+        "padded_size": 16,
+        "data_qubits": 4,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 14,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 1064960,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.5009692867277621,
+      "contraction_norm": 0.2484868956094093,
+      "all_input_relative_residual_bound": 1.4535431311254462e-05,
+      "full_inverse_frobenius_residual_bound": 4.596506971649196e-05,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.4532776098894207e-05,
+          "success_probability": 0.027660689808056006,
+          "state_norm": 1.0000000000000098,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.000881646000038927,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3518,
+            "success_frequency": 0.0268402099609375,
+            "conditional_total_variation": 7.098256052975964e-05,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-signed_indefinite-basis_first.json"
+          },
+          "relative_solution_error": 1.4533963395144186e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 6.603040889889859e-06,
+          "success_probability": 0.016804880427981866,
+          "state_norm": 1.000000000000003,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0007451120000041556,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2284,
+            "success_frequency": 0.017425537109375,
+            "conditional_total_variation": 0.027679579445498623,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-signed_indefinite-uniform.json"
+          },
+          "relative_solution_error": 6.9684767852541745e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 4.549382600794557e-06,
+          "success_probability": 0.01706677616020806,
+          "state_norm": 1.000000000000004,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0007392969999955312,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2227,
+            "success_frequency": 0.01699066162109375,
+            "conditional_total_variation": 0.03241270338774201,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/10-signed_indefinite-signed_random.json"
+          },
+          "relative_solution_error": 3.909749578884643e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.023840025160858532
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0012805010301239512
+        },
+        {
+          "degree": 7,
+          "relative_residual": 4.549382600794557e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 100,
+      "family": "dense_spd",
+      "condition_number": 1.6700544270114581,
+      "encoding_kind": "classical SPD eigendecomposition",
+      "encoding_seconds": 0.0033245999999280684,
+      "resources": {
+        "size": 100,
+        "padded_size": 128,
+        "data_qubits": 7,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 17,
+        "statevector_bytes": 2097152,
+        "estimated_working_bytes": 9437184,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.5001027330576848,
+      "contraction_norm": 0.25095159867637507,
+      "all_input_relative_residual_bound": 1.572967441852968e-05,
+      "full_inverse_frobenius_residual_bound": 0.0001572967441852968,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.5525530935514234e-05,
+          "success_probability": 0.027795110755688728,
+          "state_norm": 0.9999999999999805,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005729320999989795,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3536,
+            "success_frequency": 0.0269775390625,
+            "conditional_total_variation": 6.621000841978397e-05,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-dense_spd-basis_first.json"
+          },
+          "relative_solution_error": 1.5534745318658306e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 4.1318239256359365e-06,
+          "success_probability": 0.01669519818643809,
+          "state_norm": 0.9999999999999756,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0056176169999844205,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2270,
+            "success_frequency": 0.0173187255859375,
+            "conditional_total_variation": 0.07493347590731655,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-dense_spd-uniform.json"
+          },
+          "relative_solution_error": 4.451480778934874e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 5.005237928788721e-06,
+          "success_probability": 0.017098187649388863,
+          "state_norm": 0.9999999999999685,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.006674920000023121,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2232,
+            "success_frequency": 0.01702880859375,
+            "conditional_total_variation": 0.0721780313921424,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-dense_spd-signed_random.json"
+          },
+          "relative_solution_error": 5.066503583235027e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.03298405425182487
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0016757867029020181
+        },
+        {
+          "degree": 7,
+          "relative_residual": 5.005237928788721e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 100,
+      "family": "tridiagonal_spd",
+      "condition_number": 1.9058940476181805,
+      "encoding_kind": "classical SPD eigendecomposition",
+      "encoding_seconds": 0.003287531999944804,
+      "resources": {
+        "size": 100,
+        "padded_size": 128,
+        "data_qubits": 7,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 17,
+        "statevector_bytes": 2097152,
+        "estimated_working_bytes": 9437184,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.49999999999999994,
+      "contraction_norm": 0.3117436605648778,
+      "all_input_relative_residual_bound": 8.920332556084112e-05,
+      "full_inverse_frobenius_residual_bound": 0.0008920332556084113,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 3.891778122087309e-05,
+          "success_probability": 0.02801324502942907,
+          "state_norm": 1.000000000000007,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005841102999966097,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3564,
+            "success_frequency": 0.027191162109375,
+            "conditional_total_variation": 0.0005553925578863078,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-tridiagonal_spd-basis_first.json"
+          },
+          "relative_solution_error": 4.1584734580046375e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 2.552392089600195e-05,
+          "success_probability": 0.014199711630413264,
+          "state_norm": 0.9999999999999774,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.006619917000080022,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 1936,
+            "success_frequency": 0.0147705078125,
+            "conditional_total_variation": 0.0908675351746012,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-tridiagonal_spd-uniform.json"
+          },
+          "relative_solution_error": 2.0582060338564193e-05
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 2.799442150361904e-05,
+          "success_probability": 0.017211238076651987,
+          "state_norm": 1.000000000000007,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005115316999990682,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2246,
+            "success_frequency": 0.0171356201171875,
+            "conditional_total_variation": 0.06964181691085361,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-tridiagonal_spd-signed_random.json"
+          },
+          "relative_solution_error": 2.368909725222544e-05
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.044699738662331776
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.003532960883059312
+        },
+        {
+          "degree": 7,
+          "relative_residual": 2.799442150361904e-05
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 100,
+      "family": "dense_nonsymmetric",
+      "condition_number": 1.6716182147884133,
+      "encoding_kind": "classical real singular-value decomposition",
+      "encoding_seconds": 0.004588572999978169,
+      "resources": {
+        "size": 100,
+        "padded_size": 128,
+        "data_qubits": 7,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 17,
+        "statevector_bytes": 2097152,
+        "estimated_working_bytes": 9437184,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.5002768933816345,
+      "contraction_norm": 0.25139004183709845,
+      "all_input_relative_residual_bound": 1.5950876846667477e-05,
+      "full_inverse_frobenius_residual_bound": 0.00015950876846667478,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.5746170142044023e-05,
+          "success_probability": 0.027806561301516274,
+          "state_norm": 0.9999999999999569,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005011445000036474,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3537,
+            "success_frequency": 0.02698516845703125,
+            "conditional_total_variation": 0.0005633731783162594,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-dense_nonsymmetric-basis_first.json"
+          },
+          "relative_solution_error": 1.5763396393774973e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 4.019935439725869e-06,
+          "success_probability": 0.016661614755468568,
+          "state_norm": 1.0000000000000058,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005818825000005745,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2265,
+            "success_frequency": 0.01728057861328125,
+            "conditional_total_variation": 0.07366589086365359,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-dense_nonsymmetric-uniform.json"
+          },
+          "relative_solution_error": 4.029313958697741e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 4.9944843460926035e-06,
+          "success_probability": 0.017098666549196583,
+          "state_norm": 1.0000000000000004,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.00592447799999718,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2232,
+            "success_frequency": 0.01702880859375,
+            "conditional_total_variation": 0.07358403757434655,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-dense_nonsymmetric-signed_random.json"
+          },
+          "relative_solution_error": 4.994795543637577e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.03273924593534347
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0016616058565331723
+        },
+        {
+          "degree": 7,
+          "relative_residual": 4.9944843460926035e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 100,
+      "family": "signed_indefinite",
+      "condition_number": 1.66519304006,
+      "encoding_kind": "classical real singular-value decomposition",
+      "encoding_seconds": 0.005087715000058779,
+      "resources": {
+        "size": 100,
+        "padded_size": 128,
+        "data_qubits": 7,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 17,
+        "statevector_bytes": 2097152,
+        "estimated_working_bytes": 9437184,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.4998546739713094,
+      "contraction_norm": 0.2495853133568986,
+      "all_input_relative_residual_bound": 1.5057477000344725e-05,
+      "full_inverse_frobenius_residual_bound": 0.00015057477000344726,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.5005858855111017e-05,
+          "success_probability": 0.027729483745119982,
+          "state_norm": 0.99999999999999,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.004635936999989099,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3527,
+            "success_frequency": 0.02690887451171875,
+            "conditional_total_variation": 6.000513951185052e-05,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-signed_indefinite-basis_first.json"
+          },
+          "relative_solution_error": 1.5009235818651232e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 4.077875320875494e-06,
+          "success_probability": 0.016762383370262486,
+          "state_norm": 1.0000000000000098,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005279150000092159,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2279,
+            "success_frequency": 0.01738739013671875,
+            "conditional_total_variation": 0.07554090426241143,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-signed_indefinite-uniform.json"
+          },
+          "relative_solution_error": 4.354334516363401e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 4.913031797215098e-06,
+          "success_probability": 0.01710643278410063,
+          "state_norm": 1.0000000000000067,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.005032344000028388,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2233,
+            "success_frequency": 0.01703643798828125,
+            "conditional_total_variation": 0.07325047957309319,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/100-signed_indefinite-signed_random.json"
+          },
+          "relative_solution_error": 5.0596427988157895e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.03272327278655793
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0016628679222880005
+        },
+        {
+          "degree": 7,
+          "relative_residual": 4.913031797215098e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 1000,
+      "family": "dense_spd",
+      "condition_number": 1.669384135731828,
+      "encoding_kind": "classical SPD eigendecomposition",
+      "encoding_seconds": 0.2195971720000216,
+      "resources": {
+        "size": 1000,
+        "padded_size": 1024,
+        "data_qubits": 10,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 20,
+        "statevector_bytes": 16777216,
+        "estimated_working_bytes": 134217728,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.5000411605136708,
+      "contraction_norm": 0.2507635101189032,
+      "all_input_relative_residual_bound": 1.5635606165615442e-05,
+      "full_inverse_frobenius_residual_bound": 0.0004944412808071669,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.5055799063145432e-05,
+          "success_probability": 0.027730715085360996,
+          "state_norm": 0.9999999999998721,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.057052663000035864,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3527,
+            "success_frequency": 0.02690887451171875,
+            "conditional_total_variation": 4.833012543751998e-05,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-dense_spd-basis_first.json"
+          },
+          "relative_solution_error": 1.5061923056943598e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 3.816517048618379e-06,
+          "success_probability": 0.01664958836672328,
+          "state_norm": 0.9999999999999241,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.044610164999994595,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2264,
+            "success_frequency": 0.01727294921875,
+            "conditional_total_variation": 0.2601165220590461,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-dense_spd-uniform.json"
+          },
+          "relative_solution_error": 4.013834554314737e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 3.3302955057152514e-06,
+          "success_probability": 0.01621642047045692,
+          "state_norm": 0.9999999999999527,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.05020878100003756,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2116,
+            "success_frequency": 0.016143798828125,
+            "conditional_total_variation": 0.20909327322133403,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-dense_spd-signed_random.json"
+          },
+          "relative_solution_error": 3.4324745197414225e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.026275862586413328
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0011909587885503726
+        },
+        {
+          "degree": 7,
+          "relative_residual": 3.3302955057152514e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 1000,
+      "family": "tridiagonal_spd",
+      "condition_number": 1.9650294248786482,
+      "encoding_kind": "classical SPD eigendecomposition",
+      "encoding_seconds": 0.1736251050000419,
+      "resources": {
+        "size": 1000,
+        "padded_size": 1024,
+        "data_qubits": 10,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 20,
+        "statevector_bytes": 16777216,
+        "estimated_working_bytes": 134217728,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.49999999999999994,
+      "contraction_norm": 0.3254704377573402,
+      "all_input_relative_residual_bound": 0.0001259193242465015,
+      "full_inverse_frobenius_residual_bound": 0.003981918660482102,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 4.075968195080321e-05,
+          "success_probability": 0.028015156430275204,
+          "state_norm": 0.9999999999999913,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.051947251000001415,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3565,
+            "success_frequency": 0.02719879150390625,
+            "conditional_total_variation": 0.0005202453487156343,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-tridiagonal_spd-basis_first.json"
+          },
+          "relative_solution_error": 4.3809996457523754e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 2.747635485511775e-05,
+          "success_probability": 0.014158699924017122,
+          "state_norm": 0.9999999999999696,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.0546922830000085,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 1930,
+            "success_frequency": 0.0147247314453125,
+            "conditional_total_variation": 0.2798619445465861,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-tridiagonal_spd-uniform.json"
+          },
+          "relative_solution_error": 2.2028926789400707e-05
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 1.740713878913483e-05,
+          "success_probability": 0.016160163430763694,
+          "state_norm": 0.9999999999999998,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.04878713600010087,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2109,
+            "success_frequency": 0.01609039306640625,
+            "conditional_total_variation": 0.20795067509545903,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-tridiagonal_spd-signed_random.json"
+          },
+          "relative_solution_error": 1.735992833417737e-05
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.03343565307501333
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0023403136757850374
+        },
+        {
+          "degree": 7,
+          "relative_residual": 1.740713878913483e-05
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 1000,
+      "family": "dense_nonsymmetric",
+      "condition_number": 1.6733204427789357,
+      "encoding_kind": "classical real singular-value decomposition",
+      "encoding_seconds": 0.5405402300000333,
+      "resources": {
+        "size": 1000,
+        "padded_size": 1024,
+        "data_qubits": 10,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 20,
+        "statevector_bytes": 16777216,
+        "estimated_working_bytes": 134217728,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.5002397129952333,
+      "contraction_norm": 0.25186671676329775,
+      "all_input_relative_residual_bound": 1.6194451652556783e-05,
+      "full_inverse_frobenius_residual_bound": 0.000512113526795572,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.5697782006826816e-05,
+          "success_probability": 0.027801063535464486,
+          "state_norm": 0.999999999999891,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.05711331199995584,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3536,
+            "success_frequency": 0.0269775390625,
+            "conditional_total_variation": 0.00028248341194275826,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-dense_nonsymmetric-basis_first.json"
+          },
+          "relative_solution_error": 1.5714409748766806e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 3.8081016040026096e-06,
+          "success_probability": 0.016651940282875505,
+          "state_norm": 0.999999999999905,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.049775313000054666,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2264,
+            "success_frequency": 0.01727294921875,
+            "conditional_total_variation": 0.2624292950615261,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-dense_nonsymmetric-uniform.json"
+          },
+          "relative_solution_error": 3.997859041445377e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 3.4040070986635682e-06,
+          "success_probability": 0.016224518059191496,
+          "state_norm": 0.9999999999999438,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.05400509600008263,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2117,
+            "success_frequency": 0.01615142822265625,
+            "conditional_total_variation": 0.2073497186330467,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-dense_nonsymmetric-signed_random.json"
+          },
+          "relative_solution_error": 3.515127513035092e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.02657618255880249
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0012128082404912902
+        },
+        {
+          "degree": 7,
+          "relative_residual": 3.4040070986635682e-06
+        }
+      ],
+      "passed": true
+    },
+    {
+      "size": 1000,
+      "family": "signed_indefinite",
+      "condition_number": 1.6690108626530056,
+      "encoding_kind": "classical real singular-value decomposition",
+      "encoding_seconds": 0.7371978240000772,
+      "resources": {
+        "size": 1000,
+        "padded_size": 1024,
+        "data_qubits": 10,
+        "flag_qubits": 7,
+        "selector_qubits": 3,
+        "total_qubits": 20,
+        "statevector_bytes": 16777216,
+        "estimated_working_bytes": 134217728,
+        "controlled_block_calls": 28
+      },
+      "simulation_method": "exact structured statevector in classically computed spectral input basis",
+      "native_aer_executed_at_this_degree": false,
+      "tau": 0.49999899741208836,
+      "contraction_norm": 0.2506587260525448,
+      "all_input_relative_residual_bound": 1.5583414576091182e-05,
+      "full_inverse_frobenius_residual_bound": 0.0004927908378311544,
+      "full_inverse_read_out": false,
+      "rhs_results": [
+        {
+          "rhs": "basis_first",
+          "relative_residual": 1.54633701205123e-05,
+          "success_probability": 0.027799630826131495,
+          "state_norm": 0.9999999999999047,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.052845204999925954,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 3536,
+            "success_frequency": 0.0269775390625,
+            "conditional_total_variation": 5.2519200412659195e-05,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-signed_indefinite-basis_first.json"
+          },
+          "relative_solution_error": 1.5466545677416346e-05
+        },
+        {
+          "rhs": "uniform",
+          "relative_residual": 3.758797823907736e-06,
+          "success_probability": 0.0166598716473217,
+          "state_norm": 0.9999999999999114,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.045586020999962784,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2265,
+            "success_frequency": 0.01728057861328125,
+            "conditional_total_variation": 0.2623403904827146,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-signed_indefinite-uniform.json"
+          },
+          "relative_solution_error": 3.9568820972490615e-06
+        },
+        {
+          "rhs": "signed_random",
+          "relative_residual": 3.3819197720391925e-06,
+          "success_probability": 0.01622935635243544,
+          "state_norm": 0.9999999999999338,
+          "padding_success_weight": 0.0,
+          "simulation_seconds": 0.04355134900004032,
+          "z_sampling": {
+            "shots": 131072,
+            "accepted": 2118,
+            "success_frequency": 0.0161590576171875,
+            "conditional_total_variation": 0.20902839914595528,
+            "signed_inverse_reconstructed": false,
+            "method": "exact-distribution Z sampling",
+            "audit_file": "audit/1000-signed_indefinite-signed_random.json"
+          },
+          "relative_solution_error": 3.484688201559838e-06
+        }
+      ],
+      "degree_convergence": [
+        {
+          "degree": 1,
+          "relative_residual": 0.02639289117692409
+        },
+        {
+          "degree": 3,
+          "relative_residual": 0.0012023492325396357
+        },
+        {
+          "degree": 7,
+          "relative_residual": 3.3819197720391925e-06
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "native_aer_crosschecks": [
+    {
+      "size": 10,
+      "degree": 3,
+      "method": "native-gate Aer statevector",
+      "qubits": 9,
+      "native_operations": {
+        "u": 2246,
+        "cx": 2187
+      },
+      "native_depth": 3321,
+      "structured_agreement_error": 5.1732700013825905e-15,
+      "passed": true
+    },
+    {
+      "size": 100,
+      "degree": 1,
+      "method": "native-gate Aer statevector",
+      "qubits": 9,
+      "native_operations": {
+        "u": 24746,
+        "cx": 15735
+      },
+      "native_depth": 30853,
+      "structured_agreement_error": 4.5140229118589555e-14,
+      "passed": true
+    }
+  ],
+  "limitations": {
+    "ill_conditioned_spd": {
+      "size": 10,
+      "condition_number": 100,
+      "degree": 7,
+      "relative_residual": 0.8521392439387522,
+      "meets_accuracy_target": false
+    },
+    "unsupported_domains": [
+      "singular",
+      "numerically singular",
+      "complex"
+    ],
+    "1000_native_aer": "not attempted: dense native gate compilation/execution is not validated at this size",
+    "shot_readout": "Z-basis distribution sampling only; no signed inverse reconstruction",
+    "preprocessing": "classical dense eigendecomposition/SVD O(N^3); no quantum speed-up claim"
+  },
+  "physical_hardware_tested": false,
+  "noise_model": null,
+  "versions": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "qiskit": "2.6.0",
+    "qiskit-aer": "0.17.2"
+  }
+}
