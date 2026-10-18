@@ -206,7 +206,9 @@ def build_large_inverse_action(matrix, *, degree=7, max_memory_mib=512):
         output_basis = vh.T
         encoding_kind = "classical real singular-value decomposition"
     smallest, largest = float(np.min(values)), float(np.max(values))
-    if smallest <= np.finfo(float).eps * largest:
+    # Dimension-aware numerical-rank threshold. Dense decompositions accumulate
+    # rounding error; an epsilon-only cutoff can misclassify rank-loss limits.
+    if smallest <= np.finfo(float).eps * len(m) * largest:
         raise ValueError("Matrix must be numerically nonsingular")
     tau = (2 / largest) / (1 + smallest / largest)
     if not np.isfinite(tau) or tau <= 0:

@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+from qcenn_mi.coherent_large import build_large_inverse_action
 from qcenn_mi.compact import build_compact_inverse
 from qcenn_mi.time_varying_benchmark import (
     campaign,
@@ -48,6 +49,18 @@ def test_drift_and_acquisition_bound_for_noncommuting_operators():
         actual / np.linalg.norm(actual) - reference / np.linalg.norm(reference)
     )
     assert state_error <= 2 * bound + 1e-10
+
+
+@pytest.mark.parametrize("family", ["slow_spd", "fast_nonsymmetric"])
+def test_dense_rank_loss_is_reported_before_the_degree_budget(family):
+    matrix = trajectory_matrix(1, family, trajectory_bases(100))
+    left, values, right = np.linalg.svd(matrix)
+    rank_loss_limit = matrix - values[-1] * np.outer(left[:, -1], right[-1])
+    with pytest.raises(ValueError, match="numerically nonsingular"):
+        build_compact_inverse(rank_loss_limit, tolerance=1e-12)
+    # A resolved positive singular value is not rejected solely for being small.
+    resolved = np.diag(np.concatenate([np.ones(99), [1e-12]]))
+    assert build_large_inverse_action(resolved, degree=1).condition_number > 1e11
 
 
 @pytest.mark.parametrize(

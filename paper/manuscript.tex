@@ -447,6 +447,9 @@ bound is independent of $N$, whereas dense encoding, gate synthesis,
 simulation memory, and measured readout retain dimension-dependent costs.
 A fixed 42-qubit budget or the implementation's degree-1023 guard is a
 practical restriction, not a dimension-1000 restriction in the theorem.
+Arbitrary finite-dimensional scope is already part of general quantum
+linear-system theory \cite{harrow2009,childs2017,gilyen2019}; this corollary
+makes the scope of the specific implemented construction explicit.
 
 \section{Time-Varying Inversion Under Difficult Conditions}
 \label{sec:temporal}
@@ -516,6 +519,9 @@ $x=M(t)^{-1}b_0$, $X_kb_0-x=(X_kM(t)-I)x$ proves relative error.
 The normalization inequality used in~\eqref{eq:statebound} proves the
 state bound. The perturbation of the encoded matrix is not qubit noise.
 \end{proof}
+These elementary norm estimates connect the compiled quantum block to
+acquisition and update budgets; they are not a convergence proof for an
+autonomous continuous quantum recurrent network.
 
 For a Lipschitz matrix trajectory with constant $L$ and update age at
 most $\tau$, $D_k(t)\leq L\tau$. A sufficient condition for target
@@ -558,7 +564,11 @@ Walk angles are instead formed with the equivalent endpoint-stable expression
 \end{equation}
 The constant-spectrum case is handled separately. Degree selection evaluates
 logarithms without first forming a potentially underflowing ratio of a very
-small tolerance to a tail factor.
+small tolerance to a tail factor. Numerical rank is checked against
+$N\epsilon_{\rm mach}\sigma_{\max}$, with machine precision
+$\epsilon_{\rm mach}$. This dimension-dependent resolution policy
+rejects near-rank-loss encodings; it is separate from exact-arithmetic
+existence and does not establish reliable inversion at arbitrary conditioning.
 
 The default compact degree budget is 1023, with a default estimated working
 memory budget of 512 MiB. A $1000\times1000$ diagonal SPD input with condition
@@ -679,8 +689,8 @@ $\nu/a\in\{10^{-3},10^{-1}\}$.
 The circuit inverts the perturbed encoding, while residuals are measured
 against the unperturbed matrix. This deliberately exposes data-error
 sensitivity, not a stochastic-noise distribution or noise cancellation.
-A separate rank-one perturbation removes the least singular value and
-must trigger explicit numerical-singularity rejection. These temporal
+A separate rank-one perturbation targets rank loss, within floating-point
+resolution, and must trigger explicit numerical-singularity rejection. These temporal
 experiments use ideal structured quantum statevectors; native noisy
 1000-dimensional execution and real-time deadlines are not tested.
 
@@ -929,9 +939,11 @@ The first stage should measure prepared-input and reference-verifier
 controls, then the inverse-action circuits for basis and superposition
 inputs. It should retain raw counts, calibration timestamps, routing,
 native operation counts, depth, shots, job IDs, failure records and
-confidence intervals. Small-register signed-state tomography is needed
-where a full inverse residual is claimed; a reference echo alone does
-not supply it. A paired calibration-derived emulator should precede
+confidence intervals. Small-register state tomography with a phase
+reference is needed where signed classical inverse entries and a full
+inverse residual are claimed; state tomography alone leaves a global-sign
+ambiguity. A reference echo alone does not supply full inverse readout.
+A paired calibration-derived emulator should precede
 submission and be compared with the measured result without substituting
 for it.
 
