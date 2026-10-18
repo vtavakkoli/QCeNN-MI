@@ -143,13 +143,16 @@ jobs:
       - name: Validate compact inverse accuracy and qubit improvements
         run: python -m qcenn_mi.compact_benchmark --output-dir results/compact
 
+      - name: Audit 1000x1000 precision and controlled condition numbers
+        run: python -m qcenn_mi.precision_benchmark --output-dir results/precision-1000
+
       - name: Run native hardware-simulation and synthetic noise profiles
         run: python -m qcenn_mi.hardware --qubit-budget 42 --large-noise-shots 64 --output-dir results/hardware
 
       - name: Publish compact and hardware-simulation summaries
         if: always()
         run: |
-          for report in results/compact/summary.md results/hardware/summary.md; do
+          for report in results/compact/summary.md results/precision-1000/summary.md results/hardware/summary.md; do
             if [ -f "$report" ]; then
               cat "$report" >> "$GITHUB_STEP_SUMMARY"
             fi
@@ -162,5 +165,6 @@ jobs:
           name: qcenn-mi-hardware-preparation-${{ github.sha }}
           path: |
             results/compact/
+            results/precision-1000/
             results/hardware/
           retention-days: 30

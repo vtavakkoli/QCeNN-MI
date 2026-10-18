@@ -347,3 +347,29 @@ quality separate. `--require-noisy-quality` exits nonzero when noisy gates fail.
 
 See [compact hardware preparation](docs/compact-hardware.md) and the generated
 reports in `results/compact/` and `results/hardware/`.
+
+## Higher-precision 1000×1000 study
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.precision_benchmark
+```
+
+The precision campaign audits the entire simulated inverse-action operator for
+13 matrices of size 1000×1000, including dense SPD, nonsymmetric and indefinite
+inputs with controlled condition numbers up to 1000. The polynomial target is
+1e-12, with a separate numerical acceptance limit of 1e-10. The recorded worst
+operator residual `||M X - I||_2` is about 7.3e-13. This checks all input
+directions of each tested matrix through simulator amplitude access.
+
+Preserving singular-value precision and using lazy selector uncomputation makes
+higher-degree simulations practical without changing the coherent circuit.
+These cases use 15–21 qubits. The hardest group's worst-input postselection
+probability is only about 1e-6, so low ideal error does not imply cheap sampling.
+Classical dense spectral/SVD encoding remains required.
+
+For a real square matrix, positive-definite `M @ M.T` guarantees invertibility;
+it gives no uniform accuracy or resource guarantee. A condition-number-10000
+SPD case explicitly exceeds the default degree budget. These results do not
+establish native noisy or physical 1000×1000 execution. See the
+[precision protocol](docs/precision-1000.md) and
+[recorded results](results/precision-1000/summary.md).

@@ -12,4 +12,9 @@ results/assumption-a1/
 
 The CI workflow uploads this directory as a GitHub Actions artifact and also appends `summary.md` to the workflow run summary.
 
-Generated numerical results are intentionally not committed automatically to `main`. A workflow run is therefore an immutable record tied to a specific commit SHA, package environment, seed, and acceptance threshold. Results selected for a publication or release can be archived explicitly with the corresponding release metadata.
+CI does not automatically commit generated results to `main`. Selected simulator
+campaigns, including `precision-1000/`, are explicitly archived with the code for
+review. Workflow artifacts retain each CI run's regenerated results tied to its
+commit, environment, seed and acceptance threshold. The precision JSON records
+package versions, seeds, full-operator residuals, reference errors, qubit and
+memory estimates, postselection probabilities and the explicit degree-limit case.

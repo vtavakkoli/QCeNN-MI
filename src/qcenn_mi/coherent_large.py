@@ -57,6 +57,7 @@ class LargeCoherentInverse:
     contractions: np.ndarray
     tau: float
     condition_number: float
+    singular_values: np.ndarray
     degree: int
     resource_report: dict
     selector_unitary: np.ndarray
@@ -224,6 +225,7 @@ def build_large_inverse_action(matrix, *, degree=7, max_memory_mib=512):
         contractions,
         tau,
         largest / smallest,
+        values.copy(),
         degree,
         report,
         selector,

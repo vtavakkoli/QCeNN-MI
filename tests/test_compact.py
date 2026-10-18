@@ -4,7 +4,8 @@ from qiskit import transpile
 from qiskit.quantum_info import Statevector
 
 from qcenn_mi.coherent_large_benchmark import fixture
-from qcenn_mi.compact import build_compact_inverse
+from qcenn_mi.compact import CompactInverse, build_compact_inverse
+from qcenn_mi.precision_benchmark import audit_operator, controlled_fixture
 
 
 @pytest.mark.parametrize("size", [2, 10, 100, 1000])
@@ -69,3 +70,74 @@ def test_same_operator_applies_to_different_prepared_input_states():
         state = Statevector.from_instruction(circuit).data
         observed = state[:10] * operation.normalization * np.linalg.norm(rhs)
         assert observed == pytest.approx(operation.simulate(rhs)["solution"], abs=1e-9)
+
+
+def test_high_precision_1000_condition_1000_without_dense_selector(monkeypatch):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Dense selector must not be constructed")
+
+    monkeypatch.setattr(CompactInverse, "selector_unitary", property(forbidden))
+    operation = build_compact_inverse(np.diag(np.geomspace(1, 1000, 1000)), tolerance=1e-12)
+    result = operation.simulate(np.ones(1000))
+    assert operation.degree > 255
+    assert result["relative_residual"] < 1e-11
+    assert result["state_norm"] == pytest.approx(1.0, abs=1e-10)
+    assert operation.residual_bound <= 1e-12
+    assert operation.resource_report["total_qubits"] == 21
+
+
+def test_lazy_success_projection_matches_full_uncomputation():
+    operation = build_compact_inverse(fixture(10, "dense_nonsymmetric"), tolerance=1e-12)
+    rhs = np.random.default_rng(24).normal(size=10)
+    lazy = operation.simulate(rhs, return_success=True)
+    full = operation.simulate(rhs, return_state=True)
+    assert lazy["success_spectral_amplitudes"] == pytest.approx(
+        full["spectral_statevector"][0, 0], abs=1e-13
+    )
+    assert lazy["solution"] == pytest.approx(full["solution"], abs=1e-13)
+
+
+def test_high_degree_precision_matches_native_statevector():
+    matrix = controlled_fixture(2, "controlled_nonsymmetric", 100)
+    operation = build_compact_inverse(matrix, tolerance=1e-12)
+    rhs = np.array([1.0, -0.3])
+    actual = Statevector.from_instruction(operation.circuit(rhs)).data
+    solution = actual[:2] * operation.normalization * np.linalg.norm(rhs)
+    assert np.linalg.norm(matrix @ solution - rhs) / np.linalg.norm(rhs) < 1e-10
+    assert solution == pytest.approx(operation.simulate(rhs)["solution"], abs=1e-10)
+
+
+@pytest.mark.parametrize(
+    "family", ["controlled_spd", "controlled_nonsymmetric", "controlled_indefinite"]
+)
+def test_full_operator_audit_and_prescribed_condition(family):
+    matrix = controlled_fixture(12, family, 100)
+    operation = build_compact_inverse(matrix, tolerance=1e-12)
+    assert operation.encoding.condition_number == pytest.approx(100, rel=1e-12)
+    audit = audit_operator(operation)
+    assert audit["operator_relative_residual_2"] < 1e-10
+    assert audit["relative_inverse_error_frobenius"] < 1e-10
+    assert audit["minimum_success_probability_all_inputs"] > 0
+    assert audit["padding_success_weight"] == 0
+
+
+def test_compact_memory_budget_checked_before_large_selector_allocation():
+    with pytest.raises(MemoryError, match="budget"):
+        build_compact_inverse(np.eye(16), degree=1023, max_memory_mib=0.1)
+
+
+def test_positive_definite_case_can_exceed_accuracy_degree_budget():
+    with pytest.raises(ValueError, match="budget is 1023"):
+        build_compact_inverse(np.diag([1.0, 10000.0]), tolerance=1e-12)
+
+
+def test_extremely_small_truncation_target_has_explicit_budget_failure():
+    with pytest.raises(ValueError, match="budget"):
+        build_compact_inverse(np.diag([1.0, 1000.0]), tolerance=np.nextafter(0.0, 1.0))
+
+
+@pytest.mark.parametrize("scale", [1e-100, 1.0, 1e100])
+def test_constant_spectrum_precision_and_scale(scale):
+    operation = build_compact_inverse(scale * np.eye(10), tolerance=1e-12)
+    assert operation.simulate(np.ones(10))["relative_residual"] < 1e-13
+    assert operation.residual_bound == 0

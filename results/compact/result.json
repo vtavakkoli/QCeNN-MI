@@ -14,11 +14,14 @@
         "padded_size": 16,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 4096,
+        "estimated_working_bytes": 40960,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical SPD eigendecomposition"
       },
-      "residual_bound": 2.135818084929519e-07,
-      "worst_relative_residual": 1.2755413023338317e-07,
-      "minimum_success_probability": 0.6020063468865956,
+      "residual_bound": 2.1358180849295116e-07,
+      "worst_relative_residual": 1.2755412956612498e-07,
+      "minimum_success_probability": 0.6020063468865955,
       "old_degree7_neumann_qubits": 14
     },
     {
@@ -33,11 +36,14 @@
         "padded_size": 16,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 4096,
+        "estimated_working_bytes": 40960,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical SPD eigendecomposition"
       },
       "residual_bound": 4.451868011314187e-07,
-      "worst_relative_residual": 2.531424319237631e-07,
-      "minimum_success_probability": 0.49377316437299346,
+      "worst_relative_residual": 2.531424310827487e-07,
+      "minimum_success_probability": 0.4937731643729926,
       "old_degree7_neumann_qubits": 14
     },
     {
@@ -52,10 +58,13 @@
         "padded_size": 16,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 4096,
+        "estimated_working_bytes": 40960,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical real singular-value decomposition"
       },
-      "residual_bound": 1.950454293974767e-07,
-      "worst_relative_residual": 1.1707210901343205e-07,
+      "residual_bound": 1.9504542939747596e-07,
+      "worst_relative_residual": 1.1707210823567475e-07,
       "minimum_success_probability": 0.6161799899761397,
       "old_degree7_neumann_qubits": 14
     },
@@ -71,11 +80,14 @@
         "padded_size": 16,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 4096,
+        "estimated_working_bytes": 40960,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical real singular-value decomposition"
       },
-      "residual_bound": 1.9008984431728594e-07,
-      "worst_relative_residual": 1.1442209598667659e-07,
-      "minimum_success_probability": 0.6074238550603086,
+      "residual_bound": 1.9008984431728625e-07,
+      "worst_relative_residual": 1.1442209565177326e-07,
+      "minimum_success_probability": 0.6074238550603039,
       "old_degree7_neumann_qubits": 14
     },
     {
@@ -90,11 +102,14 @@
         "padded_size": 128,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 32768,
+        "estimated_working_bytes": 1245184,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical SPD eigendecomposition"
       },
-      "residual_bound": 2.0708922362778948e-07,
-      "worst_relative_residual": 1.2151477033160016e-07,
-      "minimum_success_probability": 0.5995056191325401,
+      "residual_bound": 2.070892236277902e-07,
+      "worst_relative_residual": 1.2151476780095831e-07,
+      "minimum_success_probability": 0.5995056191325392,
       "old_degree7_neumann_qubits": 17
     },
     {
@@ -109,11 +124,14 @@
         "padded_size": 128,
         "degree": 8,
         "controlled_walk_power_gadgets": 4,
+        "statevector_bytes": 65536,
+        "estimated_working_bytes": 1441792,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical SPD eigendecomposition"
       },
-      "residual_bound": 2.2400568775844485e-07,
-      "worst_relative_residual": 1.0883021156608332e-07,
-      "minimum_success_probability": 0.43049277609231196,
+      "residual_bound": 2.2400568775844522e-07,
+      "worst_relative_residual": 1.088302111992724e-07,
+      "minimum_success_probability": 0.43049277609230907,
       "old_degree7_neumann_qubits": 17
     },
     {
@@ -128,11 +146,14 @@
         "padded_size": 128,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 32768,
+        "estimated_working_bytes": 1245184,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical real singular-value decomposition"
       },
-      "residual_bound": 2.1025242371165347e-07,
-      "worst_relative_residual": 1.2415641999985522e-07,
-      "minimum_success_probability": 0.5975992397765628,
+      "residual_bound": 2.1025242371165233e-07,
+      "worst_relative_residual": 1.2415641890993782e-07,
+      "minimum_success_probability": 0.5975992397765593,
       "old_degree7_neumann_qubits": 17
     },
     {
@@ -147,11 +168,14 @@
         "padded_size": 128,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 32768,
+        "estimated_working_bytes": 1245184,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical real singular-value decomposition"
       },
-      "residual_bound": 1.9750438728626722e-07,
-      "worst_relative_residual": 1.1815233621195955e-07,
-      "minimum_success_probability": 0.6041159790264125,
+      "residual_bound": 1.9750438728626616e-07,
+      "worst_relative_residual": 1.1815233556042374e-07,
+      "minimum_success_probability": 0.6041159790264121,
       "old_degree7_neumann_qubits": 17
     },
     {
@@ -166,11 +190,14 @@
         "padded_size": 1024,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 68681728,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical SPD eigendecomposition"
       },
-      "residual_bound": 2.0574539661355695e-07,
-      "worst_relative_residual": 1.0284323171959233e-07,
-      "minimum_success_probability": 0.5826049797465578,
+      "residual_bound": 2.057453966135577e-07,
+      "worst_relative_residual": 1.0284323156349283e-07,
+      "minimum_success_probability": 0.5826049797465549,
       "old_degree7_neumann_qubits": 20
     },
     {
@@ -185,11 +212,14 @@
         "padded_size": 1024,
         "degree": 8,
         "controlled_walk_power_gadgets": 4,
+        "statevector_bytes": 524288,
+        "estimated_working_bytes": 70254592,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical SPD eigendecomposition"
       },
-      "residual_bound": 3.4549231319821373e-07,
-      "worst_relative_residual": 1.5859252789689894e-07,
-      "minimum_success_probability": 0.4122981569788178,
+      "residual_bound": 3.454923131982148e-07,
+      "worst_relative_residual": 1.5859252795074856e-07,
+      "minimum_success_probability": 0.4122981569788078,
       "old_degree7_neumann_qubits": 20
     },
     {
@@ -204,11 +234,14 @@
         "padded_size": 1024,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 68681728,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical real singular-value decomposition"
       },
-      "residual_bound": 2.1374066512724636e-07,
-      "worst_relative_residual": 1.1014603707258079e-07,
-      "minimum_success_probability": 0.5811806749381401,
+      "residual_bound": 2.1374066512724673e-07,
+      "worst_relative_residual": 1.1014603546707298e-07,
+      "minimum_success_probability": 0.5811806749381381,
       "old_degree7_neumann_qubits": 20
     },
     {
@@ -223,11 +256,14 @@
         "padded_size": 1024,
         "degree": 7,
         "controlled_walk_power_gadgets": 3,
+        "statevector_bytes": 262144,
+        "estimated_working_bytes": 68681728,
+        "selector_uncomputation": "lazy exact success projection",
         "classical_encoding": "classical real singular-value decomposition"
       },
-      "residual_bound": 2.0500015507003954e-07,
-      "worst_relative_residual": 1.1788508405058702e-07,
-      "minimum_success_probability": 0.5832328522747566,
+      "residual_bound": 2.050001550700392e-07,
+      "worst_relative_residual": 1.1788508186121968e-07,
+      "minimum_success_probability": 0.5832328522747573,
       "old_degree7_neumann_qubits": 20
     }
   ],
@@ -235,7 +271,7 @@
     "condition_number": 100,
     "degree": 92,
     "qubits": 12,
-    "relative_residual": 8.638225357238127e-09,
+    "relative_residual": 8.63826110641952e-09,
     "previous_degree7_neumann_residual": 0.852
   },
   "classical_encoding": "dense eigendecomposition/SVD and input-basis preparation",

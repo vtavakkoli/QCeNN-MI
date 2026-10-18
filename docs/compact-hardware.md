@@ -100,6 +100,10 @@ that decision explicitly.
 The compact numerical study passes all four existing matrix families through
 1000 dimensions, with worst ideal input residual below 3e-7. Hardware-oriented
 native checks cover the dense SPD fixture through 100 dimensions.
+The subsequent [1000×1000 precision study](precision-1000.md) tightens the
+polynomial target to 1e-12 and audits full operators, including condition
+numbers up to 1000. Its high-precision totals are 15–21 qubits, rather than the
+degree-7 totals above. It is separate from the native noisy hardware campaign.
 
 For the assumed line layout, dense 100×100 still requires about 14625 CX gates
 and native depth 41024, despite using only 11 qubits. Its optimistic synthetic
