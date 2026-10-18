@@ -1,0 +1,1055 @@
+{
+  "count": 30,
+  "date": "2026-10-18",
+  "verification": "DOI, publisher, title, authors, venue, assigned publication year, volume/issue and pages checked against IEEE-deposited Crossref records. This is a bibliographic audit, not a claim of full-text review of every article.",
+  "records": [
+    {
+      "key": "gnn2024",
+      "title": "GNN Model for Time-Varying Matrix Inversion With Robust Finite-Time Convergence",
+      "authors": [
+        {
+          "given": "Yinyan",
+          "family": "Zhang"
+        },
+        {
+          "given": "Shuai",
+          "family": "Li"
+        },
+        {
+          "given": "Jian",
+          "family": "Weng"
+        },
+        {
+          "given": "Bolin",
+          "family": "Liao"
+        }
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems",
+      "volume": "35",
+      "issue": "1",
+      "pages": "559-569",
+      "doi": "10.1109/tnnls.2022.3175899",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9780540/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tnnls.2022.3175899",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "vp2021",
+      "title": "Comprehensive Analysis of a New Varying Parameter Zeroing Neural Network for Time Varying Matrix Inversion",
+      "authors": [
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Yongsheng",
+          "family": "Zhang"
+        },
+        {
+          "given": "Jianhua",
+          "family": "Dai"
+        },
+        {
+          "given": "Qiuyue",
+          "family": "Zuo"
+        },
+        {
+          "given": "Shoujin",
+          "family": "Wang"
+        }
+      ],
+      "year": 2021,
+      "venue": "IEEE Transactions on Industrial Informatics",
+      "volume": "17",
+      "issue": "3",
+      "pages": "1604-1613",
+      "doi": "10.1109/tii.2020.2989173",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9072626/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tii.2020.2989173",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "varying2020",
+      "title": "New Varying-Parameter ZNN Models With Finite-Time Convergence and Noise Suppression for Time-Varying Matrix Moore–Penrose Inversion",
+      "authors": [
+        {
+          "given": "Zhiguo",
+          "family": "Tan"
+        },
+        {
+          "given": "Weibing",
+          "family": "Li"
+        },
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Yueming",
+          "family": "Hu"
+        }
+      ],
+      "year": 2020,
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems",
+      "volume": "31",
+      "issue": "8",
+      "pages": "2980-2992",
+      "doi": "10.1109/tnnls.2019.2934734",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical pseudoinversion",
+      "publisher_url": "https://ieeexplore.ieee.org/document/8835106/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tnnls.2019.2934734",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "exponential2020",
+      "title": "An Exponential-Type Anti-Noise Varying-Gain Network for Solving Disturbed Time-Varying Inversion Systems",
+      "authors": [
+        {
+          "given": "Zhijun",
+          "family": "Zhang"
+        },
+        {
+          "given": "Tao",
+          "family": "Chen"
+        },
+        {
+          "given": "Min",
+          "family": "Wang"
+        },
+        {
+          "given": "Lunan",
+          "family": "Zheng"
+        }
+      ],
+      "year": 2020,
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems",
+      "volume": "31",
+      "issue": "9",
+      "pages": "3414-3427",
+      "doi": "10.1109/tnnls.2019.2944485",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical noise robustness",
+      "publisher_url": "https://ieeexplore.ieee.org/document/8886721/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tnnls.2019.2944485",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "variable2022",
+      "title": "A Variable-Parameter Noise-Tolerant Zeroing Neural Network for Time-Variant Matrix Inversion With Guaranteed Robustness",
+      "authors": [
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Yongjun",
+          "family": "He"
+        },
+        {
+          "given": "Jianhua",
+          "family": "Dai"
+        },
+        {
+          "given": "Xinwang",
+          "family": "Liu"
+        },
+        {
+          "given": "Bolin",
+          "family": "Liao"
+        },
+        {
+          "given": "Haiyan",
+          "family": "Tan"
+        }
+      ],
+      "year": 2022,
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems",
+      "volume": "33",
+      "issue": "4",
+      "pages": "1535-1545",
+      "doi": "10.1109/tnnls.2020.3042761",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical noise robustness",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9305970/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tnnls.2020.3042761",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "complexnoise2020",
+      "title": "A Noise-Tolerant Zeroing Neural Network for Time-Dependent Complex Matrix Inversion Under Various Kinds of Noises",
+      "authors": [
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Yongsheng",
+          "family": "Zhang"
+        },
+        {
+          "given": "Qiuyue",
+          "family": "Zuo"
+        },
+        {
+          "given": "Jianhua",
+          "family": "Dai"
+        },
+        {
+          "given": "Jichun",
+          "family": "Li"
+        },
+        {
+          "given": "Wensheng",
+          "family": "Tang"
+        }
+      ],
+      "year": 2020,
+      "venue": "IEEE Transactions on Industrial Informatics",
+      "volume": "16",
+      "issue": "6",
+      "pages": "3757-3766",
+      "doi": "10.1109/tii.2019.2936877",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "complex classical inversion",
+      "publisher_url": "https://ieeexplore.ieee.org/document/8809787/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tii.2019.2936877",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "triple2024",
+      "title": "A Triple Noise Tolerant Zeroing Neural Network for Time-Varing Matrix Inverse",
+      "authors": [
+        {
+          "given": "Feixiang",
+          "family": "Yang"
+        },
+        {
+          "given": "Yun",
+          "family": "Huang"
+        }
+      ],
+      "year": 2024,
+      "venue": "IEEE Access",
+      "volume": "12",
+      "issue": null,
+      "pages": "82277-82288",
+      "doi": "10.1109/access.2024.3411781",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical noise robustness",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10552276/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/access.2024.3411781",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "predefined2023",
+      "title": "A Robust Predefined-Time Convergence Zeroing Neural Network for Dynamic Matrix Inversion",
+      "authors": [
+        {
+          "given": "Jie",
+          "family": "Jin"
+        },
+        {
+          "given": "Jingcan",
+          "family": "Zhu"
+        },
+        {
+          "given": "Lv",
+          "family": "Zhao"
+        },
+        {
+          "given": "Lei",
+          "family": "Chen"
+        },
+        {
+          "given": "Long",
+          "family": "Chen"
+        },
+        {
+          "given": "Jianqiang",
+          "family": "Gong"
+        }
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Cybernetics",
+      "volume": "53",
+      "issue": "6",
+      "pages": "3887-3900",
+      "doi": "10.1109/tcyb.2022.3179312",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9793372/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tcyb.2022.3179312",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "flows2024",
+      "title": "A New Predefined Time Zeroing Neural Network With Drop Conservatism for Matrix Flows Inversion and Its Application",
+      "authors": [
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Linju",
+          "family": "Li"
+        },
+        {
+          "given": "Wenqian",
+          "family": "Huang"
+        },
+        {
+          "given": "Xiaopeng",
+          "family": "Li"
+        },
+        {
+          "given": "Lei",
+          "family": "Jia"
+        }
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Cybernetics",
+      "volume": "54",
+      "issue": "2",
+      "pages": "752-761",
+      "doi": "10.1109/tcyb.2022.3225155",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9983475/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tcyb.2022.3225155",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "event2023",
+      "title": "A Fuzzy Adaptive Zeroing Neural Network Model With Event-Triggered Control for Time-Varying Matrix Inversion",
+      "authors": [
+        {
+          "given": "Jianhua",
+          "family": "Dai"
+        },
+        {
+          "given": "Ping",
+          "family": "Tan"
+        },
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Lei",
+          "family": "Jia"
+        },
+        {
+          "given": "Yongjun",
+          "family": "He"
+        },
+        {
+          "given": "Jiajie",
+          "family": "Luo"
+        }
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Fuzzy Systems",
+      "volume": "31",
+      "issue": "11",
+      "pages": "3974-3983",
+      "doi": "10.1109/tfuzz.2023.3272653",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical update scheduling",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10115024/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tfuzz.2023.3272653",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "intensive2023",
+      "title": "Intensive Noise-Tolerant Zeroing Neural Network Based on a Novel Fuzzy Control Approach",
+      "authors": [
+        {
+          "given": "Lei",
+          "family": "Jia"
+        },
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Jianhua",
+          "family": "Dai"
+        },
+        {
+          "given": "Yaonan",
+          "family": "Wang"
+        }
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Fuzzy Systems",
+      "volume": "31",
+      "issue": "12",
+      "pages": "4350-4360",
+      "doi": "10.1109/tfuzz.2023.3280527",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical noise robustness",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10145605/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tfuzz.2023.3280527",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "finite2020",
+      "title": "Design and Analysis of a Novel Finite-Time Convergent and Noise-Tolerant Recurrent Neural Network for Time-Variant Matrix Inversion",
+      "authors": [
+        {
+          "given": "Weibing",
+          "family": "Li"
+        }
+      ],
+      "year": 2020,
+      "venue": "IEEE Transactions on Systems, Man, and Cybernetics: Systems",
+      "volume": "50",
+      "issue": "11",
+      "pages": "4362-4376",
+      "doi": "10.1109/tsmc.2018.2853598",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/8412545/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tsmc.2018.2853598",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "fuzzypower2021",
+      "title": "A Novel Fuzzy-Power Zeroing Neural Network Model for Time-Variant Matrix Moore–Penrose Inversion With Guaranteed Performance",
+      "authors": [
+        {
+          "given": "Lei",
+          "family": "Jia"
+        },
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Jianhua",
+          "family": "Dai"
+        },
+        {
+          "given": "Yingkun",
+          "family": "Cao"
+        }
+      ],
+      "year": 2021,
+      "venue": "IEEE Transactions on Fuzzy Systems",
+      "volume": "29",
+      "issue": "9",
+      "pages": "2603-2611",
+      "doi": "10.1109/tfuzz.2020.3005272",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical pseudoinversion",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9127132/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tfuzz.2020.3005272",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "fuzzyparameter2022",
+      "title": "Zeroing Neural Network With Fuzzy Parameter for Computing Pseudoinverse of Arbitrary Matrix",
+      "authors": [
+        {
+          "given": "Vasilios N.",
+          "family": "Katsikis"
+        },
+        {
+          "given": "Predrag S.",
+          "family": "Stanimirovic"
+        },
+        {
+          "given": "Spyridon D.",
+          "family": "Mourtas"
+        },
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Darjan",
+          "family": "Karabasevic"
+        },
+        {
+          "given": "Dragisa",
+          "family": "Stanujkic"
+        }
+      ],
+      "year": 2022,
+      "venue": "IEEE Transactions on Fuzzy Systems",
+      "volume": "30",
+      "issue": "9",
+      "pages": "3426-3435",
+      "doi": "10.1109/tfuzz.2021.3115969",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical pseudoinversion",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9551725/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tfuzz.2021.3115969",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "frobenius2025",
+      "title": "Frobenius Norm-Based Robust Dynamic Neural Network for Time-Dependent Matrix Inversion",
+      "authors": [
+        {
+          "given": "Hanyi",
+          "family": "Xu"
+        },
+        {
+          "given": "Linyan",
+          "family": "Dai"
+        },
+        {
+          "given": "Yinyan",
+          "family": "Zhang"
+        }
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems",
+      "volume": "36",
+      "issue": "10",
+      "pages": "19460-19466",
+      "doi": "10.1109/tnnls.2025.3583573",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/11063226/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tnnls.2025.3583573",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "hybridderivative2025",
+      "title": "Inverse-Free Hybrid Spatial-Temporal Derivative Neural Network for Time-Varying Matrix Moore–Penrose Inverse and Its Circuit Schematic",
+      "authors": [
+        {
+          "given": "Bing",
+          "family": "Zhang"
+        },
+        {
+          "given": "Yuhua",
+          "family": "Zheng"
+        },
+        {
+          "given": "Shuai",
+          "family": "Li"
+        },
+        {
+          "given": "Xinglong",
+          "family": "Chen"
+        },
+        {
+          "given": "Yao",
+          "family": "Mao"
+        },
+        {
+          "given": "Duc Truong",
+          "family": "Pham"
+        }
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Circuits and Systems II: Express Briefs",
+      "volume": "72",
+      "issue": "3",
+      "pages": "499-503",
+      "doi": "10.1109/tcsii.2025.3530639",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical inverse-free tracking",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10843719/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tcsii.2025.3530639",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "lowcomplexity2026",
+      "title": "Low-Complexity ZNN Model Handling Time-Varying Generalized Matrix Inversion Problems With Multilayered Sensor-Related Disturbances Applied to Robot Manipulator",
+      "authors": [
+        {
+          "given": "Pengfei",
+          "family": "Guo"
+        },
+        {
+          "given": "Yunong",
+          "family": "Zhang"
+        },
+        {
+          "given": "Shuai",
+          "family": "Li"
+        }
+      ],
+      "year": 2026,
+      "venue": "IEEE Internet of Things Journal",
+      "volume": "13",
+      "issue": "5",
+      "pages": "9756-9772",
+      "doi": "10.1109/jiot.2025.3646276",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical disturbances",
+      "publisher_url": "https://ieeexplore.ieee.org/document/11305160/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/jiot.2025.3646276",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "noisefinite2020",
+      "title": "Noise-Tolerant and Finite-Time Convergent ZNN Models for Dynamic Matrix Moore–Penrose Inversion",
+      "authors": [
+        {
+          "given": "Zhiguo",
+          "family": "Tan"
+        },
+        {
+          "given": "Lin",
+          "family": "Xiao"
+        },
+        {
+          "given": "Siyuan",
+          "family": "Chen"
+        },
+        {
+          "given": "Xuanjiao",
+          "family": "Lv"
+        }
+      ],
+      "year": 2020,
+      "venue": "IEEE Transactions on Industrial Informatics",
+      "volume": "16",
+      "issue": "3",
+      "pages": "1591-1601",
+      "doi": "10.1109/tii.2019.2929055",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "classical pseudoinversion",
+      "publisher_url": "https://ieeexplore.ieee.org/document/8765379/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tii.2019.2929055",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "functional2026",
+      "title": "Beyond Asymptotic Scaling: Comparing Functional Quantum Linear Solvers",
+      "authors": [
+        {
+          "given": "Andreea-Iulia",
+          "family": "Lefterovici"
+        },
+        {
+          "given": "Michael",
+          "family": "Perk"
+        },
+        {
+          "given": "Debora",
+          "family": "Ramacciotti"
+        },
+        {
+          "given": "Antonio F.",
+          "family": "Rotundo"
+        },
+        {
+          "given": "Shawn E.",
+          "family": "Skelton"
+        },
+        {
+          "given": "Martin",
+          "family": "Steinbach"
+        }
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Quantum Engineering",
+      "volume": "7",
+      "issue": null,
+      "pages": "1-26",
+      "doi": "10.1109/tqe.2026.3674210",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum linear systems",
+      "publisher_url": "https://ieeexplore.ieee.org/document/11434996/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tqe.2026.3674210",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "powerlimits2026",
+      "title": "Limitations of Fault-Tolerant Quantum Linear System Solvers for Quantum Power Flow",
+      "authors": [
+        {
+          "given": "Parikshit",
+          "family": "Pareek"
+        },
+        {
+          "given": "Abhijith",
+          "family": "Jayakumar"
+        },
+        {
+          "given": "Carleton",
+          "family": "Coffrin"
+        },
+        {
+          "given": "Sidhant",
+          "family": "Misra"
+        }
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Power Systems",
+      "volume": "41",
+      "issue": "2",
+      "pages": "811-820",
+      "doi": "10.1109/tpwrs.2025.3613139",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum resource limits",
+      "publisher_url": "https://ieeexplore.ieee.org/document/11184324/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tpwrs.2025.3613139",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "bottlenecks2024",
+      "title": "Identifying Bottlenecks of NISQ-Friendly HHL Algorithms",
+      "authors": [
+        {
+          "given": "Marc Andreu",
+          "family": "Marfany"
+        },
+        {
+          "given": "Alona",
+          "family": "Sakhnenko"
+        },
+        {
+          "given": "Jeanette Miriam",
+          "family": "Lorenz"
+        }
+      ],
+      "year": 2024,
+      "venue": "2024 IEEE International Conference on Quantum Computing and Engineering (QCE)",
+      "volume": null,
+      "issue": null,
+      "pages": "275-284",
+      "doi": "10.1109/qce60285.2024.00041",
+      "publisher": "IEEE",
+      "topic": "quantum noise and precision",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10821472/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/qce60285.2024.00041",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "hhl2023",
+      "title": "A Step-by-Step HHL Algorithm Walkthrough to Enhance Understanding of Critical Quantum Computing Concepts",
+      "authors": [
+        {
+          "given": "Anika",
+          "family": "Zaman"
+        },
+        {
+          "given": "Hector Jose",
+          "family": "Morrell"
+        },
+        {
+          "given": "Hiu Yung",
+          "family": "Wong"
+        }
+      ],
+      "year": 2023,
+      "venue": "IEEE Access",
+      "volume": "11",
+      "issue": null,
+      "pages": "77117-77131",
+      "doi": "10.1109/access.2023.3297658",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum circuit interpretation",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10189828/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/access.2023.3297658",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "mimo2022",
+      "title": "Applications of a Quantum Linear System Algorithm to Linear MIMO Detections",
+      "authors": [
+        {
+          "given": "Jeonghoon",
+          "family": "Park"
+        },
+        {
+          "given": "Youngjin",
+          "family": "Seo"
+        },
+        {
+          "given": "Jun",
+          "family": "Heo"
+        }
+      ],
+      "year": 2022,
+      "venue": "IEEE Access",
+      "volume": "10",
+      "issue": null,
+      "pages": "36233-36245",
+      "doi": "10.1109/access.2022.3164071",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum output and readout",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9750010/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/access.2022.3164071",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "powerflow2021",
+      "title": "Quantum Power Flow",
+      "authors": [
+        {
+          "given": "Fei",
+          "family": "Feng"
+        },
+        {
+          "given": "Yifan",
+          "family": "Zhou"
+        },
+        {
+          "given": "Peng",
+          "family": "Zhang"
+        }
+      ],
+      "year": 2021,
+      "venue": "IEEE Transactions on Power Systems",
+      "volume": "36",
+      "issue": "4",
+      "pages": "3810-3812",
+      "doi": "10.1109/tpwrs.2021.3077382",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum application",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9423668/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tpwrs.2021.3077382",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "sparseprep2021",
+      "title": "An Efficient Algorithm for Sparse Quantum State Preparation",
+      "authors": [
+        {
+          "given": "Niels",
+          "family": "Gleinig"
+        },
+        {
+          "given": "Torsten",
+          "family": "Hoefler"
+        }
+      ],
+      "year": 2021,
+      "venue": "2021 58th ACM/IEEE Design Automation Conference (DAC)",
+      "volume": null,
+      "issue": null,
+      "pages": "433-438",
+      "doi": "10.1109/dac18074.2021.9586240",
+      "publisher": "IEEE",
+      "topic": "quantum state preparation",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9586240/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/dac18074.2021.9586240",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "optimalprep2023",
+      "title": "Asymptotically Optimal Circuit Depth for Quantum State Preparation and General Unitary Synthesis",
+      "authors": [
+        {
+          "given": "Xiaoming",
+          "family": "Sun"
+        },
+        {
+          "given": "Guojing",
+          "family": "Tian"
+        },
+        {
+          "given": "Shuai",
+          "family": "Yang"
+        },
+        {
+          "given": "Pei",
+          "family": "Yuan"
+        },
+        {
+          "given": "Shengyu",
+          "family": "Zhang"
+        }
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems",
+      "volume": "42",
+      "issue": "10",
+      "pages": "3301-3314",
+      "doi": "10.1109/tcad.2023.3244885",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum encoding costs",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10044235/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tcad.2023.3244885",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "lowrank2024",
+      "title": "Low-Rank Quantum State Preparation",
+      "authors": [
+        {
+          "given": "Israel F.",
+          "family": "Araujo"
+        },
+        {
+          "given": "Carsten",
+          "family": "Blank"
+        },
+        {
+          "given": "Ismael C. S.",
+          "family": "Araújo"
+        },
+        {
+          "given": "Adenilton J.",
+          "family": "da Silva"
+        }
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems",
+      "volume": "43",
+      "issue": "1",
+      "pages": "161-170",
+      "doi": "10.1109/tcad.2023.3297972",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum encoding costs",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10190145/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tcad.2023.3297972",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "depth2021",
+      "title": "Reducing the Depth of Linear Reversible Quantum Circuits",
+      "authors": [
+        {
+          "given": "Timothee Goubault de",
+          "family": "Brugiere"
+        },
+        {
+          "given": "Marc",
+          "family": "Baboulin"
+        },
+        {
+          "given": "Benoit",
+          "family": "Valiron"
+        },
+        {
+          "given": "Simon",
+          "family": "Martiel"
+        },
+        {
+          "given": "Cyril",
+          "family": "Allouche"
+        }
+      ],
+      "year": 2021,
+      "venue": "IEEE Transactions on Quantum Engineering",
+      "volume": "2",
+      "issue": null,
+      "pages": "1-22",
+      "doi": "10.1109/tqe.2021.3091648",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum compilation costs",
+      "publisher_url": "https://ieeexplore.ieee.org/document/9475957/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tqe.2021.3091648",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "mitigation2023",
+      "title": "Testing Platform-Independent Quantum Error Mitigation on Noisy Quantum Computers",
+      "authors": [
+        {
+          "given": "Vincent",
+          "family": "Russo"
+        },
+        {
+          "given": "Andrea",
+          "family": "Mari"
+        },
+        {
+          "given": "Nathan",
+          "family": "Shammah"
+        },
+        {
+          "given": "Ryan",
+          "family": "LaRose"
+        },
+        {
+          "given": "William J.",
+          "family": "Zeng"
+        }
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Quantum Engineering",
+      "volume": "4",
+      "issue": null,
+      "pages": "1-18",
+      "doi": "10.1109/tqe.2023.3305232",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum hardware validation",
+      "publisher_url": "https://ieeexplore.ieee.org/document/10219054/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tqe.2023.3305232",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    },
+    {
+      "key": "uncertainty2026",
+      "title": "Robust Design Under Uncertainty in Quantum Error Mitigation",
+      "authors": [
+        {
+          "given": "Maksym",
+          "family": "Prodius"
+        },
+        {
+          "given": "Piotr",
+          "family": "Czarnik"
+        },
+        {
+          "given": "Michael",
+          "family": "McKerns"
+        },
+        {
+          "given": "Andrew T.",
+          "family": "Sornborger"
+        },
+        {
+          "given": "Lukasz",
+          "family": "Cincio"
+        }
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Quantum Engineering",
+      "volume": "7",
+      "issue": null,
+      "pages": "1-13",
+      "doi": "10.1109/tqe.2026.3680641",
+      "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+      "topic": "quantum hardware uncertainty",
+      "publisher_url": "https://ieeexplore.ieee.org/document/11474741/",
+      "metadata_url": "https://api.crossref.org/works/10.1109/tqe.2026.3680641",
+      "verified_on": "2026-10-18",
+      "year_basis": "assigned publication/issue year, not the year embedded in the DOI"
+    }
+  ]
+}

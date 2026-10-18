@@ -52,6 +52,7 @@ def stage_commands(output):
         campaign("compact", "qcenn_mi.compact_benchmark"),
         campaign("precision-1000", "qcenn_mi.precision_benchmark"),
         campaign("theory", "qcenn_mi.theory_benchmark"),
+        campaign("time-varying", "qcenn_mi.time_varying_benchmark"),
         campaign(
             "hardware", "qcenn_mi.hardware", "--qubit-budget", "42", "--large-noise-shots", "64"
         ),

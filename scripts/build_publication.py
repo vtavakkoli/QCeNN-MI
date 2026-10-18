@@ -6,6 +6,7 @@ import argparse
 import json
 import shutil
 import subprocess
+import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -52,6 +53,7 @@ def load_results(results):
         "compact",
         "precision-1000",
         "theory",
+        "time-varying",
         "hardware",
     )
     data = {name: json.loads((results / name / "result.json").read_text()) for name in names}
@@ -76,6 +78,7 @@ def write_tables(data, generated, metadata):
     precision = data["precision-1000"]["cases"]
     hardware = data["hardware"]["cases"]
     validation = data["validation"]
+    temporal = data["time-varying"]
     worst = max(r["operator_relative_residual_2"] for r in precision)
     inverse = max(r["relative_inverse_error_frobenius"] for r in precision)
     times = sum(r.get("wall_seconds", 0) for r in validation["stages"])
@@ -87,6 +90,22 @@ def write_tables(data, generated, metadata):
         "TestCount": str(data["test_count"]),
         "TheoryCaseCount": str(len(data["theory"]["cases"])),
         "PrecisionCaseCount": str(len(precision)),
+        "TimeVaryingSnapshotCount": str(len(temporal["snapshots"])),
+        "TimeVaryingPairCount": str(len(temporal["held_operator_pairs"])),
+        "TimeVaryingAcquisitionCount": str(len(temporal["acquisition_errors"])),
+        "TimeVaryingSingularCount": str(len(temporal["singular_endpoints"])),
+        "TimeVaryingWorstFreshResidual": number(
+            max(
+                max(r["operator_relative_residual_2"], r["right_operator_residual_2"])
+                for r in temporal["snapshots"]
+            )
+        ),
+        "TimeVaryingWorstHeldResidual": number(
+            max(
+                max(r["left_residual"], r["right_residual"])
+                for r in temporal["held_operator_pairs"]
+            )
+        ),
         "SuiteWallSeconds": f"{times:.1f}",
         "SuiteCPUSeconds": f"{cpu:.1f}",
         "SuitePeakMiB": f"{peak:.1f}",
@@ -159,6 +178,31 @@ def write_tables(data, generated, metadata):
         for r in a2
     ]
     (generated / "a2_rows.tex").write_text("\n".join(lines) + "\n")
+    lines = []
+    for size in temporal["configuration"]["sizes"]:
+        for family in ("slow_spd", "fast_nonsymmetric"):
+            snapshots = [
+                r for r in temporal["snapshots"] if r["size"] == size and r["family"] == family
+            ]
+            pairs = [
+                r
+                for r in temporal["held_operator_pairs"]
+                if r["size"] == size and r["family"] == family
+            ]
+            label = "Slow SPD" if family == "slow_spd" else "Fast nonsym."
+            fresh = max(
+                max(r["operator_relative_residual_2"], r["right_operator_residual_2"])
+                for r in snapshots
+            )
+            held = max(max(r["left_residual"], r["right_residual"]) for r in pairs)
+            bound = max(r["tracking_bound"] for r in pairs)
+            qubits = max(r["resources"]["total_qubits"] for r in snapshots)
+            success = min(r["minimum_success_probability_all_inputs"] for r in snapshots)
+            lines.append(
+                f"{size} & {label} & {qubits} & {number(fresh)} & {number(held)} & "
+                f"{number(bound)} & {number(success)} \\\\"
+            )
+    (generated / "time_rows.tex").write_text("\n".join(lines) + "\n")
 
 
 def figures(data, folder):
@@ -282,8 +326,58 @@ def figures(data, folder):
     fig.savefig(folder / "noise.pdf")
     plt.close(fig)
 
+    temporal = data["time-varying"]
+    fig, axes = plt.subplots(1, 2, figsize=(8.0, 3.1), constrained_layout=True)
+    for family, color, label in (
+        ("slow_spd", COLORS[0], "Slow SPD"),
+        ("fast_nonsymmetric", COLORS[1], "Fast nonsymmetric"),
+    ):
+        rows = [r for r in temporal["snapshots"] if r["size"] == 1000 and r["family"] == family]
+        pairs = [
+            r
+            for r in temporal["held_operator_pairs"]
+            if r["size"] == 1000 and r["family"] == family
+        ]
+        axes[0].semilogy(
+            [r["time"] for r in rows],
+            [max(r["operator_relative_residual_2"], r["right_operator_residual_2"]) for r in rows],
+            "o-",
+            color=color,
+            label=label + ": refreshed",
+            markersize=3,
+        )
+        axes[0].semilogy(
+            [r["to_time"] for r in pairs],
+            [max(r["left_residual"], r["right_residual"]) for r in pairs],
+            "s--",
+            color=color,
+            label=label + ": held",
+            markersize=3,
+        )
+    axes[0].set(xlabel="Model time t", ylabel="Operator residual (2-norm)")
+    axes[0].legend(fontsize=7, loc="center left")
+    ratios = sorted({r["noise_to_gap_ratio"] for r in temporal["acquisition_errors"]})
+    for key, label, style in (
+        ("operator_residual", "Observed residual", "o-"),
+        ("tracking_bound", "Acquisition-error bound", "s--"),
+    ):
+        values = [
+            max(r[key] for r in temporal["acquisition_errors"] if r["noise_to_gap_ratio"] == ratio)
+            for ratio in ratios
+        ]
+        axes[1].loglog(ratios, values, style, label=label, markersize=4)
+    axes[1].set(
+        xlabel=r"Matrix acquisition error / singular gap ($\nu/a$)", ylabel="Residual / bound"
+    )
+    axes[1].legend(fontsize=7)
+    for ax in axes:
+        ax.grid(alpha=0.2)
+    fig.savefig(folder / "tracking.pdf")
+    plt.close(fig)
+
 
 def build(results, output, metadata_file=None):
+    subprocess.run([sys.executable, str(ROOT / "scripts/audit_references.py")], check=True)
     data = load_results(results)
     metadata = json.loads(Path(metadata_file).read_text()) if metadata_file else {}
     output = Path(output).resolve()

@@ -44,8 +44,16 @@ bitwise-identical results across CPUs, BLAS builds or future base images.
 7. Compact degree/qubit and accuracy study.
 8. Full-operator precision audit for thirteen 1000x1000 matrices.
 9. 162 degree/condition/family checks of the theoretical error and success bounds.
-10. Native ideal and synthetic-noise 2/4/10/100 hardware-preparation campaign.
-11. Evidence-derived IEEE manuscript and EuroHPC technical report PDFs.
+10. Time-varying ideal quantum audit: 40 snapshots at orders 2/10/100/1000,
+    32 delayed-operator pairs, 16 matrix acquisition-error cases and 8 explicit
+    rank-loss rejections. Condition numbers increase from 10 to 1000.
+11. Native ideal and synthetic-noise 2/4/10/100 hardware-preparation campaign.
+12. Reference audit for 30 verified IEEE publications from 2020 through 2026,
+    then evidence-derived IEEE manuscript and EuroHPC technical report PDFs.
+
+The temporal method recompiles each matrix snapshot. Bound agreement for a
+delayed or perturbed operator does not imply small residual error. Acquisition
+error is distinct from gate noise, and no real-time deadline is tested.
 
 Individual software failures are retained while other independent numerical
 stages continue. The final exit code is nonzero if any software stage fails.

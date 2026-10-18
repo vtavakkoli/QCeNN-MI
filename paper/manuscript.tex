@@ -11,48 +11,49 @@
 \newcommand{\R}{\mathbb{R}}
 \input{generated/metrics}
 \hypersetup{
- pdftitle={Quantum Matrix Inversion via Coherent Chebyshev-LCU Circuits: Theory and Simulation to Dimension 1000},
+ pdftitle={Quantum Inversion of Time-Varying Matrices: Theory for Arbitrary Finite Dimensions and Simulations up to 1000x1000},
  pdfauthor={Vahid Tavakkoli, Kabeh Mohsenzadegan, and Kyandoghere Kyamakya},
- pdfsubject={Coherent quantum inverse action, error certification, and hardware validation},
- pdfkeywords={quantum matrix inversion, quantum linear systems, Chebyshev, LCU, quantum circuits}
+ pdfsubject={Quantum inverse action in arbitrary finite dimensions, conditioning, drift, and update delay},
+ pdfkeywords={quantum matrix inversion, time-varying matrices, conditioning, Chebyshev, LCU, tracking bounds}
 }
 \begin{document}
-\title{Quantum Matrix Inversion via Coherent Chebyshev--LCU Circuits: Theory and Simulation to Dimension 1000}
+\title{Quantum Inversion of Time-Varying Matrices: Theory for Arbitrary Finite Dimensions and Simulations up to $1000\times1000$}
 \author{Vahid Tavakkoli, Kabeh Mohsenzadegan, and Kyandoghere Kyamakya%
 \thanks{QCeNN-MI research project. Reproducible implementation and experiment sources: \url{https://github.com/vtavakkoli/QCeNN-MI}. This manuscript reports simulator evidence; physical quantum-device execution is future work.}}
 \maketitle
 \begin{abstract}
-The primary target of this work is quantum matrix inversion as a coherent
-inverse-action operation: a quantum circuit maps an encoded input state to a
-state proportional to $M^{-1}b_0$, conditioned on an ancilla success outcome.
-For real nonsingular matrices, we construct this operation using an analytic
-Chebyshev reciprocal polynomial, linear combination of unitaries (LCU), one
-walk ancilla, and a binary selector register. We derive operator-residual,
-relative-solution, normalized-state, and success-probability bounds, and
-validate the quantum construction through ideal and native-gate simulation.
-The reproducible study checks \TheoryCaseCount{} degree/conditioning cases
-and audits the complete simulated success operator for \PrecisionCaseCount{}
-real $1000\times1000$ matrices. The largest recorded operator residual is
-\WorstOperatorResidual{}, with a polynomial target of $10^{-12}$ and a
-separate numerical acceptance limit of $10^{-10}$. These large cases use
-15--21 raw qubits; worst-input success is approximately $10^{-6}$ at condition
-number 1000. Classical dense spectral encoding is an explicit input-access
-assumption, so the results do not establish end-to-end quantum speedup or
-efficient classical reconstruction of the full inverse. Native-gate and
-synthetic-noise experiments through dimension 100 quantify the remaining
-hardware constraints. A containerized evidence workflow supports subsequent
-physical quantum-device validation; no physical execution is reported here.
+The primary target is coherent quantum inverse action for a real nonsingular
+time-varying matrix $M(t)$: ancilla postselection produces a state proportional
+to $M(t)^{-1}b_0$. A Chebyshev reciprocal polynomial is implemented by linear
+combination of unitaries (LCU), one walk ancilla, and a binary selector.
+The exact-arithmetic construction applies to every finite matrix dimension;
+1000 is an experimental ceiling, not a theoretical one. We prove operator,
+state-error, and success bounds, and extend them to drift, matrix acquisition
+error, and delayed updates under an explicit positive singular-value gap.
+Arbitrary dimension does not imply a fixed resource budget or real-time
+guarantee. The study checks \TheoryCaseCount{} degree/conditioning cases and
+\PrecisionCaseCount{} static $1000\times1000$ success operators, with largest
+recorded operator residual \WorstOperatorResidual{}. A separate temporal
+campaign audits \TimeVaryingSnapshotCount{} refreshed operators of orders
+2, 10, 100, and 1000 with rotating bases and condition numbers increasing
+from 10 to 1000, retaining delayed-update and acquisition-error degradation.
+The polynomial target is $10^{-12}$; the numerical acceptance limit is
+$10^{-10}$. Large static cases use 15--21 raw qubits, with worst-input
+success approximately $10^{-6}$ at condition number 1000. Classical dense
+spectral encoding remains required. Native-gate and synthetic-noise checks
+through dimension 100 support a staged hardware study, without establishing
+end-to-end quantum speedup or physical-device performance.
 \end{abstract}
 \begin{IEEEkeywords}
-Quantum matrix inversion, quantum linear systems, coherent inverse action,
-Chebyshev approximation, linear combination of unitaries, quantum simulation.
+Quantum matrix inversion, time-varying matrices, ill conditioning,
+coherent inverse action, Chebyshev approximation, linear combination of unitaries.
 \end{IEEEkeywords}
 
 \section{Introduction}
 \IEEEPARstart{Q}{uantum} matrix inversion aims to apply inverse action to a
 quantum state and retain the result as a quantum state for subsequent use.
 For an encoded right-hand side $\ket{b_0}$, the computational target is
-$\ket{x}\propto M^{-1}\ket{b_0}$, together with a success indication and a
+$\ket{x(t)}\propto M(t)^{-1}\ket{b_0}$, together with a success indication and a
 quantified error \cite{harrow2009,childs2017,gilyen2019}. Our primary
 objective is to construct and certify this quantum operation. Its output
 and measurement costs differ from writing every entry of a classical
@@ -75,23 +76,76 @@ present quantum circuit is evaluated independently of those hybrid
 methods; it does not establish a physical local quantum cellular network.
 
 The contributions address four aspects of the quantum target. First, we
-certify the implemented Chebyshev--LCU circuit with residual, state-error,
-and success bounds. The underlying approximation and LCU techniques are
-established; our certification concerns this implementation and access
-model. Second, we account for quantum registers, postselection, and
-classical encoding. Third, we audit complete simulated success operators
-through dimension 1000 and cross-check smaller native circuits. Fourth,
-we provide a reproducible validation workflow retaining noisy failures
-and a staged physical-device protocol.
+certify the implemented Chebyshev--LCU circuit and state its quantifiers:
+every finite dimension and every real nonsingular input admit an ideal
+finite-degree construction at any prescribed positive error. Second,
+we derive explicit bounds for time variation, matrix acquisition error,
+and stale compiled operators. Third, we audit full success operators
+through dimension 1000, including changing ill-conditioned trajectories,
+and cross-check smaller native circuits. Fourth, we provide a reproducible
+workflow retaining failed noisy-quality outcomes. Chebyshev approximation
+and LCU are established techniques; the contribution concerns this
+implementation, certification, temporal extension, and evidence model.
 
 The results establish ideal-simulation feasibility for the tested families.
 Convergence on a finite positive singular-value interval does not remove
 degree, numerical-resolution, depth, or sampling constraints. End-to-end
 quantum advantage and physical-device performance remain open.
 
+\subsection{Recent IEEE research and the computational distinction}
+Recent IEEE studies motivate evaluating the quantum primitive at the circuit
+and input-access levels. A detailed HHL circuit exposition \cite{hhl2023}
+and a comparison of functional quantum linear solvers \cite{functional2026}
+address complementary implementation and resource questions. Quantum linear
+systems have been applied to MIMO detection \cite{mimo2022} and power flow
+\cite{powerflow2021}. An end-to-end analysis of quantum power flow
+\cite{powerlimits2026} reinforces the need to account for conditioning,
+loading, and readout rather than infer advantage from a short data register.
+We do not transfer speedup claims across access models.
+
+Encoding and compilation are separate research problems. Sparse-state
+preparation \cite{sparseprep2021}, state-preparation and unitary-synthesis
+depth \cite{optimalprep2023}, low-rank preparation \cite{lowrank2024}, and
+linear reversible circuit depth \cite{depth2021} concern costs hidden by
+an amplitude-only representation. Our dense spectral compilation does not
+inherit their efficiency merely by using a logarithmic data register.
+Precision and noise bottlenecks in NISQ-oriented HHL \cite{bottlenecks2024},
+platform-independent error-mitigation tests \cite{mitigation2023}, and
+uncertainty-aware mitigation design \cite{uncertainty2026} further motivate
+retaining depth, failed noisy outcomes, and calibration context.
+
+Classical time-varying inversion has a distinct objective and established
+neurodynamic methods. Varying-parameter ZNN \cite{vp2021}, finite-time GNN
+\cite{gnn2024}, and a Frobenius-norm dynamic network \cite{frobenius2025}
+study evolving classical inverse estimates. Finite-time noise-tolerant
+recurrent inversion \cite{finite2020}, robust predefined-time inversion
+\cite{predefined2023}, and matrix-flow inversion \cite{flows2024} address
+convergence timing. Their continuous classical state and convergence
+parameters are not the quantum register or postselection cost studied here.
+
+Disturbance-oriented classical designs include anti-noise varying gain
+\cite{exponential2020}, variable-parameter noise tolerance \cite{variable2022},
+triple noise tolerance \cite{triple2024}, and fuzzy-control noise tolerance
+\cite{intensive2023}. Event-triggered inversion \cite{event2023}, an
+inverse-free spatial--temporal derivative network \cite{hybridderivative2025},
+and generalized inversion under sensor disturbances \cite{lowcomplexity2026}
+also motivate an explicit update and acquisition-error model. These results
+do not supply quantum gate-noise guarantees for our circuit.
+
+Related classical pseudoinverse studies include varying-parameter models
+\cite{varying2020}, finite-time noise-tolerant models \cite{noisefinite2020},
+fuzzy-power models \cite{fuzzypower2021}, and fuzzy-parameter pseudoinversion
+\cite{fuzzyparameter2022}; complex noisy inversion is studied in
+\cite{complexnoise2020}. Their broader matrix domains are relevant context,
+not extensions of our real square nonsingular theorem. The present temporal
+method recompiles a coherent inverse-action circuit at selected times.
+It does not turn these classical recurrent models into an autonomous
+quantum tracker, nor compare their measured runtimes on matched workloads.
+
 \section{Problem, Encoding, and Evidence Model}
 \subsection{Domain and outputs}
-Let $M\in\R^{N\times N}$ be nonsingular, with singular-value decomposition
+Let $M=M(t)\in\R^{N\times N}$ denote a nonsingular snapshot, with
+singular-value decomposition
 \begin{equation}
  M=U\Sigma V^T,\qquad
  \Sigma=\operatorname{diag}(\sigma_1,\ldots,\sigma_N),
@@ -155,7 +209,8 @@ ancilla subspace. The all-zero outcome heralds the quantum output
  \ \approx\ \frac{M^{-1}\ket{b_0}}{\norm{M^{-1}\ket{b_0}}_2}.
  \label{eq:quantumoutput}
 \end{equation}
-Sections III and IV give the error and success guarantees. The accepted
+Sections~\ref{sec:reciprocal} and~\ref{sec:quantumcircuit} give the error and
+success guarantees. The accepted
 register remains available for quantum computation. Full classical
 inverse readout requires additional inputs and measurements.
 
@@ -181,6 +236,7 @@ noise emulation; and physical-device measurements. Only the first three are
 present. Success at one level must not be relabeled as evidence at another.
 
 \section{Reciprocal Approximation and Certification}
+\label{sec:reciprocal}
 \subsection{An analytic Chebyshev series}
 Assume first that $a<b$, and define
 \begin{equation}
@@ -288,6 +344,7 @@ query-complexity result. No fixed degree budget works uniformly as the
 smallest singular value tends to zero.
 
 \section{Quantum Circuit for Coherent Inverse Action}
+\label{sec:quantumcircuit}
 \subsection{Walk and coefficient selection}
 For $t_j=(\sigma_j-c)/h$ and $\theta_j=\arccos(t_j)$, define an encoded walk
 whose flag block on spectral coordinate $j$ is
@@ -368,6 +425,125 @@ sampling cost. Straight independent repetition can require order
 $\kappa^2$ attempts per accepted output in the worst case. Amplitude
 amplification is not implemented here, and its possible use must include
 the cost of controlled reflections and repeated data access.
+
+\begin{corollary}[Every finite dimension, with instance-dependent resources]
+For every finite $N\geq2$, every real nonsingular $M\in\R^{N\times N}$,
+and every $0<\epsilon<1$, a finite degree and an ideal quantum circuit
+exist whose success block is $X_d/\alpha_d$, with both inverse residuals
+at most $\epsilon$ and strictly positive success probability on every
+normalized valid input.
+\end{corollary}
+\begin{proof}
+Each finite nonsingular matrix has $0<a\leq b<\infty$. If $a<b$, then
+$0<r<1$ and~\eqref{eq:degree} supplies a finite sufficient degree.
+Equations~\eqref{eq:operatorbound} and~\eqref{eq:successbound} give the
+claims. If $a=b$, the reciprocal is constant. Padding embeds either
+construction in a finite register as in~\eqref{eq:qubits}.
+\end{proof}
+The scalar case is immediate. This is an existence statement in the
+stated spectral access model, not a claim that one fixed device supports
+unbounded $N$. For fixed conditioning and error, the polynomial degree
+bound is independent of $N$, whereas dense encoding, gate synthesis,
+simulation memory, and measured readout retain dimension-dependent costs.
+A fixed 42-qubit budget or the implementation's degree-1023 guard is a
+practical restriction, not a dimension-1000 restriction in the theorem.
+
+\section{Time-Varying Inversion Under Difficult Conditions}
+\label{sec:temporal}
+\subsection{Uniform finite-interval guarantees}
+Let $M:[0,T]\to\R^{N\times N}$ be continuous and nonsingular, with fixed
+finite $N$. Compactness and continuity of singular values imply
+\begin{equation}
+ 0<a_*:=\min_t\sigma_{\min}(M(t)),\qquad
+ b_*:=\max_t\sigma_{\max}(M(t))<\infty.
+ \label{eq:uniformgap}
+\end{equation}
+Using $[a_*,b_*]$ in~\eqref{eq:degree} gives one finite sufficient degree
+for every snapshot on this interval. The singular bases and walk angles
+still depend on $t$ and must be encoded or updated. A shared approximation
+interval is not a circuit that automatically follows an unknown matrix.
+No differentiability or continuity of a selected SVD basis is required
+for the pointwise operator guarantee.
+
+If $M$ is differentiable with $\norm{\dot M(t)}_2\leq L$, then
+\begin{equation}
+ \frac{d M^{-1}}{dt}=-M^{-1}\dot M M^{-1},\qquad
+ \left\lVert\frac{d M^{-1}}{dt}\right\rVert_2\leq\frac{L}{a_*^2}.
+ \label{eq:inversevariation}
+\end{equation}
+This follows by differentiating $MM^{-1}=I$. A small singular-value gap
+can therefore make modest input drift important, even when every
+instantaneous inverse exists. On an unbounded time interval, a uniform
+gap is an additional assumption: $\operatorname{diag}(e^{-t},1)$ is
+nonsingular at every finite $t$ but has no positive uniform lower bound.
+At a genuine rank loss, ordinary inversion is undefined.
+
+\subsection{Matrix acquisition error and stale quantum circuits}
+At update time $t_k$, suppose the encoded matrix is
+$\widetilde M_k=M(t_k)+E_k$, with $\norm{E_k}_2\leq\nu<a_*$.
+Its singular values lie in $[a_*-\nu,b_*+\nu]$. Let $X_k$ be the
+compiled inverse approximation whose left and right residuals relative
+to $\widetilde M_k$ are at most $\delta<1$. No classical residual
+correction is applied to the accepted quantum output.
+
+\begin{theorem}[Drift, acquisition error, and update delay]
+Define $D_k(t)=\norm{M(t)-M(t_k)}_2$. Then
+\begin{align}
+ \max\{\norm{M(t)X_k-I}_2,\norm{X_kM(t)-I}_2\}
+ &\leq\rho_k(t),\label{eq:heldbound}\\
+ \rho_k(t)&:=\delta+
+ \frac{(D_k(t)+\nu)(1+\delta)}{a_*-\nu}.
+ \label{eq:rho}
+\end{align}
+For every nonzero current right-hand side, the relative solution error is
+at most $\rho_k(t)$. If $\rho_k(t)<1$, the normalized accepted-state
+error is at most $2\rho_k(t)$. These assertions require the input state
+for the current right-hand side, not an obsolete prepared input.
+\end{theorem}
+\begin{proof}
+For unit $z$, the triangle inequality gives
+$\norm{\widetilde M_kz}_2\geq a_*-\nu$ and
+$\norm{\widetilde M_kz}_2\leq b_*+\nu$. Writing
+$X_k=(I+F)\widetilde M_k^{-1}$ with $\norm F_2\leq\delta$ yields
+$\norm{X_k}_2\leq(1+\delta)/(a_*-\nu)$. Expand
+\[
+ M(t)X_k-I=(\widetilde M_kX_k-I)
+                +(M(t)-\widetilde M_k)X_k
+\]
+and use $\norm{M(t)-\widetilde M_k}_2\leq D_k(t)+\nu$.
+The right residual follows identically with factors reversed. For
+$x=M(t)^{-1}b_0$, $X_kb_0-x=(X_kM(t)-I)x$ proves relative error.
+The normalization inequality used in~\eqref{eq:statebound} proves the
+state bound. The perturbation of the encoded matrix is not qubit noise.
+\end{proof}
+
+For a Lipschitz matrix trajectory with constant $L$ and update age at
+most $\tau$, $D_k(t)\leq L\tau$. A sufficient condition for target
+tracking residual $\epsilon_{\rm tr}\in(\delta,1)$ is
+\begin{equation}
+ L\tau+\nu\leq
+ \frac{(\epsilon_{\rm tr}-\delta)(a_*-\nu)}{1+\delta}.
+ \label{eq:updaterule}
+\end{equation}
+If acquisition error alone violates this inequality, faster updates
+cannot certify that target through this bound. For a sampled pair,
+the same proof permits the local gap $\sigma_{\min}(M(t_k))$ and the
+exact observed matrix difference in place of a global interval bound.
+The minimum success guarantee for the encoded matrix remains
+$(1-\delta)^2/\kappa_\nu^2$, where
+$\kappa_\nu=(b_*+\nu)/(a_*-\nu)$.
+
+\subsection{What a temporal quantum implementation entails}
+The implemented method is snapshot compilation: acquire a matrix,
+classically synthesize its spectral encoding, and execute the quantum
+inverse-action subroutine. Equation~\eqref{eq:updaterule} constrains total
+matrix age, including acquisition, compilation, queueing, circuit execution,
+and repetitions needed for an accepted output. It is not a measured
+latency guarantee. At high conditioning, the degree, postselection cost,
+and drift sensitivity all matter. The experiments below keep stale
+circuits and acquisition errors visible instead of presenting every
+time-varying input as equally easy. Synthetic gate-noise experiments
+remain a separate evidence category.
 
 \section{Numerical Stability, Simulation, and Audit}
 \subsection{Stable inputs and degree limits}
@@ -479,6 +655,35 @@ and success inequalities with explicit $10^{-10}$ floating-point slack.
 An inaccurate low-degree approximation can correctly satisfy a loose
 analytic bound; such agreement is not labeled target-accuracy success.
 
+\subsection{Changing, ill-conditioned matrix trajectories}
+The temporal campaign uses $N\in\{2,10,100,1000\}$ and
+$t\in\{0,1/4,1/2,3/4,1\}$. Fixed-seed orthogonal bases are rotated in
+the plane of the largest and smallest singular directions. A slow SPD
+trajectory rotates at $0.2$ radians per unit model time; a fast
+nonsymmetric trajectory rotates the left basis at $4$ and the right basis
+at $-2.8$ radians per unit model time. These are dimensionless test
+parameters, not measured hardware frequencies. Singular values are
+\begin{equation}
+ \sigma_j(t)=10^{-(1+2t)(j-1)/(N-1)},\quad 1\leq j\leq N,
+ \label{eq:temporalspectrum}
+\end{equation}
+so $\kappa(t)=10^{1+2t}$ increases from 10 to 1000 while every snapshot
+remains nonsingular. The complete operator audit is repeated after fresh
+compilation; adjacent pairs also apply the previous compiled operator
+to the current matrix. Both left and right stale residuals are retained
+and compared with~\eqref{eq:rho} using the observed drift and local gap.
+
+At the final snapshot, deterministic rank-one acquisition errors add
+$\nu u_{\min}v_{\min}^T$ in the original least singular direction, for
+$\nu/a\in\{10^{-3},10^{-1}\}$.
+The circuit inverts the perturbed encoding, while residuals are measured
+against the unperturbed matrix. This deliberately exposes data-error
+sensitivity, not a stochastic-noise distribution or noise cancellation.
+A separate rank-one perturbation removes the least singular value and
+must trigger explicit numerical-singularity rejection. These temporal
+experiments use ideal structured quantum statevectors; native noisy
+1000-dimensional execution and real-time deadlines are not tested.
+
 \subsection{Execution and provenance}
 Qiskit supplies circuit construction and native execution interfaces
 \cite{qiskit2024}. The recorded run uses Python \PythonVersion{}, NumPy
@@ -486,7 +691,8 @@ Qiskit supplies circuit construction and native execution interfaces
 Qiskit Aer \VersionQiskitaer{}. OpenBLAS, OpenMP and MKL thread controls are
 set to one. A single Compose service runs static checks, \TestCount{} unit
 tests, A1, coupled A2--A4, block-hybrid scaling, coherent Neumann baselines,
-compact precision, theory regression and native-noise preparation.
+compact precision, theory regression, temporal drift/acquisition audits,
+and native-noise preparation.
 
 Each stage runs in a fresh process, retaining its command, return code,
 stdout/stderr, elapsed wall time, CPU time and peak child resident memory.
@@ -569,6 +775,52 @@ juxtaposes the modest raw-qubit growth with that sampling penalty.
 controlled-spectrum family at the tighter target. The near-$\kappa^{-2}$
 sampling cost remains even though the selector register grows slowly.}
 \label{fig:resources}
+\end{figure*}
+
+\subsection{Time variation, difficult conditioning, and stale encodings}
+Table~\ref{tab:temporal} summarizes \TimeVaryingSnapshotCount{} independently
+compiled temporal snapshots. The largest refreshed left or right operator
+residual is \TimeVaryingWorstFreshResidual{}. Increasing dimension and
+conditioning does not prevent accurate ideal inverse action in these
+tested trajectories. This observation does not establish uniform practical
+performance over all trajectories or arbitrarily small singular values.
+
+The \TimeVaryingPairCount{} adjacent stale-operator pairs retain a largest
+observed residual of \TimeVaryingWorstHeldResidual{}. Their agreement with
+the drift bound certifies the analysis, not tracking accuracy: a bound
+larger than one is not a useful small-error guarantee. Figure~\ref{fig:temporal}
+contrasts fresh compilation with delayed updates and separately shows
+matrix acquisition error. Across \TimeVaryingAcquisitionCount{} acquisition
+cases, residual degradation is retained even though inversion of each
+encoded matrix is accurate. All \TimeVaryingSingularCount{} constructed
+rank-loss endpoints are explicitly rejected.
+
+\begin{table*}[t]
+\centering\small
+\caption{Ideal time-varying inverse-action audit. Each row contains five
+snapshots with $\kappa$ from 10 to 1000 and four adjacent delayed updates.
+Fresh and held columns use the larger left/right operator residual.
+The last column is the smallest success probability over all inputs and
+all snapshots in that row. Held accuracy is not a fresh-accuracy gate.}
+\label{tab:temporal}
+\begin{tabular}{rlrrrrr}
+\toprule
+$N$ & Family & Max. qubits & Max. fresh residual & Max. held residual &
+Max. held bound & Min. success\\\midrule
+\input generated/time_rows.tex
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=0.96\textwidth]{figures/tracking.pdf}
+\caption{Temporal stress evidence from ideal structured quantum simulation.
+Left: refreshed and held-operator residuals on the two order-1000
+trajectories; model time is dimensionless. Right: acquisition-error
+residuals and bounds at the final snapshot, maximized over tested sizes
+and families. Acquisition error perturbs the encoded matrix; it is not
+a quantum gate-noise channel.}
+\label{fig:temporal}
 \end{figure*}
 
 \subsection{Native compilation and synthetic noise}
@@ -698,15 +950,33 @@ hosting-system evidence that remains to be collected. Neither this paper
 nor that report claims a physical allocation decision or execution on a
 specific allocated EuroHPC node.
 
+For temporal hardware validation, refresh and hold the same small-instance
+operators at recorded matrix timestamps. Measure acquisition-to-accepted-output
+latency, including compilation and queueing, and compare it with
+\eqref{eq:updaterule}. Offline batched snapshots alone do not establish
+real-time tracking. Matrix acquisition perturbations and calibration-derived
+gate noise must be recorded separately.
+
 \section{Discussion and Conclusion}
 The principal outcome is a specified, certified, and simulator-validated
-quantum matrix-inversion primitive. Coherent polynomial interference
+quantum matrix-inversion primitive for arbitrary finite dimensions in the
+specified access model. Coherent polynomial interference
 realizes the heralded transformation~\eqref{eq:quantumtarget}, producing
 a state proportional to $X_d\ket{b_0}$ without a fitted solution or
 classical correction inside the quantum core. The full-operator audit
 tests action across the valid input subspace. Dense classical spectral
 encoding remains an explicit assumption; end-to-end quantum advantage
 and full measured inverse reconstruction are not established.
+
+The temporal extension provides explicit bounds for changing nonsingular
+matrices under drift, acquisition error, and delayed updates. The
+\TimeVaryingSnapshotCount{} refreshed temporal operators reach largest
+residual \TimeVaryingWorstFreshResidual{}, while stale operators and
+perturbed encodings exhibit the predicted degradation. A positive uniform
+singular-value gap and sufficient update resources are essential. The
+theorem has no dimension-1000 cutoff, but neither it nor these experiments
+guarantee arbitrary conditioning, unbounded dimension on a fixed device,
+or autonomous continuous quantum tracking.
 
 In the recorded experiment, \PrecisionCaseCount{} order-1000 operators
 reach a largest residual of \WorstOperatorResidual{} and a largest relative
@@ -747,8 +1017,8 @@ measurements, not EuroHPC node-hours or QPU runtime. The process clock is
 not independently synchronized or scheduler-attested.
 
 \section*{Acknowledgment and AI Assistance Disclosure}
-OpenAI ChatGPT/Codex assisted in drafting and revising Sections I--IX and
-the appendix, developing the validation/publication scripts, and preparing
+OpenAI ChatGPT/Codex assisted in drafting and revising the manuscript and
+appendix, developing the validation/publication scripts, and preparing
 the mathematical exposition. Figures are deterministic plots of archived
 numerical outputs, not generated illustrative images. This disclosure
 identifies the use of AI assistance in accordance with IEEE guidance
