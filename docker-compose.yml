@@ -13,11 +13,10 @@ services:
       OPENBLAS_NUM_THREADS: "1"
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
-      MPLCONFIGDIR: /tmp/matplotlib
       PYTHONDONTWRITEBYTECODE: "1"
       PYTHONUNBUFFERED: "1"
       QCENN_EXECUTION_CONTEXT: docker-compose
     volumes:
       - ${QCENN_ARTIFACTS_DIR:-./artifacts}:/artifacts
-    command: ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts", "--publication"]
+    command: ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts"]
     restart: "no"

@@ -45,7 +45,7 @@ def test_stage_failure_is_retained_with_logs_and_metrics(tmp_path):
     assert json.loads((tmp_path / "logs/fails.metrics.json").read_text())["returncode"] == 3
 
 
-def test_fingerprint_changes_when_the_manuscript_or_solver_changes(tmp_path):
+def test_fingerprint_changes_when_the_solver_changes(tmp_path):
     (tmp_path / "src").mkdir()
     source = tmp_path / "src/module.py"
     source.write_text("a = 1\n")

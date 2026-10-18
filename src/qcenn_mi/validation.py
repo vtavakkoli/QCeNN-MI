@@ -30,8 +30,8 @@ def stage_commands(output):
         return name, [python, "-m", module, "--output-dir", str(output / name), *args]
 
     return [
-        ("compile", [python, "-m", "compileall", "-q", "src", "tests", "scripts"]),
-        ("lint", [python, "-m", "ruff", "check", "src", "tests", "scripts"]),
+        ("compile", [python, "-m", "compileall", "-q", "src", "tests"]),
+        ("lint", [python, "-m", "ruff", "check", "src", "tests"]),
         (
             "unit-tests",
             [
@@ -63,7 +63,7 @@ def source_fingerprint(root):
     root = Path(root)
     paths = [
         p
-        for folder in ("src", "tests", "scripts", "paper")
+        for folder in ("src", "tests")
         for p in (root / folder).rglob("*")
         if p.is_file() and "__pycache__" not in p.parts
     ]
@@ -86,10 +86,10 @@ def source_fingerprint(root):
 def create_bundle(root, output):
     """Archive a portable source tree and measured outputs, excluding recursion."""
     root, output = Path(root).resolve(), Path(output).resolve()
-    bundle = output / "QCeNN_MI_Publication_Package.zip"
+    bundle = output / "QCeNN_MI_Validation_Bundle.zip"
     source_files = [
         p
-        for folder in ("src", "tests", "scripts", "paper", "docs", ".github")
+        for folder in ("src", "tests", "docs", ".github")
         for p in (root / folder).rglob("*")
         if p.is_file() and "__pycache__" not in p.parts
     ]
@@ -129,7 +129,7 @@ def provenance(root):
         )
     except (OSError, subprocess.CalledProcessError):
         revision, dirty = os.environ.get("QCENN_SOURCE_COMMIT", "unknown"), None
-    packages = ("numpy", "scipy", "qiskit", "qiskit-aer", "pytest", "ruff", "matplotlib")
+    packages = ("numpy", "scipy", "qiskit", "qiskit-aer", "pytest", "ruff")
     return {
         "source_commit": revision,
         "working_tree_dirty": dirty,
@@ -233,7 +233,7 @@ def persist_summary(output, payload):
     (output / "summary.md").write_text("\n".join(lines) + "\n")
 
 
-def run_suite(output, *, publication=False, project_metadata=None):
+def run_suite(output):
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     # A completed run must never silently mix with stale output from a prior run.
@@ -262,20 +262,6 @@ def run_suite(output, *, publication=False, project_metadata=None):
             "all_synthetic_quality_gates_passed"
         )
     payload["passed"] = all(row["passed"] for row in payload["stages"])
-    persist_summary(output, payload)
-    if publication and payload["passed"]:
-        command = [
-            sys.executable,
-            "scripts/build_publication.py",
-            "--results",
-            str(output),
-            "--output-dir",
-            str(output / "publication"),
-        ]
-        if project_metadata:
-            command += ["--project-metadata", str(Path(project_metadata).resolve())]
-        payload["stages"].append(execute_stage("publication", command, output, env=env))
-        payload["passed"] = all(row["passed"] for row in payload["stages"])
     payload["finished_utc"] = datetime.now(UTC).isoformat()
     persist_summary(output, payload)
     hashes = {
@@ -284,7 +270,7 @@ def run_suite(output, *, publication=False, project_metadata=None):
         if p.is_file() and p.name != "SHA256SUMS.json"
     }
     (output / "SHA256SUMS.json").write_text(json.dumps(hashes, indent=2) + "\n")
-    if publication and payload["passed"]:
+    if payload["passed"]:
         create_bundle(Path.cwd(), output)
     return payload
 
@@ -295,12 +281,8 @@ def main():
         raise SystemExit(worker(sys.argv[2], sys.argv[marker + 1 :]))
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="artifacts")
-    parser.add_argument("--publication", action="store_true")
-    parser.add_argument("--project-metadata")
     args = parser.parse_args()
-    result = run_suite(
-        args.output_dir, publication=args.publication, project_metadata=args.project_metadata
-    )
+    result = run_suite(args.output_dir)
     raise SystemExit(0 if result["passed"] else 1)
 
 

@@ -1,4 +1,4 @@
-name: Reproducible quantum validation and publication
+name: Quantum simulator validation
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate Compose configuration
         run: docker compose config --quiet
-      - name: Build locked validation and LaTeX image
+      - name: Build locked validation image
         run: |
           mkdir -p artifacts
           docker pull python:3.12-slim-bookworm
@@ -29,7 +29,7 @@ jobs:
           image_digest=$(docker image inspect python:3.12-slim-bookworm --format '{{index .RepoDigests 0}}')
           docker compose build --build-arg PYTHON_IMAGE="$image_digest"
           docker image inspect qcenn-mi-validation:local > artifacts/container-image.json
-      - name: Run every test, benchmark and publication build
+      - name: Run all tests and simulator benchmarks
         run: docker compose up --abort-on-container-exit --exit-code-from validation
       - name: Record built image and logs
         if: always()
@@ -43,7 +43,7 @@ jobs:
           if [ -f artifacts/summary.md ]; then
             cat artifacts/summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Upload complete evidence and publication sources
+      - name: Upload validation evidence and circuit exports
         if: always()
         uses: actions/upload-artifact@v4
         with:

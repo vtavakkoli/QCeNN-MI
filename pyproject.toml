@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qcenn-mi"
 version = "0.1.0"
-description = "Quantum Cellular Nonlinear Network research prototype for matrix inversion"
+description = "Quantum matrix inverse action, Chebyshev-LCU circuits, and QCeNN simulator benchmarks"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
@@ -41,10 +41,6 @@ dev = [
   "pytest-cov>=5.0,<7.0",
   "ruff>=0.9,<1.0"
 ]
-publication = [
-  "matplotlib>=3.9,<4.0",
-  "pypdf>=6.0,<7.0"
-]
 
 [project.scripts]
 qcenn-mi = "qcenn_mi.cli:main"
@@ -52,7 +48,7 @@ qcenn-mi = "qcenn_mi.cli:main"
 [project.urls]
 Homepage = "https://github.com/vtavakkoli/QCeNN-MI"
 Repository = "https://github.com/vtavakkoli/QCeNN-MI"
-Paper = "https://doi.org/10.3390/s19184002"
+Documentation = "https://github.com/vtavakkoli/QCeNN-MI/tree/main/docs"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -1,387 +1,152 @@
 # QCeNN-MI
 
-Run every default validation campaign and build the IEEE-style manuscript and
-EuroHPC evidence report together:
+**Quantum matrix inverse action, Chebyshev-LCU circuits, and QCeNN simulator benchmarks.**
 
-```bash
-docker compose up --build --abort-on-container-exit --exit-code-from validation
-```
-
-Results, logs, provenance, QPY exports and PDFs are written to `artifacts/`.
-See [the complete reproduction guide](docs/reproduce-publication.md) and
-[publication sources](paper/README.md). The workflow makes no physical QPU
-submission; noisy-quality failures remain explicit research results.
-
-[![Quantum feasibility proof](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml/badge.svg)](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Quantum simulator validation](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml/badge.svg)](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**QCeNN-MI** is a research prototype for **Quantum Cellular Nonlinear Networks for Matrix Inversion**. The project investigates whether matrix-inversion dynamics can be mapped to small, hardware-compatible quantum cell states and then extended toward locally coupled QCeNN dynamics for static and time-varying matrices.
+QCeNN-MI is a research toolkit for static and time-varying matrix inversion.
+It provides coherent quantum inverse-action circuits, hybrid quantum cellular
+nonlinear network experiments, and reproducible accuracy and resource audits.
+The coherent circuit produces a state proportional to `M⁻¹b`, conditioned on
+ancilla success; a complete classical inverse requires additional readout.
 
-> **Research status:** early feasibility prototype. The implementation covers A1–A4 as a small hybrid simulator prototype on Qiskit. It does **not** claim quantum speed-up or a scalable quantum matrix-inversion algorithm.
+**Status:** validated on simulators for the documented test families. Physical
+quantum-device execution and end-to-end quantum advantage remain unverified.
 
-## Scientific motivation
+## Capabilities
 
-The project builds on the dynamical matrix-inversion formulation developed in:
+| Component | Implemented scope | Execution model |
+|---|---|---|
+| Local QCeNN cells and shared interaction templates | Real 2×2 and 4×4 matrices | Variational quantum circuits with classical optimization and readout scaling |
+| Stateful tracking and polynomial correction | Changing small matrices; block-hybrid 10×10 and 100×100 cases | Quantum circuit parameters plus classical prediction and correction |
+| Coherent inverse action | Neumann-LCU and compact Chebyshev-LCU constructions | Postselected quantum operation with classical dense spectral input encoding |
+| Large ideal-simulation audits | Matrix orders 10, 100, and 1000; full-operator precision checks at order 1000 | Structured statevector simulation with smaller native-circuit cross-checks |
+| Temporal robustness audits | Orders 2, 10, 100, and 1000 | Refreshed snapshots, delayed updates, acquisition error, and rank-loss rejection |
+| Hardware preparation | Orders 2, 4, 10, and 100 | Native-gate compilation, QPY exports, and synthetic-noise simulation |
 
-> V. Tavakkoli, J. C. Chedjou, and K. Kyamakya, **“A Novel Recurrent Neural Network-Based Ultra-Fast, Robust, and Scalable Solver for Inverting a ‘Time-Varying Matrix’,”** *Sensors*, 19(18), 4002, 2019.  
-> DOI: [10.3390/s19184002](https://doi.org/10.3390/s19184002)
+## Run the complete validation suite
 
-That work formulates time-varying matrix inversion as a dynamical residual-reduction problem. QCeNN-MI starts from the same objective,
-
-$$ MX = I,\qquad E = MX - I. $$
-
-and investigates quantum representations and local quantum interactions that can participate in driving the residual toward zero.
-
-## First implemented assumption: A1
-
-The first milestone is intentionally small, falsifiable, and executable on present gate-based quantum systems.
-
-**Assumption A1.** For a real nonsingular $2\times2$ matrix $M$, each column of $M^{-1}$ can be represented by a normalized one-qubit real-amplitude state, up to a classical scalar, and recovered by minimizing the matrix residual.
-
-For column $j$, the target is $b=e_j$. A single quantum cell prepares
-
-$$ |q(\theta)\rangle = R_y(\theta)|0\rangle = \cos\!\left(\frac{\theta}{2}\right)|0\rangle + \sin\!\left(\frac{\theta}{2}\right)|1\rangle. $$
-
-A scalar $s$ reconstructs the magnitude:
-
-$$ x_j = s\,q(\theta). $$
-
-For a fixed quantum direction, the least-squares optimal scale is
-
-$$ s^*(\theta)=\frac{\bigl(Mq(\theta)\bigr)^T b}{\bigl(Mq(\theta)\bigr)^T\bigl(Mq(\theta)\bigr)}. $$
-
-The one-dimensional quantum-state parameter is then selected by minimizing
-
-$$ \mathcal{L}_j(\theta)=\left\|M\!\left(s^*(\theta)q(\theta)\right)-e_j\right\|_2^2. $$
-
-Solving both basis-vector targets gives the two columns of the inverse.
-
-### Why this is a useful first quantum test
-
-A1 isolates the most basic representation question before introducing multi-qubit coupling. The implementation:
-
-1. creates a real Qiskit `RY(theta)` quantum circuit;
-2. uses Qiskit's statevector machinery during the deterministic feasibility solve;
-3. verifies the final states with finite-shot **X** and **Z** measurements on `AerSimulator`;
-4. reconstructs the measured state direction without direct statevector access;
-5. computes the physically relevant residual $\|MX-I\|_F$;
-6. fails CI if the predefined feasibility thresholds are not met.
-
-The X/Z readout pattern is deliberately hardware-compatible and is the bridge to a future real-QPU backend.
-
-## Reference benchmark
-
-The CI benchmark uses
-
-$$ M=\begin{bmatrix}2 & 0.5 \\ 0.5 & 1.5\end{bmatrix}. $$
-
-Its classical reference inverse is
-
-$$ M^{-1}=\begin{bmatrix}0.5454545 & -0.1818182 \\ -0.1818182 & 0.7272727\end{bmatrix}. $$
-
-The workflow requires:
-
-- ideal Qiskit-statevector residual $\|MX-I\|_F < 10^{-7}$;
-- finite-shot residual $\|MX-I\|_F < 8\times10^{-2}$ with 8192 shots.
-
-These thresholds validate feasibility only; they are not evidence of quantum advantage.
-
-## Quick start
+Docker Engine and Compose v2 run all unit tests and default simulator campaigns:
 
 ```bash
 git clone https://github.com/vtavakkoli/QCeNN-MI.git
 cd QCeNN-MI
+docker compose up --build --abort-on-container-exit --exit-code-from validation
+```
 
+The 13 stages cover compilation, lint, unit tests, hybrid solvers, coherent
+circuits, scaling, precision, theoretical bounds, temporal dynamics, and hardware
+simulation. Outputs include JSON results, Markdown summaries, raw measurement
+audits, QPY circuits, timing, provenance, and a validation bundle in `artifacts/`.
+Each run must use a fresh output directory.
+
+See [validation and reproducibility](docs/validation.md) for resource limits,
+individual stages, evidence formats, and repeat runs.
+
+## Python installation
+
+Use Python 3.11 or later; the locked validation environment targets Python 3.12.
+
+```bash
 python -m venv .venv
-source .venv/bin/activate        # Linux/macOS
-# .venv\Scripts\activate         # Windows PowerShell
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
 
-python -m pip install --upgrade pip
-pip install -e ".[dev]"
+python -m pip install -r requirements.lock
+python -m pip install --no-deps -e .
 ```
 
-Run the automated tests:
+For development with supported dependency ranges, use
+`python -m pip install -e ".[dev]"` instead of the locked installation.
+
+Run a basic 2×2 quantum-cell example:
 
 ```bash
-pytest -q
+qcenn-mi --matrix 2.0 0.5 0.5 1.5 --shots 8192 --output-dir results/assumption-a1
 ```
 
-Run the A1 quantum benchmark:
+Run individual campaigns:
 
 ```bash
-qcenn-mi \
-  --matrix 2.0 0.5 0.5 1.5 \
-  --shots 8192 \
-  --output-dir results/assumption-a1
+# Compact coherent inverse action and circuit resources
+python -m qcenn_mi.compact_benchmark --output-dir results/compact
+
+# Complete inverse-action operator audit for 1000×1000 fixtures
+python -m qcenn_mi.precision_benchmark --output-dir results/precision-1000
+
+# Time-varying matrices, delayed updates, and acquisition error
+python -m qcenn_mi.time_varying_benchmark --output-dir results/time-varying
+
+# Native-gate and synthetic-noise checks; no physical QPU submission
+python -m qcenn_mi.hardware --qubit-budget 42 --output-dir results/hardware
 ```
 
-The command writes:
+For repeatable timings, set `OPENBLAS_NUM_THREADS=1`, `OMP_NUM_THREADS=1`, and
+`MKL_NUM_THREADS=1`. The complete validation runner applies these settings to
+each stage automatically.
 
-```text
-results/assumption-a1/
-├── result.json
-└── summary.md
+## Interpreting the results
+
+The order-1000 precision study audits 13 real matrices, including SPD,
+nonsymmetric, and indefinite inputs with controlled condition numbers up to
+1000. Its polynomial target is `1e-12`, and the separate numerical acceptance
+limit is `1e-10`. The archived worst operator residual is approximately
+`7.3e-13`; see the [precision protocol and recorded results](docs/precision-1000.md).
+These are ideal-simulation results for specified fixtures.
+
+Amplitude encoding uses `ceil(log2(N))` data qubits, plus walk and selector
+ancillas. The recorded order-1000 precision cases use 15–21 total qubits.
+Dense classical eigendecomposition/SVD, circuit depth, postselection, and
+measurement costs remain substantial. Worst-input postselection success falls
+to approximately `1e-6` at condition number 1000.
+
+Software validation and noisy-circuit quality are reported separately. The
+existing 10×10 optimistic synthetic-noise case passes its quality gate, while
+the 10×10 stress case and dense 100×100 optimistic case fail. A passing software
+suite therefore does not establish hardware accuracy. Use
+`--require-noisy-quality` with the hardware campaign to enforce its noisy gates.
+
+The temporal method recompiles matrix snapshots. Its bounds require a positive
+singular-value gap; acquisition error is distinct from quantum gate noise.
+Finite-dimensional theory does not remove numerical, resource, or update-latency
+limits. Rectangular, complex, singular, and numerically singular inputs are
+outside the current coherent implementation's supported domain.
+
+## Documentation
+
+- [Validation, Docker, CI, and evidence formats](docs/validation.md)
+- [Hybrid QCeNN experiments and physical-experiment protocol](docs/simulator-to-hardware.md)
+- [Small coherent inverse-action construction](docs/coherent-inverse.md)
+- [Large structured-statevector simulations](docs/coherent-large.md)
+- [Compact circuits and hardware preparation](docs/compact-hardware.md)
+- [1000×1000 precision and conditioning](docs/precision-1000.md)
+- [Archived simulator results](results/README.md)
+
+## Development
+
+```bash
+python -m ruff check src tests
+python -m pytest -q
 ```
 
-## Continuous quantum feasibility test
+GitHub Actions runs the complete Docker Compose suite on pushes and pull
+requests to `main`. Each run uploads its evidence and validation bundle as a
+workflow artifact and publishes the aggregate summary on the workflow run.
 
-`.github/workflows/quantum-feasibility.yml` runs on every push and pull request. It performs:
+| Path | Purpose |
+|---|---|
+| `src/qcenn_mi/` | Solvers, quantum circuits, simulation campaigns, and validation runner |
+| `tests/` | Numerical, circuit, tracking, and validation regression tests |
+| `docs/` | Reproduction instructions and experiment protocols |
+| `results/` | Selected archived simulator evidence |
+| `.github/workflows/` | Continuous validation |
 
-- package installation;
-- Python compilation and Ruff checks;
-- unit tests;
-- Qiskit statevector matrix-inversion test;
-- finite-shot Aer verification;
-- acceptance-threshold validation;
-- publication of the Markdown result in the GitHub Actions job summary;
-- upload of `result.json` and `summary.md` as a workflow artifact.
+## Citation and license
 
-This makes the first scientific assumption continuously reproducible rather than leaving it as an unchecked notebook experiment.
-
-## Repository layout
-
-```text
-QCeNN-MI/
-├── .github/workflows/
-│   └── quantum-feasibility.yml
-├── src/qcenn_mi/
-│   ├── __init__.py
-│   ├── cli.py
-│   ├── quantum.py
-│   └── solver.py
-├── tests/
-│   └── test_assumption_a1.py
-├── results/
-│   └── README.md
-├── CITATION.cff
-├── LICENSE
-├── pyproject.toml
-├── requirements.txt
-└── requirements-dev.txt
-```
-
-## Research roadmap
-
-| Milestone | Goal | Status |
-|---|---|---|
-| **A1** | One-qubit inverse-column representation for real $2\times2$ matrices | Implemented |
-| **A2** | Multi-cell local quantum coupling and shared QCeNN interaction templates | Implemented: simulator prototype |
-| **A3** | Stateful tracking of time-varying $M(t)^{-1}$ | Implemented: hybrid warm-start tracker |
-| **A4** | Polynomial correction operators inspired by the prior recurrent solver | Implemented: hybrid correction + dense quantum dilation |
-| **A5** | Hardware-aware execution on a real QPU with calibration/noise analysis | Planned |
-| **A6** | Structured/sparse matrix scaling study and comparison with classical baselines | Planned |
-
-A4 includes a classical safeguarded correction and a small dense quantum dilation with ancilla postselection. Efficient quantum polynomial synthesis and scalable block encoding remain future research.
-
-## Scope and scientific claims
-
-The current prototype demonstrates **representational and execution feasibility** for a small problem. It does not establish:
-
-- asymptotic quantum speed-up;
-- superiority over classical matrix inversion;
-- efficient dense-matrix data loading;
-- scalable extraction of a complete classical inverse from an amplitude-encoded state;
-- a full physical QCeNN dynamical system beyond the local gate ansatz.
-
-Those questions are explicit targets for later milestones and will be evaluated experimentally rather than assumed.
-
-## Citation
-
-If you use the matrix-inversion formulation that motivates this project, please cite:
-
-```bibtex
-@article{Tavakkoli2019TimeVaryingMatrix,
-  author  = {Tavakkoli, Vahid and Chedjou, Jean Chamberlain and Kyamakya, Kyandoghere},
-  title   = {A Novel Recurrent Neural Network-Based Ultra-Fast, Robust, and Scalable Solver for Inverting a {Time-Varying Matrix}},
-  journal = {Sensors},
-  volume  = {19},
-  number  = {18},
-  pages   = {4002},
-  year    = {2019},
-  doi     = {10.3390/s19184002}
-}
-```
-
-See [`CITATION.cff`](CITATION.cff) for software citation metadata.
-
-## License
+Software citation metadata is provided in [CITATION.cff](CITATION.cff).
+The hybrid dynamics are motivated by Tavakkoli, Chedjou, and Kyamakya's
+[2019 time-varying matrix-inversion solver](https://doi.org/10.3390/s19184002).
 
 QCeNN-MI is released under the [MIT License](LICENSE).
-
-## A2–A4: simulator implementation and hardware handoff
-
-```bash
-python -m qcenn_mi.experiments --output-dir results/a2-a4
-# Optional longer depth sweep; optimization cost grows with depth:
-python -m qcenn_mi.experiments --depths 1 2 4 8 16 32 64 150 --output-dir results/depth-sweep
-```
-
-The default campaign checks SPD, signed and nonsymmetric matrices (2×2 and
-4×4), depths 1/2/4, ideal statevector convergence, finite-shot Pauli tomography,
-synthetic depolarizing noise, polynomial correction and time-varying tracking.
-It exits nonzero on failed acceptance gates and writes JSON, Markdown and QPY
-circuits. A4 also checks a dense polynomial dilation with ideal and finite-shot ancilla
-postselection. Noise is synthetic, not calibration-derived. The 150-layer sweep is
-available but is not implied to have passed by the default campaign.
-
-- **A2:** inverse columns use one or two qubit cells with local RY layers and
-  nearest-neighbor controlled-RY interactions. Interaction angles are optimized
-  jointly and shared across columns; local rotations are column-specific.
-  Full X/Y/Z Pauli tomography recovers signed entangled directions. Classical
-  least-squares scalars recover magnitudes. Measurement costs 3^q settings per
-  column, so this readout is intentionally limited to small experiments.
-- **A3:** `InverseTracker.update(matrix, time=t)` preserves quantum circuit
-  parameters, warm starts each variational solve and tracks a classical inverse
-  estimate with the first-order predictor `X - X @ (M_new-M_old) @ X`.
-  Times must increase, dimensions stay fixed, and failed solves do not commit
-  state. Quantum, predictor and classically corrected residuals are separate.
-- **A4:** `polynomial_correct(M, X, order=p)` computes
-  `X @ sum((I-MX)^k, k=0..p)`. Before safeguarding, its residual is
-  `(I-MX)^(p+1)`. Backtracking accepts only finite, non-increasing residuals.
-  This is inspired by recurrent residual reduction, not an implementation of
-  the exact 2019 solver. `quantum_polynomial_correct` also builds a dense unitary
-  dilation of the left correction polynomial `sum((I-XM)^k)`, applies it to
-  amplitude-encoded columns and postselects an ancilla. Ideal statevector output
-  is compared with the classical polynomial; shot-based readout uses actual
-  ancilla=0 counts and classical least-squares scales. The polynomial and dense
-  dilation are constructed classically, so this does not claim efficient quantum
-  polynomial synthesis or scalable data access.
-
-See [the simulator and hardware protocol](docs/simulator-to-hardware.md).
-The physical experiment and calibration analysis (A5) remain pending.
-
-## 10×10 / 100×100 and dynamic 2×2 checks
-
-```bash
-python -m qcenn_mi.scaling --output-dir results/scaling
-```
-
-The larger cases use a **block-hybrid** solver: actual Qiskit variational 2×2
-quantum solves seed diagonal blocks, followed by classical dense polynomial
-corrections using the entire matrix, including off-block entries. This is not
-an extension of the amplitude-encoded ansatz to 100 dimensions. The campaign
-checks symmetric and nonsymmetric diagonally dominant 10×10 and 100×100
-matrices with both ideal and finite-shot quantum seeds, reporting full-matrix
-residuals, relative errors and correction history.
-No classical inverse is used by the solver; NumPy inversion is reporting-only.
-Singular diagonal blocks and nonconvergence are explicit failures. These fixtures
-do not establish convergence for arbitrary matrices or quantum speed-up.
-
-A dynamic 2×2 experiment varies all four entries over 21 time points in a full
-period, warm starts quantum circuit parameters, and checks ideal, corrected and
-finite-shot residuals (4096 shots per measurement setting). Automated tests also
-check finite-shot seeds for the block-hybrid solver.
-
-## Standalone coherent inverse action
-
-```bash
-python -m qcenn_mi.coherent_benchmark --output-dir results/coherent
-```
-
-This additional baseline performs inverse action inside a quantum circuit,
-without a variational optimizer, a classically computed inverse, solution-state
-fitting, least-squares scale refitting, or classical residual correction.
-For real symmetric 2×2/4×4 matrices certified positive definite by Gershgorin
-bounds, it implements a truncated Neumann series using coherent selection of
-repeated block-encoded factors. It accepts arbitrary real nonzero input vectors.
-The same inverse-action operator can be reused for different inputs.
-
-The campaign checks degrees 1/3/7, every inverse column, a superposition input,
-ideal residual bounds, finite-shot tomography, measured postselection probability,
-and native-basis resource counts. Default readout uses 131072 shots per setting.
-The resulting classical inverse is validation readout; the circuit output itself
-is an approximate inverse-applied quantum state, conditioned on ancilla success.
-
-This remains a small simulator prototype. Classical dense square-root dilation
-constructs the input block encoding; it is not an efficient scalable input oracle.
-The method uses extra ancillas, has low postselection probability and substantial
-native gate counts. It is a coherent linear-algebra baseline, not local QCeNN
-dynamics or evidence of quantum advantage. Hardware and noisy-native-circuit
-validation remain pending. See [the coherent protocol](docs/coherent-inverse.md).
-
-## Standalone size study: 10×10, 100×100 and 1000×1000
-
-```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.coherent_large_benchmark
-```
-
-The large path pads to 16/128/1024 dimensions and implements the same coherent
-Neumann-LCU inverse action using classical spectral input encoding. It simulates
-the entire selector/flag/data state exactly in that encoding basis and transforms
-the success sector back to the input basis. It does not fit a solution, form
-inverse eigenvalues, or apply classical residual corrections. Explicit classical
-dense eigendecomposition is required and prevents a quantum speed-up claim.
-
-The study checks dense SPD, tridiagonal SPD, dense nonsymmetric and signed
-indefinite real matrices at all three requested sizes,
-three input vectors, degree convergence and numerical references. Independent
-native-gate Aer checks validate 10×10 at degree 3 and 100×100 at degree 1.
-The 1000×1000 result is a structured exact-statevector simulation, **not** a
-native-gate Aer/hardware result. Computational-basis shot sampling is provided;
-it does not reconstruct a signed full classical inverse. Full-inverse residual
-bounds are analytical, separately labeled from observed input-vector residuals.
-
-A condition-number-100 counterexample demonstrates failure to reach the accuracy
-target at degree 7. Singular, numerically singular and complex matrices are
-rejected. Success on these fixtures does not imply success on every matrix.
-See [the large simulation protocol](docs/coherent-large.md).
-
-## Compact circuits and preparation for hardware simulation
-
-```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.compact_benchmark
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.hardware --qubit-budget 42
-```
-
-The compact path replaces fresh-flag Neumann powers with a Chebyshev-LCU walk
-using one walk flag and binary-controlled powers. Degree adapts to a requested
-ideal residual bound. On the existing 10×10/100×100 fixtures, worst ideal input
-residuals improve to approximately 1e-7, with postselection success around
-43–62%. Classical spectral/SVD encoding remains necessary.
-
-Amplitude encoding requires `ceil(log2(N))` **data** qubits for inverse action on
-an N-dimensional vector. The matrix is an operator, not one qubit per row.
-Degree-7 compact totals are 8 qubits for 10×10 and 11 for 100×100; some adaptive
-cases use one additional selector qubit. A 42-qubit device has enough raw qubits
-for these circuits. Gate count, connectivity and noise remain decisive.
-
-The hardware campaign compiles to rz/sx/x/cx on an assumed bidirectional line,
-checks native ideal inverse accuracy with routing restored, exports action and
-independent reference-verifier circuits, and executes synthetic native-gate noise.
-It does **not** submit physical jobs or claim device-specific calibration.
-
-Current evidence: 10×10 passes the optimistic synthetic echo-quality gate but
-fails the stress profile. Dense 100×100 fails even the optimistic profile in a
-bounded 64-shot trajectory test. Thus hardware accuracy is not perfect or
-qualified. The JSON report and job summary keep native correctness and noisy
-quality separate. `--require-noisy-quality` exits nonzero when noisy gates fail.
-
-See [compact hardware preparation](docs/compact-hardware.md) and the generated
-reports in `results/compact/` and `results/hardware/`.
-
-## Higher-precision 1000×1000 study
-
-```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m qcenn_mi.precision_benchmark
-```
-
-The precision campaign audits the entire simulated inverse-action operator for
-13 matrices of size 1000×1000, including dense SPD, nonsymmetric and indefinite
-inputs with controlled condition numbers up to 1000. The polynomial target is
-1e-12, with a separate numerical acceptance limit of 1e-10. The recorded worst
-operator residual `||M X - I||_2` is about 7.3e-13. This checks all input
-directions of each tested matrix through simulator amplitude access.
-
-Preserving singular-value precision and using lazy selector uncomputation makes
-higher-degree simulations practical without changing the coherent circuit.
-These cases use 15–21 qubits. The hardest group's worst-input postselection
-probability is only about 1e-6, so low ideal error does not imply cheap sampling.
-Classical dense spectral/SVD encoding remains required.
-
-For a real square matrix, positive-definite `M @ M.T` guarantees invertibility;
-it gives no uniform accuracy or resource guarantee. A condition-number-10000
-SPD case explicitly exceeds the default degree budget. These results do not
-establish native noisy or physical 1000×1000 execution. See the
-[precision protocol](docs/precision-1000.md) and
-[recorded results](results/precision-1000/summary.md).
