@@ -1,4 +1,4 @@
-name: Quantum feasibility proof
+name: Reproducible quantum validation and publication
 
 on:
   push:
@@ -10,161 +10,44 @@ on:
 permissions:
   contents: read
 
-env:
-  OPENBLAS_NUM_THREADS: "1"
-  OMP_NUM_THREADS: "1"
-
 jobs:
-  assumption-a1:
-    name: Assumption A1 / Qiskit proof
+  validation:
+    name: Full Docker Compose validation
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
+    timeout-minutes: 35
+    env:
+      SOURCE_COMMIT: ${{ github.sha }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-
-      - name: Install package and test dependencies
+      - uses: actions/checkout@v4
+      - name: Validate Compose configuration
+        run: docker compose config --quiet
+      - name: Build locked validation and LaTeX image
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[dev]"
-
-      - name: Static quality checks
-        run: |
-          python -m compileall -q src tests
-          ruff check src tests
-
-      - name: Run unit tests
-        run: pytest -q
-
-      - name: Run quantum A1 benchmark
-        run: |
-          qcenn-mi \
-            --matrix 2.0 0.5 0.5 1.5 \
-            --shots 8192 \
-            --seed 42 \
-            --output-dir results/assumption-a1
-
-      - name: Publish benchmark summary
+          mkdir -p artifacts
+          docker pull python:3.12-slim-bookworm
+          docker image inspect python:3.12-slim-bookworm > artifacts/base-image.json
+          image_digest=$(docker image inspect python:3.12-slim-bookworm --format '{{index .RepoDigests 0}}')
+          docker compose build --build-arg PYTHON_IMAGE="$image_digest"
+          docker image inspect qcenn-mi-validation:local > artifacts/container-image.json
+      - name: Run every test, benchmark and publication build
+        run: docker compose up --abort-on-container-exit --exit-code-from validation
+      - name: Record built image and logs
         if: always()
-        shell: bash
         run: |
-          if [ -f results/assumption-a1/summary.md ]; then
-            cat results/assumption-a1/summary.md >> "$GITHUB_STEP_SUMMARY"
+          mkdir -p artifacts
+          docker image inspect qcenn-mi-validation:local > artifacts/container-image.json || true
+          docker compose logs --no-color > artifacts/compose.log || true
+      - name: Publish aggregate validation summary
+        if: always()
+        run: |
+          if [ -f artifacts/summary.md ]; then
+            cat artifacts/summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
-
-      - name: Upload quantum result artifact
+      - name: Upload complete evidence and publication sources
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: qcenn-mi-assumption-a1-${{ github.sha }}
-          path: results/assumption-a1/
-          if-no-files-found: warn
-          retention-days: 30
-
-      - name: Run A2-A4 simulator campaign
-        run: python -m qcenn_mi.experiments --output-dir results/a2-a4
-
-      - name: Publish A2-A4 summary
-        if: always()
-        run: |
-          if [ -f results/a2-a4/summary.md ]; then
-            cat results/a2-a4/summary.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload A2-A4 simulator results and circuit exports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qcenn-mi-a2-a4-${{ github.sha }}
-          path: results/a2-a4/
-          retention-days: 30
-
-      - name: Run larger matrix and dynamic simulator checks
-        run: python -m qcenn_mi.scaling --output-dir results/scaling
-
-      - name: Publish scaling summary
-        if: always()
-        run: |
-          if [ -f results/scaling/summary.md ]; then
-            cat results/scaling/summary.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload scaling and dynamic results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qcenn-mi-scaling-${{ github.sha }}
-          path: results/scaling/
-          retention-days: 30
-
-      - name: Run standalone coherent inverse-action benchmark
-        run: python -m qcenn_mi.coherent_benchmark --output-dir results/coherent
-
-      - name: Publish coherent inverse-action summary
-        if: always()
-        run: |
-          if [ -f results/coherent/summary.md ]; then
-            cat results/coherent/summary.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload coherent results, circuits and raw-count audits
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qcenn-mi-coherent-${{ github.sha }}
-          path: results/coherent/
-          retention-days: 30
-
-      - name: Run 10x10, 100x100 and 1000x1000 coherent size study
-        run: python -m qcenn_mi.coherent_large_benchmark --output-dir results/coherent-large
-
-      - name: Publish coherent size-study summary
-        if: always()
-        run: |
-          if [ -f results/coherent-large/summary.md ]; then
-            cat results/coherent-large/summary.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload coherent size-study evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qcenn-mi-coherent-large-${{ github.sha }}
-          path: results/coherent-large/
-          retention-days: 30
-
-      - name: Validate compact inverse accuracy and qubit improvements
-        run: python -m qcenn_mi.compact_benchmark --output-dir results/compact
-
-      - name: Audit 1000x1000 precision and controlled condition numbers
-        run: python -m qcenn_mi.precision_benchmark --output-dir results/precision-1000
-
-      - name: Run native hardware-simulation and synthetic noise profiles
-        run: python -m qcenn_mi.hardware --qubit-budget 42 --large-noise-shots 64 --output-dir results/hardware
-
-      - name: Publish compact and hardware-simulation summaries
-        if: always()
-        run: |
-          for report in results/compact/summary.md results/precision-1000/summary.md results/hardware/summary.md; do
-            if [ -f "$report" ]; then
-              cat "$report" >> "$GITHUB_STEP_SUMMARY"
-            fi
-          done
-
-      - name: Upload compact results and hardware-preparation circuits
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qcenn-mi-hardware-preparation-${{ github.sha }}
-          path: |
-            results/compact/
-            results/precision-1000/
-            results/hardware/
+          name: qcenn-mi-validation-${{ github.sha }}
+          path: artifacts/
+          if-no-files-found: error
           retention-days: 30

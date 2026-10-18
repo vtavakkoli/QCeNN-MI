@@ -41,6 +41,10 @@ dev = [
   "pytest-cov>=5.0,<7.0",
   "ruff>=0.9,<1.0"
 ]
+publication = [
+  "matplotlib>=3.9,<4.0",
+  "pypdf>=6.0,<7.0"
+]
 
 [project.scripts]
 qcenn-mi = "qcenn_mi.cli:main"

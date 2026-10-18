@@ -1,0 +1,23 @@
+services:
+  validation:
+    image: qcenn-mi-validation:local
+    build:
+      context: .
+      args:
+        SOURCE_COMMIT: ${SOURCE_COMMIT:-unknown}
+    init: true
+    cpus: ${QCENN_CPUS:-4}
+    mem_limit: ${QCENN_MEMORY_LIMIT:-4g}
+    shm_size: 1gb
+    environment:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      MPLCONFIGDIR: /tmp/matplotlib
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+      QCENN_EXECUTION_CONTEXT: docker-compose
+    volumes:
+      - ${QCENN_ARTIFACTS_DIR:-./artifacts}:/artifacts
+    command: ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts", "--publication"]
+    restart: "no"

@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Tavakkoli
     given-names: Vahid
- - family-names: Mohsenzadegan
+  - family-names: Mohsenzadegan
     given-names: Kabeh
 repository-code: "https://github.com/vtavakkoli/QCeNN-MI"
 url: "https://github.com/vtavakkoli/QCeNN-MI"

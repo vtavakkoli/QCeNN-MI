@@ -1,5 +1,17 @@
 # QCeNN-MI
 
+Run every default validation campaign and build the IEEE-style manuscript and
+EuroHPC evidence report together:
+
+```bash
+docker compose up --build --abort-on-container-exit --exit-code-from validation
+```
+
+Results, logs, provenance, QPY exports and PDFs are written to `artifacts/`.
+See [the complete reproduction guide](docs/reproduce-publication.md) and
+[publication sources](paper/README.md). The workflow makes no physical QPU
+submission; noisy-quality failures remain explicit research results.
+
 [![Quantum feasibility proof](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml/badge.svg)](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)

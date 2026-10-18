@@ -1,0 +1,748 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{amsmath,amssymb,amsthm,graphicx,booktabs,array,cite,url}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\ket}[1]{\lvert#1\rangle}
+\newcommand{\bra}[1]{\langle#1\rvert}
+\newcommand{\R}{\mathbb{R}}
+\input{generated/metrics}
+\begin{document}
+\title{A Resource-Explicit Chebyshev-LCU Baseline for Coherent Matrix Inversion: Theory and Emulation to Order 1000}
+\author{Vahid Tavakkoli, Kabeh Mohsenzadegan, and Kyandoghere Kyamakya%
+\thanks{QCeNN-MI research project. Reproducible implementation and experiment sources: \url{https://github.com/vtavakkoli/QCeNN-MI}. This manuscript reports simulator evidence; physical quantum-device execution is future work.}}
+\maketitle
+\begin{abstract}
+Quantum inverse-action circuits can encode an $N$-dimensional vector with
+$\lceil\log_2 N\rceil$ data qubits, but this representation does not remove
+matrix-loading, conditioning, gate-depth, or readout costs. This paper develops
+a resource-explicit spectral baseline for real nonsingular matrices. An analytic
+Chebyshev reciprocal expansion is implemented by linear combination of unitaries
+(LCU), a single walk ancilla, and a binary selector. We derive a uniform operator
+residual bound, relative solution and normalized-state bounds, and a conditional
+success-probability guarantee. The construction uses classical dense spectral or
+singular-value decomposition; it is therefore not an efficient black-box input
+oracle or a quantum-speedup claim. A structured gate-statevector simulator
+retains all selector and walk amplitudes and evaluates selector uncomputation
+through an exact success projection. The reproducible validation package checks
+\TheoryCaseCount{} degree/conditioning cases and audits the complete success
+operator for \PrecisionCaseCount{} real $1000\times1000$ matrices. The recorded
+largest operator residual is \WorstOperatorResidual{} with a polynomial target
+of $10^{-12}$ and a separate numerical acceptance limit of $10^{-10}$.
+The large instances use 15--21 raw qubits. At condition number 1000, the
+worst-input success probability is approximately $10^{-6}$. Native-gate and
+synthetic-noise checks through dimension 100 expose the distinction between
+ideal numerical accuracy and useful hardware quality. A single containerized
+workflow regenerates numerical evidence, resource logs, tables, figures, and
+an accompanying hardware-access assessment report.
+\end{abstract}
+\begin{IEEEkeywords}
+Quantum linear systems, coherent inverse action, Chebyshev approximation,
+linear combination of unitaries, reproducible emulation, resource estimation.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{M}{atrix} inversion is often posed as the search for $X$ satisfying
+$MX=I$. In applications, the desired object may instead be one inverse action
+$x=M^{-1}b$, a normalized quantum state proportional to that vector, or an
+observable of the solution. These outputs are not interchangeable. A quantum
+state may represent a long vector compactly without making its classical
+entries inexpensive to recover. The distinction is central to quantum
+linear-system algorithms and to credible evaluations of their implementations
+\cite{harrow2009,childs2017,gilyen2019}.
+
+The QCeNN-MI project explores matrix-inversion dynamics motivated by recurrent
+neural formulations of time-varying inversion \cite{tavakkoli2019}. Its early
+experiments comprise small variational cells, coupled ansatz templates,
+stateful classical tracking, and safeguarded polynomial corrections. Those
+hybrid experiments motivate a separate question: can an input-independent
+coherent operation approximate inverse action without fitting the solution
+state or applying a classical residual correction inside the solver?
+
+This paper studies that question through a deliberately explicit compiled
+baseline. A dense classical decomposition supplies input singular bases and
+positive singular values. A reciprocal polynomial, whose coefficients depend
+only on the extremal singular values, is implemented in a unitary dilation.
+Ancilla postselection exposes the inverse-action block. The method is
+standalone at the level of the coherent inverse-action subroutine, while the
+encoding remains classical and dense. It is not a physical realization of a
+local quantum cellular network, nor a conversion of every hybrid tracking
+step into a quantum operation.
+
+The contributions are fourfold. First, we give a self-contained certification
+of the particular single-flag Chebyshev-LCU construction used in the code,
+including its residual, output-state, and success bounds. The approximation
+and LCU ingredients are established techniques, not new general quantum
+linear-system theory. Second, we expose the conditions under which the
+logarithmic data-register count coexists with substantial encoding and
+sampling costs. Third, we audit full simulated operators at dimension 1000
+and cross-check manageable instances with independently executed native
+circuits. Fourth, we supply an executable evidence pipeline that retains
+failed noisy-quality outcomes and supports a staged physical-device study.
+
+Our main empirical result is ideal-simulation feasibility for the tested
+families with quantified error. It does not prove uniform performance over
+all nonsingular matrices. The exact-arithmetic convergence theorem applies
+to a finite positive singular-value interval; degree, floating-point
+resolution, and postselection resources remain explicit parameters.
+
+\section{Problem, Encoding, and Evidence Model}
+\subsection{Domain and outputs}
+Let $M\in\R^{N\times N}$ be nonsingular, with singular-value decomposition
+\begin{equation}
+ M=U\Sigma V^T,\qquad
+ \Sigma=\operatorname{diag}(\sigma_1,\ldots,\sigma_N),
+ \quad 0<a\leq\sigma_j\leq b.
+ \label{eq:svd}
+\end{equation}
+Write $\kappa=b/a$. For a nonzero real right-hand side $b_0$, define
+$\ket{b_0}=b_0/\norm{b_0}_2$ and the desired state
+$\ket{x}=M^{-1}b_0/\norm{M^{-1}b_0}_2$. The name $b_0$ separates the input
+vector from the upper singular bound $b$. The implementation currently
+rejects complex, non-square, singular, and numerically singular inputs.
+Rectangular pseudoinversion is outside the theorem and the large-scale study.
+
+For real square $M$,
+\begin{equation}
+ MM^T\succ0\quad\Longleftrightarrow\quad M\text{ is nonsingular}.
+ \label{eq:invertible}
+\end{equation}
+Indeed, $y^TMM^Ty=\norm{M^Ty}_2^2$ is strictly positive for every nonzero
+$y$ exactly when $M^T$ has a trivial kernel. Positive definiteness is not
+elementwise positivity. Condition~\eqref{eq:invertible} asserts existence of
+an inverse; it places no useful uniform upper bound on $\kappa$. The solver
+does not explicitly form or solve the normal equations $MM^T$, which would
+square the spectral condition number.
+
+An arbitrary inverse is generally nonunitary. Consequently, the target of
+this work is a postselected block of a larger unitary. The successful circuit
+output is a normalized solution state; the matrix norm scale remains encoded
+in the known LCU normalization and success probability. Full classical
+inverse reconstruction is a separate measurement and output task.
+
+\subsection{Registers and padding}
+Set $n=\lceil\log_2N\rceil$ and $P=2^n$. Valid amplitudes occupy the first
+$N$ data coordinates. The singular bases are embedded as block-diagonal
+orthogonal transformations on the $P$-dimensional data register. Padded
+coordinates are not populated by the prepared input and are not coupled to
+valid coordinates. Thus non-power-of-two dimensions do not require one qubit
+per row, but padding can enlarge a dense compilation by up to a constant factor.
+
+For a degree-$d$ polynomial, $s=\lceil\log_2(d+1)\rceil$ selector qubits and
+one walk ancilla are used, giving
+\begin{equation}
+ q_{\mathrm{total}}=\lceil\log_2N\rceil+1+
+                    \lceil\log_2(d+1)\rceil.
+ \label{eq:qubits}
+\end{equation}
+These are raw algorithmic qubits. Provider compiler ancillas and quantum
+error-correction overhead are excluded.
+
+\subsection{What is classical and what is coherent}
+The decomposition~\eqref{eq:svd}, scalar interval analysis, coefficient
+construction, and circuit synthesis are classical preprocessing. For SPD
+matrices a positive eigendecomposition is used; general real matrices use
+SVD. A known input may be prepared directly in the $U^T$ basis to reduce gate
+count. An unfused input-independent operator is also exported and tested on
+different previously prepared inputs.
+
+The coherent core comprises selector preparation, controlled walk powers,
+coefficient signs, selector unpreparation, and the output basis change.
+No classical inverse, reference solution, inverse-eigenvalue table, fitted
+solution state, or residual-feedback update is supplied to that core. An
+independent classical solve is performed afterwards for audit or reference
+projection only. Since the classical decomposition already incurs dense
+cubic work, this separation does not establish end-to-end quantum advantage.
+
+We distinguish four evidence levels: analytic exact-arithmetic guarantees;
+structured ideal gate-statevector emulation; native-gate ideal and synthetic
+noise emulation; and physical-device measurements. Only the first three are
+present. Success at one level must not be relabeled as evidence at another.
+
+\section{Reciprocal Approximation and Certification}
+\subsection{An analytic Chebyshev series}
+Assume first that $a<b$, and define
+\begin{equation}
+ \begin{gathered}
+ c=\frac{a+b}{2},\quad h=\frac{b-a}{2},\quad t=\frac{\sigma-c}{h},\\
+ r=\frac{\sqrt b-\sqrt a}{\sqrt b+\sqrt a}\in(0,1).
+ \end{gathered}
+ \label{eq:parameters}
+\end{equation}
+With $T_k(\cos\theta)=\cos(k\theta)$, let
+\begin{equation}
+ p_d(\sigma)=\frac1{\sqrt{ab}}
+ \left[1+2\sum_{k=1}^{d}(-r)^kT_k(t)\right].
+ \label{eq:poly}
+\end{equation}
+This interval reciprocal is the particular Chebyshev representation used
+here; Chebyshev-series operator implementations for linear systems are
+established in the LCU literature \cite{childs2017}.
+
+\begin{lemma}[Uniform truncation error]
+For $\sigma\in[a,b]$,
+\begin{equation}
+ \left|p_d(\sigma)-\sigma^{-1}\right|
+ \leq E_d:=\frac{2}{\sqrt{ab}}\frac{r^{d+1}}{1-r}.
+ \label{eq:tail}
+\end{equation}
+\end{lemma}
+\begin{proof}
+The geometric-series identity yields the Poisson kernel
+\[
+ 1+2\sum_{k=1}^{\infty}(-r)^k\cos(k\theta)
+ =\frac{1-r^2}{1+2r\cos\theta+r^2}.
+\]
+The definitions imply $c/h=(1+r^2)/(2r)$ and
+$\sqrt{ab}/h=(1-r^2)/(2r)$. Multiplying the kernel by $1/\sqrt{ab}$ therefore
+gives $(c+h\cos\theta)^{-1}$. Since $|T_k(t)|\leq1$ on $[-1,1]$, the omitted
+terms are bounded by the absolute geometric tail, giving~\eqref{eq:tail}.
+\end{proof}
+
+Define the inverse approximation
+\begin{equation}
+ X_d=V p_d(\Sigma)U^T,\qquad
+ \delta_d=bE_d=2\sqrt\kappa\frac{r^{d+1}}{1-r}.
+ \label{eq:delta}
+\end{equation}
+
+\begin{theorem}[Operator and per-input certification]
+Under~\eqref{eq:svd},
+\begin{align}
+ \norm{MX_d-I}_2&\leq\delta_d, &
+ \norm{X_dM-I}_2&\leq\delta_d,\label{eq:operatorbound}\\
+ \norm{X_d-M^{-1}}_2&\leq E_d. &&\label{eq:inversebound}
+\end{align}
+For every nonzero $b_0$, writing $x_d=X_db_0$ and $x=M^{-1}b_0$ gives
+\begin{equation}
+ \frac{\norm{Mx_d-b_0}_2}{\norm{b_0}_2}\leq\delta_d,
+ \qquad
+ \frac{\norm{x_d-x}_2}{\norm{x}_2}\leq\delta_d.
+ \label{eq:perinput}
+\end{equation}
+If $\delta_d<1$, then $x_d\ne0$ and
+\begin{equation}
+ \left\lVert\frac{x_d}{\norm{x_d}_2}
+             -\frac{x}{\norm{x}_2}\right\rVert_2\leq2\delta_d.
+ \label{eq:statebound}
+\end{equation}
+\end{theorem}
+\begin{proof}
+The two residuals are orthogonal similarities of
+$\operatorname{diag}(\sigma_jp_d(\sigma_j)-1)$. Their spectral norms are at
+most $bE_d$. Similarly, $X_d-M^{-1}$ has singular values
+$|p_d(\sigma_j)-1/\sigma_j|$, proving~\eqref{eq:inversebound}.
+The first inequality in~\eqref{eq:perinput} is the induced operator bound.
+For the second, let $z=U^Tb_0$ and
+$e_j=\sigma_jp_d(\sigma_j)-1$. Then
+\[
+ \norm{x_d-x}_2^2
+ =\sum_j |e_j|^2|z_j/\sigma_j|^2
+ \leq\delta_d^2\norm{x}_2^2.
+\]
+If $\delta_d<1$, this prevents $x_d=0$. For any two nonzero vectors $u,v$,
+the triangle inequality and reverse triangle inequality imply
+\[
+ \norm{u/\norm{u}_2-v/\norm{v}_2}_2
+ \leq 2\norm{u-v}_2/\norm{v}_2.
+\]
+Substitute $u=x_d$, $v=x$ to obtain~\eqref{eq:statebound}.
+\end{proof}
+
+\begin{corollary}[Finite-degree convergence]
+For every fixed nonsingular real square matrix and every $\epsilon>0$, a
+finite degree attains $\delta_d\leq\epsilon$ in exact arithmetic. A sufficient
+choice for $a<b$ is
+\begin{equation}
+ d\geq
+ \left\lceil\frac{\log(2\sqrt\kappa/((1-r)\epsilon))}{-\log r}\right\rceil-1.
+ \label{eq:degree}
+\end{equation}
+If $a=b$, the reciprocal is constant and no nonconstant term is needed.
+\end{corollary}
+For large $\kappa$, $-\log r$ is asymptotic to $2/\sqrt\kappa$, giving the
+sufficient scaling $O(\sqrt\kappa[\log\kappa+\log(1/\epsilon)])$. This is a
+polynomial-degree statement for a known spectral interval, not an oracle
+query-complexity result. No fixed degree budget works uniformly as the
+smallest singular value tends to zero.
+
+\section{Single-Flag Coherent LCU Construction}
+\subsection{Walk and coefficient selection}
+For $t_j=(\sigma_j-c)/h$ and $\theta_j=\arccos(t_j)$, define an encoded walk
+whose flag block on spectral coordinate $j$ is
+\begin{equation}
+ R_j=\begin{bmatrix}
+ \cos\theta_j&\sin\theta_j\\-\sin\theta_j&\cos\theta_j
+ \end{bmatrix}.
+ \label{eq:walk}
+\end{equation}
+It is a real unitary rotation, and
+$\bra0R_j^k\ket0=\cos(k\theta_j)=T_k(t_j)$.
+Let $c_0=1/\sqrt{ab}$ and $c_k=2(-r)^k/\sqrt{ab}$ for $k\geq1$, and set
+\begin{equation}
+ \alpha_d=\sum_{k=0}^d|c_k|,
+ \quad \ket w=\sum_{k=0}^d\sqrt{|c_k|/\alpha_d}\ket k.
+ \label{eq:lcuweights}
+\end{equation}
+Unused binary selector states have zero amplitude. If PREP maps $\ket0$ to
+$\ket w$, SELECT applies $(-1)^kR^k$ on branch $k$. The sign is a single $Z$
+on the least significant selector bit. The successful selector-and-flag block
+of PREP$^\dagger$ SELECT PREP is
+\begin{equation}
+ (\bra{0^s}\bra0)\mathcal U_d(\ket{0^s}\ket0)
+ =p_d(\Sigma)/\alpha_d.
+ \label{eq:block}
+\end{equation}
+Applying $U^T$ before this block and $V$ afterwards gives $X_d/\alpha_d$ on
+the valid data subspace. The operation is independent of the unknown solution
+and, in its unfused form, independent of the chosen input vector.
+
+\subsection{Binary powers and their access assumption}
+For selector bits $k=\sum_{\ell=0}^{s-1}2^\ell k_\ell$, commuting rotations
+give $R_j^k=\prod_\ell R_j^{2^\ell k_\ell}$. Because every $\theta_j$ is
+classically known in this baseline, each controlled power is synthesized by
+a uniformly controlled rotation with angle $-2^{\ell+1}\theta_j$.
+Thus the exported circuit has one multiplexed walk-power gadget per selector
+bit, rather than one fresh flag per polynomial factor.
+
+This convenience is conditional on explicit spectral access. It does not
+say that an arbitrary black-box walk can be powered at unit cost, nor that
+angle synthesis is independent of required precision. Generic block-encoding
+and QSVT results address different access models \cite{gilyen2019}; replacing
+our classical spectral decomposition by such an oracle is future work.
+
+\begin{proposition}[Normalization and success]
+For $a<b$,
+\begin{equation}
+ \alpha_d=\frac1{\sqrt{ab}}
+ \left(1+\frac{2r(1-r^d)}{1-r}\right)\leq\frac1a.
+ \label{eq:alpha}
+\end{equation}
+For normalized input $\ket{b_0}$, postselection succeeds with probability
+\begin{equation}
+ p_{\mathrm{succ}}=\norm{X_d\ket{b_0}}_2^2/\alpha_d^2.
+ \label{eq:success}
+\end{equation}
+If $\delta_d<1$, then for every input
+\begin{equation}
+ p_{\mathrm{succ}}\geq
+ \frac{(1-\delta_d)^2}{\alpha_d^2b^2}
+ \geq\frac{(1-\delta_d)^2}{\kappa^2}.
+ \label{eq:successbound}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Summing the absolute geometric coefficients gives~\eqref{eq:alpha}.
+The infinite sum equals $a^{-1}$ because $(1+r)/(1-r)=\sqrt\kappa$.
+Equation~\eqref{eq:block} and orthogonality of the input/output basis changes
+give~\eqref{eq:success}. Since
+$|\sigma_jp_d(\sigma_j)-1|\leq\delta_d<1$, each
+$p_d(\sigma_j)\geq(1-\delta_d)/b$. This lower-bounds the smallest singular
+value of $X_d$, proving~\eqref{eq:successbound}.
+\end{proof}
+
+The bound explains the approximately $\kappa^{-2}$ worst-input success in
+the experiment. The absence of a large qubit register does not eliminate
+sampling cost. Straight independent repetition can require order
+$\kappa^2$ attempts per accepted output in the worst case. Amplitude
+amplification is not implemented here, and its possible use must include
+the cost of controlled reflections and repeated data access.
+
+\section{Numerical Stability, Simulation, and Audit}
+\subsection{Stable inputs and degree limits}
+The implementation preserves the original decomposition singular values.
+Recovering $\sigma$ by reversing an intermediate contraction
+$1-\tau\sigma$ unnecessarily loses precision when subtraction cancels.
+Walk angles are instead formed with the equivalent endpoint-stable expression
+\begin{equation}
+ \theta_j=2\operatorname{atan2}
+       \left(\sqrt{b-\sigma_j},\sqrt{\sigma_j-a}\right).
+ \label{eq:stableangle}
+\end{equation}
+The constant-spectrum case is handled separately. Degree selection evaluates
+logarithms without first forming a potentially underflowing ratio of a very
+small tolerance to a tail factor.
+
+The default compact degree budget is 1023, with a default estimated working
+memory budget of 512 MiB. A $1000\times1000$ diagonal SPD input with condition
+number 10000 requires degree 1842 at the $10^{-12}$ truncation target and is
+explicitly rejected by the degree guard. This is a configured resource limit,
+not a proof that the underlying approximation is impossible. Raising a guard
+does not remove conditioning or finite-precision limitations.
+
+\subsection{Exact success projection in a structured statevector}
+Let the encoded state after SELECT have amplitudes $A_{k,f,j}$, with selector
+$k$, flag $f$, and spectral data index $j$. The zero-selector amplitude after
+PREP$^\dagger$ is exactly
+\begin{equation}
+ B_{f,j}=\sum_k w_k^*A_{k,f,j}.
+ \label{eq:projection}
+\end{equation}
+The simulator evaluates all controlled rotation gates on the full
+$K\times2\times P$ state, where $K=2^s$, and obtains the successful data
+amplitudes from $B_{0,j}$. Other sectors retain a lazy selector basis change.
+State norm is measured before that norm-preserving change. This eliminates
+the need to build and multiply a dense $K\times K$ selector matrix during
+normal large runs, without evaluating the reciprocal polynomial as a
+classical substitute for the simulated gates.
+
+For small comparisons the code explicitly constructs PREP$^\dagger$ and
+returns every post-uncomputation selector amplitude. Tests compare this full
+state with the lazy success projection and with Qiskit native-statevector
+execution. The final $V$ basis change is evaluated on the success sector;
+the other sectors retain a lazy output basis. Thus the large simulator is
+an exact structured ideal circuit simulation, not native-gate Aer execution
+at dimension 1000 and not a noisy hardware simulation.
+
+The stored state occupies $16(2KP)$ bytes in complex128 precision. The
+preflight working-memory estimate is six such states plus $64P^2$ bytes for
+dense encoding and temporary workspace. This is a conservative planning
+estimate, not an operating-system allocation cap or a model of native
+compiler memory. The largest recorded compact case has 21 qubits, a 32 MiB
+statevector and estimated 256 MiB working memory.
+
+\subsection{Complete-operator audit}
+Three input vectors alone do not certify a matrix inverse. To audit every
+direction, a balanced input is prepared in the spectral basis so that all
+$N$ valid coordinates are nonzero. SELECT is diagonal in that data basis;
+dividing simulated success amplitudes by the known actual input amplitudes
+exposes every diagonal response of the implemented block. The audit forms
+$\widetilde X=V\operatorname{diag}(g_j)U^T$ and evaluates
+\begin{equation}
+ \norm{M\widetilde X-I}_2,\quad
+ \frac{\norm{M\widetilde X-I}_F}{\sqrt N},\quad
+ \frac{\norm{\widetilde X-X_{\rm ref}}_F}{\norm{X_{\rm ref}}_F}.
+ \label{eq:audit}
+\end{equation}
+The independent $X_{\rm ref}$ is computed only after circuit construction
+and simulation. No response is fed back to modify the circuit. The first
+metric is an observed induced-norm bound for all inputs of that tested
+matrix, including floating-point basis-change error.
+
+This audit exploits simulator amplitudes and the documented diagonal
+structure. It is not tomography, device-derived fidelity, or a scalable
+physical readout of $N^2$ classical inverse entries. Hardware verification
+must use measurements and account for the depth and uncertainty of its
+verification circuit.
+
+\section{Experimental Design and Reproducibility}
+\subsection{Fixtures and thresholds}
+The dimension study uses real matrices of orders 10, 100 and 1000 in four
+families: dense SPD, tridiagonal SPD, dense nonsymmetric, and signed
+indefinite. Fixed-seed small perturbations are added to diagonals spanning
+1.5 to 2.5; tridiagonal off-diagonal entries are 0.08. Exact generators and
+seed rules are distributed with the code \cite{qcenncode}. These are
+well-conditioned fixtures, not samples from all nonsingular matrices.
+
+The precision study augments the four order-1000 fixtures with dense
+controlled-spectrum matrices. Fixed-seed QR factors provide orthogonal
+left/right bases; singular values form a geometric sequence from 1 to
+$\kappa$. For each $\kappa\in\{10,100,1000\}$, we generate SPD,
+nonsymmetric, and symmetric indefinite examples. Alternating eigenvalue
+signs define the indefinite family while preserving nonsingularity.
+Basis, uniform and random inputs are tested in addition to the complete
+operator audit. A like-for-like baseline repeats those inputs with a
+$10^{-6}$ polynomial target.
+
+The tighter target is $\delta_d\leq10^{-12}$. The distinct numerical
+acceptance gate is $10^{-10}$ on measured operator residual, sampled
+relative residual and relative full-inverse error. The analytic tail bound
+does not cover SVD error, angle rounding or floating-point arithmetic.
+State norm and padding leakage are checked separately. Consequently, a
+passing polynomial formula never suffices to pass the numerical experiment.
+
+The theory regression spans orders 2 and 4, three matrix types, condition
+numbers 2, 10 and 100, and nine degrees from 1 to 511. Its
+\TheoryCaseCount{} cases test the operator, per-input, normalized-state,
+and success inequalities with explicit $10^{-10}$ floating-point slack.
+An inaccurate low-degree approximation can correctly satisfy a loose
+analytic bound; such agreement is not labeled target-accuracy success.
+
+\subsection{Execution and provenance}
+Qiskit supplies circuit construction and native execution interfaces
+\cite{qiskit2024}. The recorded run uses Python \PythonVersion{}, NumPy
+\VersionNumpy{}, SciPy \VersionScipy{}, Qiskit \VersionQiskit{}, and
+Qiskit Aer \VersionQiskitaer{}. OpenBLAS, OpenMP and MKL thread controls are
+set to one. A single Compose service runs static checks, \TestCount{} unit
+tests, A1, coupled A2--A4, block-hybrid scaling, coherent Neumann baselines,
+compact precision, theory regression and native-noise preparation.
+
+Each stage runs in a fresh process, retaining its command, return code,
+stdout/stderr, elapsed wall time, CPU time and peak child resident memory.
+The evidence includes JUnit XML, raw-count audits, QPY circuits, JSON
+metrics, package versions, source commit and source-tree SHA-256. Independent
+campaign failures are retained rather than silently stopping the remaining
+tests. Software correctness and synthetic noisy-quality decisions have
+separate fields and cannot be inferred from one another.
+
+The Python dependency closure is pinned. The container's base image can be
+selected by immutable digest for exact replay; a floating default base tag
+is not a promise of bitwise reproducibility across future builds. The
+manifest and immutable commit identify the actual experiment. The
+publication builder derives tables and figures from those run outputs
+instead of copying manually selected numbers into the manuscript.
+
+\section{Results}
+\subsection{Approximation and order-1000 precision}
+Fig.~\ref{fig:convergence} compares the simulated operator residual with
+the truncation bound. Increasing degree reduces approximation error until
+floating-point effects dominate. The conservative tail bound varies with
+conditioning; degree alone is not an accuracy certificate without an
+interval specification. The regression includes initially poor approximants
+to make this dependency observable.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=0.85\textwidth]{figures/convergence.pdf}
+\caption{Structured gate-simulation residual and analytic truncation bound
+for nonsymmetric order-4 matrices with controlled condition numbers.
+Curves below the numerical floor are clipped at $10^{-16}$ for display.
+The clipping is visual only; raw values remain in the JSON evidence.}
+\label{fig:convergence}
+\end{figure*}
+
+Table~\ref{tab:precision} reports all \PrecisionCaseCount{} order-1000
+operators. The largest measured residual is \WorstOperatorResidual{};
+the largest relative Frobenius inverse error is \WorstInverseError{}.
+The original well-conditioned families use degrees 13--16 and 15--16
+total qubits. Controlled condition numbers 10, 100 and 1000 require degrees
+46, 161 and 546 and use 17, 19 and 21 qubits, respectively.
+
+\begin{table*}[t]
+\caption{Complete simulated inverse-operator audit for $N=1000$.
+The final column is the minimum success probability over normalized valid inputs.}
+\label{tab:precision}\centering\small
+\begin{tabular}{lrrrrrr}\toprule
+Family & $\kappa$ & $d$ & Qubits & $\norm{M\widetilde X-I}_2$ &
+Relative inverse error $F$ & Minimum success\\\midrule
+\input generated/precision_rows.tex 
+\bottomrule\end{tabular}
+\end{table*}
+
+On the four earlier families, the worst residual over the same three
+sampled inputs is reduced by approximately $2.3\times10^5$ to
+$1.6\times10^6$ relative to the looser $10^{-6}$-target baseline.
+This comparison changes both degree and numerical precision safeguards;
+it is not a measurement of hardware accuracy or an improvement over a
+classical direct solver. Fig.~\ref{fig:precision} shows that the
+high-condition cases remain within the separate numerical gate. Numerical
+residuals need not decrease monotonically with $\kappa$ because different
+adapted degrees and floating-point effects are involved.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=0.85\textwidth]{figures/precision.pdf}
+\caption{Order-1000 controlled-spectrum precision cases. The truncation target
+and numerical acceptance limit are different quantities. Observed values
+come from the reconstructed simulated success operator.}
+\label{fig:precision}
+\end{figure*}
+
+The selector-memory improvement makes these higher degrees practical in
+the structured simulator. It does not reduce the dense encoding to an
+efficient oracle. At $\kappa=1000$, the worst-input success is about one
+accepted output per million independent attempts. Fig.~\ref{fig:resources}
+juxtaposes the modest raw-qubit growth with that sampling penalty.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=0.85\textwidth]{figures/resources.pdf}
+\caption{Raw qubits and minimum success for the order-1000 nonsymmetric
+controlled-spectrum family at the tighter target. The near-$\kappa^{-2}$
+sampling cost remains even though the selector register grows slowly.}
+\label{fig:resources}
+\end{figure*}
+
+\subsection{Native compilation and synthetic noise}
+Table~\ref{tab:native} lists compact action circuits compiled to
+$\{R_z,\mathrm{SX},X,\mathrm{CX}\}$ on a bidirectional active-width line.
+Final routing permutations are restored before an ideal statevector
+residual is calculated. This layout is an explicit generic assumption,
+not a calibrated device target. The native campaign uses a $10^{-6}$
+polynomial target to control gate cost; its circuits are not the
+high-precision order-1000 circuits in Table~\ref{tab:precision}.
+
+\begin{table}[t]\caption{Generic-line native action circuits, target $10^{-6}$.}
+\label{tab:native}\centering\footnotesize
+\begin{tabular}{rrrrr}\toprule
+$N$ & Qubits & CX & Depth & Ideal residual\\\midrule
+\input generated/hardware_rows.tex 
+\bottomrule\end{tabular}
+\end{table}
+
+The independent verifier appends a reference-state preparation inverse
+after the solver. Ancilla success is counted first; among accepted shots,
+an all-zero reference return is measured. Its conditional fraction includes
+reference-verifier and readout errors. It is not a tomography-derived
+fidelity and is not used to fit or correct the inverse action.
+
+Two synthetic profiles use depolarizing probabilities of $10^{-5}$/$10^{-4}$
+on SX/X and $10^{-4}$/$10^{-3}$ on CX, with symmetric readout flips of
+0.005/0.02, respectively. Virtual $R_z$ rotations are noiseless in this
+model. Orders 2, 4 and 10 use density-matrix channel simulation with 32768
+measurement shots. Order 100 uses only the optimistic profile, simulated
+as 64 noisy statevector trajectories to bound runtime.
+
+The provisional quality gate requires at least 20 accepted shots and a
+95\% Wilson lower confidence bound of at least 0.9 on conditional return
+\cite{wilson1927}. It is a project decision rule, not a universal hardware
+standard. Table~\ref{tab:noise} and Fig.~\ref{fig:noise} retain all outcomes.
+The order-10 circuit passes the optimistic profile but fails the stress
+profile. The dense order-100 circuit fails the optimistic profile despite
+passing ideal native correctness. Its small trajectory sample produces a
+wide interval, so the observation is a bounded negative indication rather
+than a precise device-performance forecast.
+
+\begin{table*}[t]\caption{Synthetic native-gate verifier results. Gate decisions
+use the confidence bound and minimum accepted-shot count, not the point estimate alone.}
+\label{tab:noise}\centering\small
+\begin{tabular}{rlrrrll}\toprule
+$N$ & Profile & Shots & Accepted & Conditional return & 95\% interval & Gate\\\midrule
+\input generated/noise_rows.tex 
+\bottomrule\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=0.85\textwidth]{figures/noise.pdf}
+\caption{Observed conditional reference return with 95\% Wilson intervals
+under synthetic native-gate noise. The verifier contributes noise. The
+order-100 optimistic point uses only 64 trajectories; no stress point at
+that order is implied.}
+\label{fig:noise}\end{figure*}
+
+\section{Resource Interpretation and Hardware Study}
+\subsection{Costs not captured by the qubit count}
+Dense eigendecomposition/SVD requires conventional cubic preprocessing and
+quadratic storage. An unstructured real orthogonal basis has
+$N(N-1)/2$ continuous parameters, so representing it with $\log_2N$ data
+qubits does not make generic synthesis logarithmic. A dense padded basis
+change typically has quadratic gate cost in $P$. Multiplexed walk gadgets
+have a linear number of listed spectral angles in $P$ per selector bit.
+The binary-power construction benefits from known classical angles and
+cannot be compared directly to black-box queries without charging for
+that information and its precision.
+
+Input loading, accepted-output sampling, verification, and classical
+readout are additional costs. An entire inverse contains $N^2$ classical
+entries. Reporting a small inverse-action register never establishes
+efficient measured extraction of that matrix. A useful hardware study
+should therefore select specific output tasks and structured input
+families, rather than equate qubit capacity with full inversion throughput.
+
+\begin{proposition}[Sensitivity to coherent implementation error]
+Let ideal and implemented unitaries differ in operator norm by at most
+$\eta$. For a fixed normalized input with ideal postselection probability
+$p>0$, if $\eta<\sqrt p$, the normalized accepted output vectors differ
+by at most $2\eta/\sqrt p$.
+\end{proposition}
+\begin{proof}
+An orthogonal success projection is a contraction, so the two unnormalized
+successful vectors differ by at most $\eta$. Their ideal norm is $\sqrt p$;
+the assumption ensures the implemented vector is nonzero. Apply the
+normalization inequality used in~\eqref{eq:statebound}.
+\end{proof}
+For products of unitary gates, a telescoping expansion gives
+$\eta\leq\sum_\ell\eta_\ell$. This illustrates why deep circuits and small
+success probabilities are unfavorable together. It is not a model of
+general stochastic noise, mixed-state postselection, or readout error;
+the synthetic experiments are reported separately for that reason.
+
+\subsection{A staged physical validation protocol}
+Physical validation is proposed first for orders 2 and 4, followed by
+order 10 only if the smaller cases meet prespecified measurement gates.
+For each target backend, the unfused source circuit is regenerated and
+transpiled against its actual native gate set, coupling graph and current
+calibration. Previously exported generic-line QPY files are evidence of
+compilation, not device-specific executable certification.
+
+The first stage should measure prepared-input and reference-verifier
+controls, then the inverse-action circuits for basis and superposition
+inputs. It should retain raw counts, calibration timestamps, routing,
+native operation counts, depth, shots, job IDs, failure records and
+confidence intervals. Small-register signed-state tomography is needed
+where a full inverse residual is claimed; a reference echo alone does
+not supply it. A paired calibration-derived emulator should precede
+submission and be compared with the measured result without substituting
+for it.
+
+Qubit capacity, useful precision, and useful acceptance rate are separate
+criteria. Dense orders 100 and 1000 should not be promised as successful
+physical experiments on the basis of these ideal statevectors. The current
+order-100 noisy failure motivates reducing dense encoding depth, studying
+structured inputs and analyzing appropriate preconditioning before scaling
+physical submissions. Any preconditioner must be charged to preprocessing
+and loading; it must not conceal a classical solution inside the input.
+
+The accompanying report is organized for the EuroHPC Quantum Access Pilot
+technical-feasibility process \cite{eurohpc2026}. It distinguishes applicant
+allocation information from measured resource use and identifies the
+hosting-system evidence that remains to be collected. Neither this paper
+nor that report claims a physical allocation decision or execution on a
+specific allocated EuroHPC node.
+
+\section{Discussion and Conclusion}
+The specialized certification and implementation show that finite real
+nonsingular matrices admit coherent approximate inverse action in the
+specified spectral access model. The demonstration is stronger than a
+few successful right-hand sides because the large-instance audit measures
+the induced residual of each full simulated success operator. It is also
+more limited than a scalable quantum inversion claim: dense classical
+encoding is required, the quantum output is postselected, and full measured
+matrix readout is absent.
+
+In the recorded experiment, \PrecisionCaseCount{} order-1000 operators
+reach a largest residual of \WorstOperatorResidual{} and a largest relative
+Frobenius inverse error of \WorstInverseError{}. The complete suite includes
+\TestCount{} unit tests and explicit bound regressions. The raw register
+count remains 15--21 qubits for the high-precision cases, while worst-input
+success falls to approximately $10^{-6}$ at condition number 1000.
+Native synthetic-noise failures are an essential part of the result,
+demonstrating that ideal numerical precision is insufficient evidence
+for hardware utility.
+
+The next research step is calibrated small-instance physical validation
+with reproducible measurement evidence. Longer-term work should replace
+dense spectral access with structured block encodings, evaluate the cost
+of amplification or preconditioning, and choose observables that can be
+estimated without full inverse readout. The present artifact provides a
+testable baseline for those comparisons rather than removing their
+resource constraints.
+
+\appendix[Reproduction and Evidence Integrity]
+The default command is
+\begin{quote}\small\texttt{docker compose up --build}\\
+\texttt{--abort-on-container-exit}\\
+\texttt{--exit-code-from validation}.
+\end{quote}
+Outputs are written to the mounted artifact directory. A fresh output
+directory is required for a new run to prevent silent mixing of stale
+results. The same Python suite can be executed on a system where Docker
+is not available, including an HPC environment using its supported
+container conversion or a managed Python environment. Actual site
+software and scheduler policy must be checked before deployment.
+
+This manuscript was prepared for reporting on \ReportDate{} from a run whose
+execution-environment clock reported \RunDate{}, source commit
+\texttt{\SourceCommit}, with execution label \texttt{\RunContext}.
+The source-tree fingerprint and full commands are retained in the
+artifact, including an explicit dirty-tree indicator for local development
+runs. The measured benchmark portion used \SuiteWallSeconds{} wall seconds,
+\SuiteCPUSeconds{} CPU seconds and a maximum per-stage child RSS of
+\SuitePeakMiB{} MiB. These figures are local process measurements, not
+EuroHPC node-hour accounting and not physical QPU runtime. Document
+rendering is excluded from these benchmark totals.
+The raw process clock is not independently synchronized; scheduler-attested
+execution dates are not inferred from it.
+
+\section*{Acknowledgment and AI Assistance Disclosure}
+OpenAI ChatGPT/Codex assisted in drafting and revising Sections I--IX and
+the appendix, developing the validation/publication scripts, and preparing
+the mathematical exposition. Figures are deterministic plots of archived
+numerical outputs, not generated illustrative images. This disclosure
+identifies the use of AI assistance in accordance with IEEE guidance
+\cite{ieeeai}. Author affiliations and final venue-specific submission
+metadata are not inferred from the software repository.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

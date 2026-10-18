@@ -42,3 +42,15 @@ results/coherent-large/audit/
 results/hardware/*.qpy
 results/hardware/audit/
 results/hardware-small/
+
+# Complete validation runs and private submission metadata
+artifacts/
+evidence/
+tmp/
+output/
+submission-metadata.json
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
