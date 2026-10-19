@@ -1,0 +1,84 @@
+{
+  "publication_run_id": "qcenn-933a9b1ce82241e9803927d8a08cec11",
+  "profile": "full",
+  "schema_version": 2,
+  "started_utc": "2026-10-19T21:28:25.538021+00:00",
+  "provenance": {
+    "source_commit": "82dcfeca1d88fccfb94ee4cca45adf01af00d601",
+    "working_tree_dirty": true,
+    "source_sha256": "1f1b7412762d8240a6a99158a4a9c73e326705efbc4a301dbcfbff5f8155ee0c",
+    "source_fingerprint_policy": "source, tests, docs, config, workflow, container policies and license; generated egg-info and caches excluded",
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "logical_cpu_count": 9,
+    "execution_context": "local-process",
+    "container_base_image": null,
+    "packages": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "qiskit": "2.6.0",
+      "qiskit-aer": "0.17.2",
+      "pytest": "8.4.2",
+      "ruff": "0.17.1",
+      "matplotlib": "3.10.8",
+      "qcenn-mi": "0.2.0rc1"
+    },
+    "openmp_preload": null,
+    "glibc_tunables": null,
+    "github_run_id": null,
+    "github_run_attempt": null,
+    "threads": {
+      "OPENBLAS_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+    },
+    "eurohpc_allocated_node_execution_claimed": false,
+    "physical_hardware_tested": false,
+    "clock_source": "execution-environment UTC clock; not independently synchronized"
+  },
+  "stages": [
+    {
+      "returncode": 0,
+      "wall_seconds": 18.432957971000178,
+      "cpu_seconds": 18.418822,
+      "peak_child_rss_bytes": 197042176,
+      "name": "recurrent-quantum",
+      "command": [
+        "/workspace/scratch/c3b1d9548e8e/qcenn-tls-venv/bin/python",
+        "-m",
+        "qcenn_mi.recurrent_quantum_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/results/recurrent-quantum-validation/recurrent-quantum",
+        "--config",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/configs/full.json"
+      ],
+      "log": "logs/recurrent-quantum.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 0.7900487750002867,
+      "cpu_seconds": 0.7892589999999999,
+      "peak_child_rss_bytes": 72646656,
+      "name": "final-report",
+      "command": [
+        "/workspace/scratch/c3b1d9548e8e/qcenn-tls-venv/bin/python",
+        "-m",
+        "qcenn_mi.evidence_report",
+        "--results",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/results/recurrent-quantum-validation"
+      ],
+      "log": "logs/final-report.log",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "synthetic_quality_by_study": {
+    "native_hardware": null,
+    "recurrent_quantum": true
+  },
+  "all_noisy_quality_gates_passed": true,
+  "evidence_integrity_passed": true,
+  "finished_utc": "2026-10-19T21:28:44.968570+00:00"
+}

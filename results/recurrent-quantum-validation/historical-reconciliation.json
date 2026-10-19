@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "status": "two distinct preserved runs; do not combine statistics",
+  "manuscript_metrics_source": "values stated in the supplied publication-readiness checklist",
+  "public_archive": {
+    "file": "publication-evidence/historical-runs/public-archive-hardware/result.json",
+    "sha256": "54cef812f0a88a722a205f2c91fa1f9902569539ad6b38f946aad68ec34e73ff",
+    "origin_commit": "876d9510d9d25a749a8977894db206b52c5d7c91",
+    "original_path": "results/hardware/result.json",
+    "raw_counts_preserved": true
+  },
+  "manuscript_matching_run": {
+    "file": "publication-evidence/historical-runs/e6769dbe-clean-benchmark/hardware/result.json",
+    "source_commit": "e6769dbe30b0d1f3d8540b14c467fb3218a05c46",
+    "working_tree_dirty": false,
+    "sha256": "9c7625766243aeef3c86041cf90f89925a81ff86669f859056e6593099bcb640"
+  },
+  "depth_comparison": [
+    {
+      "size": 2,
+      "public_archive_depth": 72,
+      "manuscript_matching_depth": 66,
+      "different": true
+    },
+    {
+      "size": 4,
+      "public_archive_depth": 142,
+      "manuscript_matching_depth": 138,
+      "different": true
+    },
+    {
+      "size": 10,
+      "public_archive_depth": 1033,
+      "manuscript_matching_depth": 1032,
+      "different": true
+    },
+    {
+      "size": 100,
+      "public_archive_depth": 41024,
+      "manuscript_matching_depth": 41033,
+      "different": true
+    }
+  ],
+  "order_100_optimistic": {
+    "public_archive": {
+      "accepted": 34,
+      "shots": 64,
+      "echo_return": 0.23529411764705882
+    },
+    "manuscript_matching_run": {
+      "accepted": 35,
+      "shots": 64,
+      "echo_return": 0.2857142857142857
+    }
+  },
+  "investigation": {
+    "pinned_package_versions_equal": true,
+    "run_revisions_differ": true,
+    "compiler_and_process_effects": "exact source, compiled QPY, seeds, platform, and compiler/library initialization can affect synthesis or stochastic outputs; the original archive lacks a complete immutable execution manifest, so no unique causal attribution is established",
+    "differences_averaged": false,
+    "historical_files_overwritten": false
+  },
+  "physical_hardware_tested": false
+}
