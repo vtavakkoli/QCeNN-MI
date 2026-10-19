@@ -60,6 +60,18 @@ def test_fingerprint_changes_when_the_solver_changes(tmp_path):
     assert source_fingerprint(tmp_path) != initial
 
 
+def test_checkout_policy_is_fingerprinted_and_included_in_source_bundle(tmp_path):
+    attributes = tmp_path / ".gitattributes"
+    attributes.write_bytes(b"* text=auto eol=lf\n")
+    initial = source_fingerprint(tmp_path)
+    attributes.write_bytes(attributes.read_bytes() + b"*.gz binary\n")
+    assert source_fingerprint(tmp_path) != initial
+    output = tmp_path / "artifacts"
+    output.mkdir()
+    with zipfile.ZipFile(create_bundle(tmp_path, output)) as archive:
+        assert archive.read("QCeNN-MI/.gitattributes") == attributes.read_bytes()
+
+
 def test_bundle_contains_source_and_evidence_without_archiving_itself(tmp_path):
     (tmp_path / "src").mkdir()
     (tmp_path / "src/a.py").write_text("x = 1\n")

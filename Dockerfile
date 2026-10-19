@@ -23,7 +23,8 @@ COPY src ./src
 COPY tests ./tests
 COPY docs ./docs
 COPY .github ./.github
-COPY Dockerfile docker-compose.yml requirements.lock .dockerignore .gitignore ./
+COPY Dockerfile docker-compose.yml requirements.lock .dockerignore .gitignore .gitattributes ./
+RUN python -S docker/normalize_source.py /app
 RUN python -m pip install --no-deps . && python -m pip check
 ENV QCENN_REQUIRE_AER_PRELOAD=1
 RUN python -S docker/entrypoint.py python -c "from qiskit_aer import AerSimulator; print(AerSimulator().name)"

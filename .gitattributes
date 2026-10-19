@@ -1,0 +1,9 @@
+# Keep source fingerprints and frozen evidence checksums portable across Git clients.
+* text=auto eol=lf
+
+# Circuit archives and other binary artifacts must never undergo newline conversion.
+*.qpy binary
+*.gz binary
+*.zip binary
+*.png binary
+*.pdf binary

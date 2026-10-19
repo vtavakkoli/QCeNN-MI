@@ -115,6 +115,9 @@ def source_fingerprint(root):
             "README.md",
             "CITATION.cff",
             "LICENSE",
+            ".dockerignore",
+            ".gitignore",
+            ".gitattributes",
         )
         if (root / name).is_file()
     ]
@@ -154,6 +157,7 @@ def create_bundle(root, output):
             "CITATION.cff",
             ".dockerignore",
             ".gitignore",
+            ".gitattributes",
         )
         if (root / name).is_file()
     ]
@@ -200,7 +204,7 @@ def provenance(root):
         "working_tree_dirty": dirty,
         "source_sha256": source_fingerprint(root),
         "source_fingerprint_policy": (
-            "source, tests, docs, config, workflow and license; "
+            "source, tests, docs, config, workflow, container policies and license; "
             "generated egg-info and caches excluded"
         ),
         "python": platform.python_version(),

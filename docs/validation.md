@@ -14,6 +14,13 @@ Only the output directory is mounted from the host. The workflow submits no
 cloud jobs or physical QPU jobs. The first image build needs package-download
 access.
 
+Git attributes require LF line endings for source text. During the image build,
+`docker/normalize_source.py` also restores LF for declared source text copied
+from existing Windows CRLF checkouts, before installation and fingerprinting.
+This leaves binary QPY/gzip archives and recorded checksum values unchanged.
+Historical evidence still passes strict byte-level SHA-256 verification; other
+content changes are not repaired or accepted by newline normalization.
+
 Defaults are four CPUs, 4 GiB memory, and one thread per numerical-library pool.
 Adjust `QCENN_CPUS`, `QCENN_MEMORY_LIMIT`, and `QCENN_ARTIFACTS_DIR` as needed.
 A prior `validation.json` causes an explicit error, preventing completed runs
@@ -132,7 +139,9 @@ through the Python package.
 
 [Quantum simulator validation](../.github/workflows/quantum-feasibility.yml) runs
 with AMD64/ARM64 startup checks, a smoke profile on pull requests, and full
-validation on main pushes and candidate tags. It can also be started manually. It
-checks Compose configuration, builds the locked image, runs all stages, records
+validation on main pushes and candidate tags. A Windows job checks Git CRLF
+checkout behavior and the same source canonicalization used in the image.
+It can also be started manually. It checks Compose configuration, builds the
+locked image, runs all stages, records
 image details and Compose logs, publishes the summary, and uploads evidence
 with 30-day retention. Generated results are not committed automatically.

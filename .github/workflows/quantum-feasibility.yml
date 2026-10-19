@@ -12,6 +12,22 @@ permissions:
   contents: read
 
 jobs:
+  checkout-portability:
+    name: Windows checkout and frozen evidence
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Enable Windows Git newline conversion
+        run: git config --global core.autocrlf true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install lightweight test runner
+        run: python -m pip install pytest==8.4.2
+      - name: Check Git checkout, existing CRLF sources, binary preservation, and tampering
+        run: python -m pytest -q tests/test_source_portability.py
+
   container-startup:
     name: Aer startup (${{ matrix.runner }})
     strategy:
@@ -25,12 +41,24 @@ jobs:
       QCENN_ARTIFACTS_DIR: ./artifacts/startup
     steps:
       - uses: actions/checkout@v4
+      - name: Reproduce existing Windows CRLF evidence on AMD64
+        if: matrix.runner == 'ubuntu-latest'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for path in Path("publication-evidence").rglob("*.json"):
+              data = path.read_bytes().replace(b"\r\n", b"\n")
+              path.write_bytes(data.replace(b"\n", b"\r\n"))
+          PY
       - name: Build and verify wheel-specific OpenMP preloading
         run: docker compose build
       - name: Exercise real Aer statevector and shot execution
         run: docker compose run --rm validation python -m qcenn_mi.runtime_smoke --output-dir /artifacts/runtime-smoke
-      - name: Test startup and lazy-import regressions
-        run: docker compose run --rm validation python -m pytest -q tests/test_runtime_startup.py
+      - name: Test startup, newline portability, and original evidence checksums
+        run: >-
+          docker compose run --rm validation python -m pytest -q
+          tests/test_runtime_startup.py tests/test_source_portability.py
+          tests/test_publication_experiments.py::test_both_historical_runs_and_manuscript_metrics_remain_distinct
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -40,7 +68,7 @@ jobs:
 
   validation:
     name: Simulator suite and evidence integrity
-    needs: container-startup
+    needs: [container-startup, checkout-portability]
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
