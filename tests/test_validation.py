@@ -20,6 +20,7 @@ def test_suite_contains_every_existing_campaign_and_1000_precision(tmp_path):
         "baselines",
         "resources",
         "operator-audit",
+        "recurrent-quantum",
         "compile",
         "lint",
         "unit-tests",

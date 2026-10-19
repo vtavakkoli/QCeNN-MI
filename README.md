@@ -23,6 +23,7 @@ quantum-device execution and end-to-end quantum advantage remain unverified.
 |---|---|---|
 | Local QCeNN cells and shared interaction templates | Real 2×2 and 4×4 matrices | Variational quantum circuits with classical optimization and readout scaling |
 | Stateful tracking and polynomial correction | Changing small matrices; block-hybrid 10×10 and 100×100 cases | Quantum circuit parameters plus classical prediction and correction |
+| Recurrent quantum channel | Small real nonsingular matrices, including order 10 | Data remains quantum through all updates; coherent environments or device resets, without classical iterate feedback |
 | Coherent inverse action | Neumann-LCU and compact Chebyshev-LCU constructions | Postselected quantum operation with classical dense spectral input encoding |
 | Large ideal-simulation audits | Matrix orders 10, 100, and 1000; full-operator precision checks at order 1000 | Structured statevector simulation with smaller native-circuit cross-checks |
 | Temporal robustness audits | Orders 2, 10, 100, and 1000 | Refreshed snapshots, delayed updates, acquisition error, and rank-loss rejection |
@@ -38,7 +39,7 @@ cd QCeNN-MI
 docker compose up --build --abort-on-container-exit --exit-code-from validation
 ```
 
-The 20 full-profile stages cover compilation, lint, unit tests, hybrid solvers, coherent
+The 21 full-profile stages cover compilation, lint, unit tests, hybrid solvers, coherent
 circuits, scaling, precision, theoretical bounds, temporal dynamics, and hardware
 simulation. Outputs include JSON results, Markdown summaries, raw measurement
 audits, QPY circuits, timing, provenance, and a validation bundle in `artifacts/`. The final stage generates an offline
@@ -113,6 +114,10 @@ python -m qcenn_mi.temporal_refresh_benchmark --config configs/full.json
 python -m qcenn_mi.noise_verification_benchmark --config configs/full.json
 python -m qcenn_mi.baseline_benchmark --config configs/full.json
 python -m qcenn_mi.resource_benchmark --config configs/full.json
+
+# Complete recurrent quantum circuits; no classical iterate reconstruction
+python -m qcenn_mi.recurrent_quantum_benchmark --config configs/full.json \
+  --output-dir results/recurrent-quantum
 ```
 
 For repeatable timings, set `OPENBLAS_NUM_THREADS=1`, `OMP_NUM_THREADS=1`, and
@@ -153,6 +158,7 @@ outside the current coherent implementation's supported domain.
 - [Small coherent inverse-action construction](docs/coherent-inverse.md)
 - [Large structured-statevector simulations](docs/coherent-large.md)
 - [Compact circuits and hardware preparation](docs/compact-hardware.md)
+- [Recurrent quantum convergence without classical iterate feedback](docs/recurrent-quantum.md)
 - [1000×1000 precision and conditioning](docs/precision-1000.md)
 - [Archived simulator results](https://github.com/vtavakkoli/QCeNN-MI/tree/main/results)
 

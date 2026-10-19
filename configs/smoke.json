@@ -110,5 +110,28 @@
       "signed_indefinite",
       "repeated_singular_values"
     ]
+  },
+  "recurrent-quantum": {
+    "sizes": [
+      2,
+      3
+    ],
+    "families": [
+      "controlled_nonsymmetric"
+    ],
+    "condition": 2.0,
+    "steps": [
+      0,
+      1,
+      4,
+      16,
+      32
+    ],
+    "coherent_steps": 2,
+    "native_steps": 16,
+    "shots": 256,
+    "seed": 1729,
+    "minimum_augmented_fidelity": 0.95,
+    "max_memory_mib": 256
   }
 }

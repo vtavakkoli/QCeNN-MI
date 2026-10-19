@@ -165,6 +165,22 @@ TABLES = {
             "passed",
         ],
     ),
+    "recurrent-convergence": (
+        "recurrent-quantum/result.json",
+        [
+            "size",
+            "family",
+            "condition",
+            "steps",
+            "qubits",
+            "augmented_fidelity",
+            "conditional_solution_fidelity",
+            "coherence_relative_residual",
+            "solution_probability",
+            "augmented_infidelity_upper_bound",
+            "certificate_passed",
+        ],
+    ),
 }
 
 
@@ -252,6 +268,34 @@ def plot_figures(root, run_id):
             }
         )
         plt.close(fig)
+
+    rows = rows_for(root, "recurrent-convergence")
+    if rows:
+        fig, ax = plt.subplots(figsize=(8.5, 4.2))
+        for size in sorted({row["size"] for row in rows}):
+            selected = [
+                row
+                for row in rows
+                if row["size"] == size and row["family"] == "controlled_nonsymmetric"
+            ]
+            if selected:
+                ax.semilogy(
+                    [row["steps"] for row in selected],
+                    [max(1 - row["augmented_fidelity"], 1e-15) for row in selected],
+                    "o-",
+                    label=f"order {size}",
+                )
+        ax.set(xlabel="Quantum channel updates", ylabel="Augmented-state infidelity")
+        if ax.lines:
+            ax.legend()
+        save(
+            fig,
+            "recurrent-convergence",
+            ["recurrent-quantum/result.json"],
+            "Ideal complete reset-circuit convergence for the configured nonsymmetric "
+            "fixtures. Coherent environment circuits are cross-checked separately. "
+            "Dense encoding and final simulator diagnostics do not establish hardware quality.",
+        )
 
     rows = rows_for(root, "refresh-accuracy")
     if rows:
@@ -533,6 +577,19 @@ def coverage(root, validation):
             ),
         },
         {
+            "item": "Recurrent quantum state updates",
+            "status": "small-circuit simulator prototype passed"
+            if available("recurrent-quantum")
+            else "not run or failed",
+            "evidence": "recurrent-quantum/result.json; recurrent-quantum/*.qpy",
+            "scope": (
+                "Complete coherent/reset quantum circuits without classical iterate updates; "
+                "RHS-dependent residual-channel construction, separate from Chebyshev inverse "
+                "action. Dense preprocessing, synthetic CX-only noise and preprogrammed "
+                "snapshots do not establish live tracking or hardware performance."
+            ),
+        },
+        {
             "item": "Physical device validation",
             "status": "not run",
             ("evidence"): (
@@ -578,6 +635,7 @@ def generate(root):
     noise = read_json(root / "noise-verification/result.json", {})
     operator = read_json(root / "operator-audit/result.json", {})
     precision = read_json(root / "precision-1000/result.json", {})
+    recurrent = read_json(root / "recurrent-quantum/result.json", {})
     findings = {
         "temporal_positive_accuracy_cases": temporal.get("positive_accuracy_cases"),
         "intentional_stale_operator_failures": temporal.get("intentional_accuracy_failures"),
@@ -597,6 +655,13 @@ def generate(root):
         else None,
         "worst_1000_operator_residual": max(
             (r["operator_relative_residual_2"] for r in precision.get("cases", [])), default=None
+        ),
+        "recurrent_quantum_circuit_cases": len(recurrent.get("cases", []))
+        if recurrent
+        else None,
+        "recurrent_quantum_classical_iterate_updates": recurrent.get("classical_iterate_updates"),
+        "recurrent_quantum_synthetic_quality_passed": recurrent.get(
+            "all_synthetic_quality_gates_passed"
         ),
     }
     payload = {
