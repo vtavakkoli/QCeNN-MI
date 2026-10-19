@@ -177,7 +177,9 @@ Tavakkoli, Chedjou, and Kyamakya's
 [2019 time-varying matrix-inversion solver](https://doi.org/10.3390/s19184002);
 also cite that paper if its scientific contributions are used.
 
-This is a custom source-available license, **not an OSI-approved open-source
-license**. It permits commercial and academic use subject to its terms.
-Earlier copies released under MIT retain their original MIT permissions;
-the new license cannot retroactively withdraw those permissions.
+**This is the sole license for the current QCeNN-MI release.** It is a custom
+source-available license, **not an OSI-approved open-source license**.
+Academic and commercial reuse are permitted only subject to the
+[attribution and citation requirements](LICENSE). No alternative license is
+offered for the current release. Previously distributed copies remain subject
+to the terms under which they were originally licensed.

@@ -3,9 +3,10 @@ Version 1.0 — 19 October 2026
 
 Copyright (c) 2026 Vahid Tavakkoli. All rights reserved except as licensed below.
 
-IMPORTANT: This is a custom source-available license, not the MIT License
-and not an OSI-approved open-source license. Using QCeNN-MI under this
-license requires attribution and, where applicable, a formal citation.
+IMPORTANT: This is the sole license offered for the current QCeNN-MI
+release. It is a custom source-available license, not an OSI-approved
+open-source license. Use is subject to the attribution and mandatory
+citation conditions below. No other license is offered for this release.
 
 1. Covered Work
 
@@ -85,14 +86,14 @@ comply with its conditions. Rights are reinstated if the violation is
 fully cured within 30 days after the licensee becomes aware of it.
 Other rights and remedies available under applicable law are unaffected.
 
-8. Earlier MIT-licensed versions
+8. Current release and scope
 
-This License applies to copies released by the copyright holder on or
-after 19 October 2026 under this License. It does not retroactively
-revoke or alter permissions already granted under the MIT License for
-earlier copies or releases. Recipients of those earlier MIT-licensed
-versions may continue to exercise the rights that the MIT License
-granted them for those versions.
+This License is the exclusive license offered by the copyright holder
+for the current QCeNN-MI release and new contributions distributed
+under its terms from 19 October 2026 onward. No alternative license
+is offered for these materials. The licensing of material previously
+distributed under different terms, and the rights of third-party
+copyright holders, are unaffected by this statement.
 
 9. Disclaimer of warranty and limitation of liability
 
