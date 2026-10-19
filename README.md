@@ -4,13 +4,15 @@
 
 [![Quantum simulator validation](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml/badge.svg)](https://github.com/vtavakkoli/QCeNN-MI/actions/workflows/quantum-feasibility.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: Research Attribution and Citation 1.0](https://img.shields.io/badge/License-Research%20Citation%201.0-orange.svg)](LICENSE)
 
 QCeNN-MI is a research toolkit for static and time-varying matrix inversion.
 It provides coherent quantum inverse-action circuits, hybrid quantum cellular
 nonlinear network experiments, and reproducible accuracy and resource audits.
 The coherent circuit produces a state proportional to `M⁻¹b`, conditioned on
 ancilla success; a complete classical inverse requires additional readout.
+
+**License and citation:** This project uses the [QCeNN-MI Research Attribution and Citation License 1.0](LICENSE). **Attribution is required before use**, including internal research use; public software or products must credit the project, and scholarly/public reports of results must cite it. See [Citation and license](#citation-and-license) and [CITATION.cff](CITATION.cff).
 
 **Status:** validated on simulators for the documented test families. Physical
 quantum-device execution and end-to-end quantum advantage remain unverified.
@@ -145,8 +147,37 @@ workflow artifact and publishes the aggregate summary on the workflow run.
 
 ## Citation and license
 
-Software citation metadata is provided in [CITATION.cff](CITATION.cff).
-The hybrid dynamics are motivated by Tavakkoli, Chedjou, and Kyamakya's
-[2019 time-varying matrix-inversion solver](https://doi.org/10.3390/s19184002).
+**Citation and attribution are mandatory conditions of reuse under the
+[QCeNN-MI Research Attribution and Citation License 1.0](LICENSE).**
 
-QCeNN-MI is released under the [MIT License](LICENSE).
+Before first use in a project, add the following credit to its README,
+NOTICE, or research documentation (for unmodified standalone evaluation,
+keep the distributed `LICENSE` and `CITATION.cff` files):
+
+> QCeNN-MI — Vahid Tavakkoli and Kabeh Mohsenzadegan (2026).
+> https://github.com/vtavakkoli/QCeNN-MI
+
+For scholarly papers, preprints, theses, presentations, technical reports,
+public benchmarks, or other public research results using this project,
+**cite the software** in the references or acknowledgments:
+
+```bibtex
+@software{tavakkoli_mohsenzadegan_qcenn_mi_2026,
+  author  = {Vahid Tavakkoli and Kabeh Mohsenzadegan},
+  title   = {QCeNN-MI: Quantum Cellular Nonlinear Network for Matrix Inversion},
+  year    = {2026},
+  version = {0.1.1},
+  url     = {https://github.com/vtavakkoli/QCeNN-MI}
+}
+```
+
+The GitHub **Cite this repository** feature draws its citation information
+from [CITATION.cff](CITATION.cff). The hybrid dynamics are motivated by
+Tavakkoli, Chedjou, and Kyamakya's
+[2019 time-varying matrix-inversion solver](https://doi.org/10.3390/s19184002);
+also cite that paper if its scientific contributions are used.
+
+This is a custom source-available license, **not an OSI-approved open-source
+license**. It permits commercial and academic use subject to its terms.
+Earlier copies released under MIT retain their original MIT permissions;
+the new license cannot retroactively withdraw those permissions.

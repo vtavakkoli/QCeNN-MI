@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=75", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "qcenn-mi"
-version = "0.1.0"
+version = "0.1.1"
 description = "Quantum matrix inverse action, Chebyshev-LCU circuits, and QCeNN simulator benchmarks"
 readme = "README.md"
 requires-python = ">=3.11"
-license = {text = "MIT"}
+license = "LicenseRef-QCeNN-MI-Research-Citation-1.0"
+license-files = ["LICENSE"]
 authors = [
   {name = "Vahid Tavakkoli"}
 ]
@@ -22,7 +23,6 @@ keywords = [
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",

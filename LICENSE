@@ -1,21 +1,108 @@
-MIT License
+QCeNN-MI RESEARCH ATTRIBUTION AND CITATION LICENSE
+Version 1.0 — 19 October 2026
 
-Copyright (c) 2026 Vahid Tavakkoli
+Copyright (c) 2026 Vahid Tavakkoli. All rights reserved except as licensed below.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+IMPORTANT: This is a custom source-available license, not the MIT License
+and not an OSI-approved open-source license. Using QCeNN-MI under this
+license requires attribution and, where applicable, a formal citation.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Covered Work
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+"Covered Work" means the original software, documentation, examples,
+research implementations, and original benchmark material supplied in the
+QCeNN-MI repository at https://github.com/vtavakkoli/QCeNN-MI to which
+the copyright holder has the authority to apply this License, including
+modified or derivative copies of those materials. Third-party components
+retain their own applicable licenses.
+
+2. Permission
+
+Subject to all conditions below, the copyright holder grants every person
+a worldwide, royalty-free, non-exclusive copyright license to use, execute,
+study, copy, modify, redistribute, and commercially exploit the Covered
+Work and to include it in other software or research projects.
+
+3. Mandatory attribution before use
+
+Before first using the Covered Work in a project, the licensee MUST place
+the following attribution in a reasonably accessible location in that
+project's README, acknowledgments, NOTICE, internal research record, or
+equivalent documentation (for a standalone unmodified evaluation, retaining
+this LICENSE and the supplied CITATION.cff with the copy is sufficient):
+
+    QCeNN-MI — Vahid Tavakkoli and Kabeh Mohsenzadegan (2026)
+    https://github.com/vtavakkoli/QCeNN-MI
+
+When publishing or releasing any project, software, documentation, or
+product that incorporates or adapts the Covered Work, the licensee MUST
+include this attribution in its public documentation, acknowledgments,
+NOTICE, or another comparably visible place. Attribution must identify the
+Covered Work and its authors and link to the original repository.
+
+4. Mandatory citation of publicly reported research or results
+
+Any scholarly paper, preprint, thesis, poster, public presentation,
+technical report, public benchmark, or public dataset that materially
+uses the Covered Work or reports results produced with it MUST include
+a reference to the QCeNN-MI software, using the applicable citation
+metadata in CITATION.cff or the following equivalent reference:
+
+    V. Tavakkoli and K. Mohsenzadegan, "QCeNN-MI: Quantum Cellular
+    Nonlinear Network for Matrix Inversion," software, 2026.
+    https://github.com/vtavakkoli/QCeNN-MI
+
+For works with a bibliography, include a conventional bibliographic
+citation there. For other public material, a clearly visible written
+credit and repository URL are sufficient. Citing related scientific
+publications, including the referenced 2019 Sensors paper, is encouraged
+where scientifically relevant but is separate from the required software
+citation.
+
+5. Preservation of notices and changes
+
+All redistributed copies or substantial portions of the Covered Work,
+including source and binary redistributions and modified copies, MUST
+retain this License and the existing copyright and attribution notices.
+Redistributors MUST make the citation instructions in CITATION.cff, or
+equivalent citation information, available to recipients. Modified
+copies MUST state that changes were made, without implying that the
+original authors endorse those changes.
+
+The citation requirements apply to the Covered Work and its use; they do
+not require independently authored, merely aggregated software to be
+licensed under this License.
+
+6. No endorsement; no trademark rights
+
+Neither this License nor attribution grants rights to use the authors'
+names or marks to imply endorsement, sponsorship, or approval.
+
+7. Termination and reinstatement
+
+Rights under this License terminate automatically on material failure to
+comply with its conditions. Rights are reinstated if the violation is
+fully cured within 30 days after the licensee becomes aware of it.
+Other rights and remedies available under applicable law are unaffected.
+
+8. Earlier MIT-licensed versions
+
+This License applies to copies released by the copyright holder on or
+after 19 October 2026 under this License. It does not retroactively
+revoke or alter permissions already granted under the MIT License for
+earlier copies or releases. Recipients of those earlier MIT-licensed
+versions may continue to exercise the rights that the MIT License
+granted them for those versions.
+
+9. Disclaimer of warranty and limitation of liability
+
+THE COVERED WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+NONINFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW,
+THE COPYRIGHT HOLDERS AND CONTRIBUTORS SHALL NOT BE LIABLE FOR ANY
+CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+COVERED WORK OR ITS USE OR OTHER DEALINGS IN THE COVERED WORK.
+
+End of QCeNN-MI Research Attribution and Citation License 1.0.
