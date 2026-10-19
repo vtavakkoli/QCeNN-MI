@@ -3,6 +3,7 @@ name: Quantum simulator validation
 on:
   push:
     branches: [main]
+    tags: ['v*-publication-candidate']
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -11,12 +12,42 @@ permissions:
   contents: read
 
 jobs:
-  validation:
-    name: Full Docker Compose validation
-    runs-on: ubuntu-latest
-    timeout-minutes: 35
+  container-startup:
+    name: Aer startup (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
     env:
       SOURCE_COMMIT: ${{ github.sha }}
+      QCENN_ARTIFACTS_DIR: ./artifacts/startup
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and verify wheel-specific OpenMP preloading
+        run: docker compose build
+      - name: Exercise real Aer statevector and shot execution
+        run: docker compose run --rm validation python -m qcenn_mi.runtime_smoke --output-dir /artifacts/runtime-smoke
+      - name: Test startup and lazy-import regressions
+        run: docker compose run --rm validation python -m pytest -q tests/test_runtime_startup.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aer-startup-${{ matrix.runner }}-${{ github.sha }}
+          path: artifacts/startup/
+          if-no-files-found: warn
+
+  validation:
+    name: Simulator suite and evidence integrity
+    needs: container-startup
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      SOURCE_COMMIT: ${{ github.sha }}
+      QCENN_PROFILE: ${{ github.event_name == 'pull_request' && 'smoke' || 'full' }}
     steps:
       - uses: actions/checkout@v4
       - name: Validate Compose configuration
@@ -29,8 +60,10 @@ jobs:
           image_digest=$(docker image inspect python:3.12-slim-bookworm --format '{{index .RepoDigests 0}}')
           docker compose build --build-arg PYTHON_IMAGE="$image_digest"
           docker image inspect qcenn-mi-validation:local > artifacts/container-image.json
-      - name: Run all tests and simulator benchmarks
+      - name: Run configured tests, simulator studies, and final report
         run: docker compose up --abort-on-container-exit --exit-code-from validation
+      - name: Independently verify report metrics and frozen evidence
+        run: docker compose run --rm validation python -m qcenn_mi.evidence_report --results /artifacts --verify-only
       - name: Record built image and logs
         if: always()
         run: |
@@ -43,7 +76,7 @@ jobs:
           if [ -f artifacts/summary.md ]; then
             cat artifacts/summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Upload validation evidence and circuit exports
+      - name: Upload final report, evidence, and circuit exports
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -51,3 +84,29 @@ jobs:
           path: artifacts/
           if-no-files-found: error
           retention-days: 30
+      - name: Attach the actual CI archive to the publication candidate
+        if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v0.2.0-publication-candidate' }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "Existing immutable publication candidate retained."
+            exit 0
+          fi
+          if tag_sha=$(gh api "repos/$GH_REPO/git/ref/tags/$RELEASE_TAG" --jq '.object.sha' 2>/dev/null); then
+            if [ "$tag_sha" != "$GITHUB_SHA" ]; then
+              echo "Existing tag points to another revision; it will not be moved."
+              exit 0
+            fi
+          else
+            gh api --method POST "repos/$GH_REPO/git/refs" \
+              -f "ref=refs/tags/$RELEASE_TAG" -f "sha=$GITHUB_SHA" >/dev/null
+          fi
+          gh release create "$RELEASE_TAG" --verify-tag --prerelease \
+            --title "QCeNN-MI publication candidate: verified simulator evidence" \
+            --notes "CI-produced source and evidence bundle. No physical-device execution or quantum speedup is claimed." \
+            artifacts/QCeNN_MI_Validation_Bundle.zip artifacts/PACKAGE_SHA256 \
+            artifacts/final-report.html artifacts/final-report.md artifacts/final-report.json \
+            artifacts/SHA256SUMS.json artifacts/publication-evidence/manifest.json

@@ -34,10 +34,28 @@ and records its image digest before building. Dependency pins and source hashes
 improve repeatability; results need not be bitwise identical across CPUs or
 BLAS implementations.
 
+## Startup compatibility and profiles
+
+The container entrypoint discovers the hashed `libgomp` file bundled in the
+installed Aer wheel without importing NumPy, Qiskit or Aer. It restarts the
+requested process with that exact library in `LD_PRELOAD`, preserving other
+preloads. This reserves its static TLS during process startup. The approach is
+architecture independent; it does not assume an x86 library path or increase
+the container RAM limit. See the [glibc loader documentation](https://sourceware.org/glibc/manual/latest/html_node/Dynamic-Linking-Tunables.html)
+and [OpenMP loading notes](https://lightgbm.readthedocs.io/en/stable/FAQ.html).
+
+The default is `QCENN_PROFILE=full`. Set `QCENN_PROFILE=smoke` for the smaller
+configuration. For Python selection use `--profile`, `--config`, `--stages`, and
+`--list-stages` on `qcenn_mi.validation`. New experiment CLIs expose sizes,
+conditions, ages, targets, seeds, shots, profiles and optimization settings;
+configuration files are recorded in each output and never change old baseline
+defaults silently. A full run has 20 stages, including its final report.
+
 ## Validation stages
 
 | Stage | Coverage |
 |---|---|
+| `runtime-smoke` | Real Aer Bell-state and finite-shot startup check |
 | `compile` | Compile all package and test modules |
 | `lint` | Ruff checks |
 | `unit-tests` | Complete unit suite with JUnit output |
@@ -51,6 +69,11 @@ BLAS implementations.
 | `theory` | 162 degree, condition-number, and matrix-family bound checks |
 | `time-varying` | 40 snapshots, 32 delayed-operator pairs, 16 acquisition-error cases, and 8 rank-loss rejections |
 | `hardware` | Native ideal and synthetic-noise 2×2/4×4/10×10/100×100 checks |
+
+Additional full-profile stages are `temporal-refresh`, `noise-verification`,
+`baselines`, `resources`, `operator-audit`, and `final-report`. Their scope,
+raw schemas, provenance and limits are described in
+[publication evidence](publication-evidence.md).
 
 Independent stages continue after a failure so their logs remain available.
 The final exit code is nonzero if any software stage fails. Synthetic noisy
@@ -71,6 +94,8 @@ not quantum gate noise, and the suite does not test a real-time deadline.
 |---|---|
 | `validation.json` | Stage commands, return codes, wall/CPU times, peak child RSS, and source/environment provenance |
 | `summary.md` | Aggregate software status and separate noisy-quality outcome |
+| `final-report.html`, `.md`, `.json` | Offline report with checklist status, measured tables/plots and limits |
+| `publication-evidence/manifest.json` | Input, producer and per-table/figure SHA-256 provenance |
 | `unit-tests.xml` | JUnit test results |
 | `logs/` | Per-stage stdout/stderr and resource measurements |
 | Campaign directories | JSON results, Markdown summaries, raw-count audits, and QPY circuit exports |
@@ -106,7 +131,8 @@ through the Python package.
 ## Continuous integration
 
 [Quantum simulator validation](../.github/workflows/quantum-feasibility.yml) runs
-on pushes and pull requests to `main`, and can also be started manually. It
+with AMD64/ARM64 startup checks, a smoke profile on pull requests, and full
+validation on main pushes and candidate tags. It can also be started manually. It
 checks Compose configuration, builds the locked image, runs all stages, records
 image details and Compose logs, publishes the summary, and uploads evidence
 with 30-day retention. Generated results are not committed automatically.

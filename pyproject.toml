@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qcenn-mi"
-version = "0.1.1"
+version = "0.2.0rc1"
 description = "Quantum matrix inverse action, Chebyshev-LCU circuits, and QCeNN simulator benchmarks"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -41,6 +41,8 @@ dev = [
   "pytest-cov>=5.0,<7.0",
   "ruff>=0.9,<1.0"
 ]
+
+analysis = ["matplotlib>=3.9,<4.0"]
 
 [project.scripts]
 qcenn-mi = "qcenn_mi.cli:main"

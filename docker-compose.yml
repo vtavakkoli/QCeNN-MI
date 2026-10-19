@@ -16,7 +16,9 @@ services:
       PYTHONDONTWRITEBYTECODE: "1"
       PYTHONUNBUFFERED: "1"
       QCENN_EXECUTION_CONTEXT: docker-compose
+      GITHUB_RUN_ID: ${GITHUB_RUN_ID:-}
+      GITHUB_RUN_ATTEMPT: ${GITHUB_RUN_ATTEMPT:-}
     volumes:
       - ${QCENN_ARTIFACTS_DIR:-./artifacts}:/artifacts
-    command: ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts"]
+    command: ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts", "--profile", "${QCENN_PROFILE:-full}"]
     restart: "no"

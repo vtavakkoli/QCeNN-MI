@@ -17,21 +17,23 @@ import resource
 import subprocess
 import sys
 import time
+import uuid
 import zipfile
 from datetime import UTC, datetime
 from pathlib import Path
 
 
-def stage_commands(output):
+def stage_commands(output, *, profile="full", config=None):
     output = Path(output).resolve()
     python = sys.executable
 
     def campaign(name, module, *args):
         return name, [python, "-m", module, "--output-dir", str(output / name), *args]
 
-    return [
+    commands = [
+        campaign("runtime-smoke", "qcenn_mi.runtime_smoke"),
         ("compile", [python, "-m", "compileall", "-q", "src", "tests"]),
-        ("lint", [python, "-m", "ruff", "check", "src", "tests"]),
+        ("lint", [python, "-m", "ruff", "check", "src", "tests", "docker"]),
         (
             "unit-tests",
             [
@@ -57,15 +59,51 @@ def stage_commands(output):
             "hardware", "qcenn_mi.hardware", "--qubit-budget", "42", "--large-noise-shots", "64"
         ),
     ]
+    if profile == "smoke":
+        commands = [
+            row
+            for row in commands
+            if row[0]
+            in {"runtime-smoke", "compile", "lint", "unit-tests", "assumption-a1", "compact"}
+        ]
+    elif profile != "full":
+        raise ValueError("profile must be full or smoke")
+    for name, module in [
+        ("temporal-refresh", "qcenn_mi.temporal_refresh_benchmark"),
+        ("noise-verification", "qcenn_mi.noise_verification_benchmark"),
+        ("baselines", "qcenn_mi.baseline_benchmark"),
+        ("resources", "qcenn_mi.resource_benchmark"),
+        ("operator-audit", "qcenn_mi.operator_audit"),
+    ]:
+        commands.append(
+            campaign(
+                name, module, "--config", str(Path(config or f"configs/{profile}.json").resolve())
+            )
+        )
+    return commands
+
+
+def is_source_file(path):
+    return path.is_file() and not any(
+        part == "__pycache__" or part.endswith(".egg-info") for part in path.parts
+    )
 
 
 def source_fingerprint(root):
     root = Path(root)
     paths = [
         p
-        for folder in ("src", "tests")
+        for folder in (
+            "src",
+            "tests",
+            "docker",
+            "configs",
+            "docs",
+            ".github",
+            "publication-evidence",
+        )
         for p in (root / folder).rglob("*")
-        if p.is_file() and "__pycache__" not in p.parts
+        if is_source_file(p)
     ]
     paths += [
         root / name
@@ -74,6 +112,9 @@ def source_fingerprint(root):
             "docker-compose.yml",
             "requirements.lock",
             "pyproject.toml",
+            "README.md",
+            "CITATION.cff",
+            "LICENSE",
         )
         if (root / name).is_file()
     ]
@@ -89,9 +130,17 @@ def create_bundle(root, output):
     bundle = output / "QCeNN_MI_Validation_Bundle.zip"
     source_files = [
         p
-        for folder in ("src", "tests", "docs", ".github")
+        for folder in (
+            "src",
+            "tests",
+            "docs",
+            ".github",
+            "docker",
+            "configs",
+            "publication-evidence",
+        )
         for p in (root / folder).rglob("*")
-        if p.is_file() and "__pycache__" not in p.parts
+        if is_source_file(p)
     ]
     source_files += [
         root / name
@@ -119,6 +168,13 @@ def create_bundle(root, output):
     return bundle
 
 
+def installed_version(name):
+    try:
+        return importlib.metadata.version(name)
+    except importlib.metadata.PackageNotFoundError:
+        return None
+
+
 def provenance(root):
     try:
         revision = subprocess.check_output(
@@ -129,18 +185,35 @@ def provenance(root):
         )
     except (OSError, subprocess.CalledProcessError):
         revision, dirty = os.environ.get("QCENN_SOURCE_COMMIT", "unknown"), None
-    packages = ("numpy", "scipy", "qiskit", "qiskit-aer", "pytest", "ruff")
+    packages = (
+        "numpy",
+        "scipy",
+        "qiskit",
+        "qiskit-aer",
+        "pytest",
+        "ruff",
+        "matplotlib",
+        "qcenn-mi",
+    )
     return {
         "source_commit": revision,
         "working_tree_dirty": dirty,
         "source_sha256": source_fingerprint(root),
+        "source_fingerprint_policy": (
+            "source, tests, docs, config, workflow and license; "
+            "generated egg-info and caches excluded"
+        ),
         "python": platform.python_version(),
         "platform": platform.platform(),
         "machine": platform.machine(),
         "logical_cpu_count": os.cpu_count(),
         "execution_context": os.environ.get("QCENN_EXECUTION_CONTEXT", "local-process"),
         "container_base_image": os.environ.get("QCENN_BASE_IMAGE"),
-        "packages": {name: importlib.metadata.version(name) for name in packages},
+        "packages": {name: installed_version(name) for name in packages},
+        "openmp_preload": os.environ.get("QCENN_OPENMP_PRELOAD"),
+        "glibc_tunables": os.environ.get("GLIBC_TUNABLES"),
+        "github_run_id": os.environ.get("GITHUB_RUN_ID"),
+        "github_run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
         "threads": {
             name: os.environ.get(name)
             for name in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")
@@ -209,6 +282,14 @@ def persist_summary(output, payload):
     lines = [
         "# Complete QCeNN-MI validation",
         "",
+        f"Run ID: `{payload['publication_run_id']}`; profile: `{payload['profile']}`.",
+        "",
+        (
+            "Detailed evidence: [final-report.html](final-report.html), "
+            "[final-report.md](final-report.md), and "
+            "[manifest](publication-evidence/manifest.json)."
+        ),
+        "",
         f"Software validation: {'PASS' if payload['passed'] else 'FAIL / INCOMPLETE'}",
         "",
         f"Source: `{payload['provenance']['source_commit']}`; "
@@ -233,7 +314,7 @@ def persist_summary(output, payload):
     (output / "summary.md").write_text("\n".join(lines) + "\n")
 
 
-def run_suite(output):
+def run_suite(output, *, profile="full", config=None, selected=None):
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     # A completed run must never silently mix with stale output from a prior run.
@@ -247,13 +328,30 @@ def run_suite(output):
         PYTHONDONTWRITEBYTECODE="1",
     )
     payload = {
-        "schema_version": 1,
+        "publication_run_id": "qcenn-" + uuid.uuid4().hex,
+        "profile": profile,
+        "schema_version": 2,
         "started_utc": datetime.now(UTC).isoformat(),
         "provenance": provenance(Path.cwd()),
         "stages": [],
         "passed": False,
     }
-    for name, command in stage_commands(output):
+    config = Path(config or f"configs/{profile}.json").resolve()
+    config_data = json.loads(config.read_text())
+    (output / "configuration.json").write_text(
+        json.dumps(
+            {"profile": profile, "selected_stages": selected, "configuration": config_data},
+            indent=2,
+        )
+        + "\n"
+    )
+    commands = stage_commands(output, profile=profile, config=config)
+    if selected:
+        unknown = set(selected) - {name for name, _ in commands}
+        if unknown:
+            raise ValueError(f"Unknown stages: {sorted(unknown)}")
+        commands = [row for row in commands if row[0] in selected]
+    for name, command in commands:
         payload["stages"].append(execute_stage(name, command, output, env=env))
         persist_summary(output, payload)
     hardware = output / "hardware" / "result.json"
@@ -261,7 +359,21 @@ def run_suite(output):
         payload["all_noisy_quality_gates_passed"] = json.loads(hardware.read_text()).get(
             "all_synthetic_quality_gates_passed"
         )
+    noise_study = output / "noise-verification/result.json"
+    quality = {"native_hardware": payload.get("all_noisy_quality_gates_passed")}
+    if noise_study.exists():
+        quality["repeated_controls"] = json.loads(noise_study.read_text()).get(
+            "all_synthetic_quality_gates_passed"
+        )
+    payload["synthetic_quality_by_study"] = quality
+    observed_quality = [value for value in quality.values() if value is not None]
+    payload["all_noisy_quality_gates_passed"] = all(observed_quality) if observed_quality else None
     payload["passed"] = all(row["passed"] for row in payload["stages"])
+    persist_summary(output, payload)
+    report_command = [sys.executable, "-m", "qcenn_mi.evidence_report", "--results", str(output)]
+    payload["stages"].append(execute_stage("final-report", report_command, output, env=env))
+    payload["passed"] = all(row["passed"] for row in payload["stages"])
+    payload["evidence_integrity_passed"] = payload["stages"][-1]["passed"]
     payload["finished_utc"] = datetime.now(UTC).isoformat()
     persist_summary(output, payload)
     hashes = {
@@ -281,8 +393,24 @@ def main():
         raise SystemExit(worker(sys.argv[2], sys.argv[marker + 1 :]))
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="artifacts")
+    parser.add_argument("--profile", choices=["full", "smoke"], default="full")
+    parser.add_argument("--config")
+    parser.add_argument("--stages", nargs="+")
+    parser.add_argument("--list-stages", action="store_true")
     args = parser.parse_args()
-    result = run_suite(args.output_dir)
+    if args.list_stages:
+        print(
+            "\n".join(
+                name
+                for name, _ in stage_commands(
+                    args.output_dir, profile=args.profile, config=args.config
+                )
+            )
+        )
+        return
+    result = run_suite(
+        args.output_dir, profile=args.profile, config=args.config, selected=args.stages
+    )
     raise SystemExit(0 if result["passed"] else 1)
 
 

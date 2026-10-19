@@ -29,13 +29,29 @@ PROFILES = {
 }
 
 
-def compile_native(circuit, *, qubit_budget=42, topology="line", backend=None):
+def compile_native(
+    circuit,
+    *,
+    qubit_budget=42,
+    topology="line",
+    backend=None,
+    optimization_level=2,
+    seed_transpiler=42,
+):
+    if (
+        isinstance(optimization_level, bool)
+        or not isinstance(optimization_level, int)
+        or optimization_level not in range(4)
+    ):
+        raise ValueError("optimization_level must be 0, 1, 2, or 3")
     if not isinstance(qubit_budget, int) or qubit_budget < circuit.num_qubits:
         raise ValueError("Circuit exceeds the configured device qubit budget")
     if backend is not None:
         if backend.num_qubits < circuit.num_qubits:
             raise ValueError("Backend has insufficient qubits")
-        return transpile(circuit, backend, optimization_level=2, seed_transpiler=42)
+        return transpile(
+            circuit, backend, optimization_level=optimization_level, seed_transpiler=seed_transpiler
+        )
     if topology not in ("line", "all_to_all"):
         raise ValueError("Unknown topology")
     coupling = CouplingMap.from_line(circuit.num_qubits) if topology == "line" else None
@@ -44,8 +60,8 @@ def compile_native(circuit, *, qubit_budget=42, topology="line", backend=None):
         basis_gates=NATIVE_BASIS,
         coupling_map=coupling,
         initial_layout=list(range(circuit.num_qubits)),
-        optimization_level=2,
-        seed_transpiler=42,
+        optimization_level=optimization_level,
+        seed_transpiler=seed_transpiler,
     )
 
 
@@ -86,7 +102,7 @@ def wilson(successes, total):
     p = successes / total
     center = (p + z * z / (2 * total)) / (1 + z * z / total)
     radius = z * np.sqrt(p * (1 - p) / total + z * z / (4 * total * total)) / (1 + z * z / total)
-    return [float(max(0, center - radius)), float(min(1, center + radius))]
+    return [float(max(0, min(p, center - radius))), float(min(1, max(p, center + radius)))]
 
 
 def read_echo_counts(counts, *, data_qubits, total_qubits):
@@ -109,6 +125,10 @@ def read_echo_counts(counts, *, data_qubits, total_qubits):
         "accepted": accepted,
         "returned": returned,
         "success_frequency": accepted / total if total else None,
+        "unconditional_success_95ci": wilson(accepted, total),
+        "effective_good_output_probability": returned / total if total else None,
+        "effective_good_output_95ci": wilson(returned, total),
+        "too_few_accepted_shots": accepted < 20,
         "observed_echo_return": fraction,
         "echo_return_95ci": wilson(returned, accepted),
         "quality_gate": bool(accepted >= 20 and wilson(returned, accepted)[0] >= 0.9),

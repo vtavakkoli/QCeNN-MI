@@ -131,3 +131,16 @@ need a provider-specific adapter. Record calibration, routing, job IDs, shot
 counts and compilation settings for every physical run. The 42-qubit count alone
 cannot substitute for those checks. Hardware calibration and physical execution
 remain pending, including for 1000×1000.
+
+
+## Run provenance and publication tables
+
+Archived values in `results/` are historical reference runs. The separate clean
+`e6769dbe` benchmark matches the manuscript's native depth sequence
+66/138/1032/41033 and order-100 noise count 35/64 (echo 10/35); the original
+public hardware archive has 72/142/1033/41024 and 34/64 (echo 8/34).
+Both are preserved in `publication-evidence/historical-reconciliation.json`
+and its linked raw evidence. They are not averaged or silently overwritten.
+For new tables and figures use one completed run's `final-report.html` and
+`publication-evidence/manifest.json`; see
+[publication evidence](publication-evidence.md).

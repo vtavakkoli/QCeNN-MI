@@ -38,14 +38,38 @@ cd QCeNN-MI
 docker compose up --build --abort-on-container-exit --exit-code-from validation
 ```
 
-The 13 stages cover compilation, lint, unit tests, hybrid solvers, coherent
+The 20 full-profile stages cover compilation, lint, unit tests, hybrid solvers, coherent
 circuits, scaling, precision, theoretical bounds, temporal dynamics, and hardware
 simulation. Outputs include JSON results, Markdown summaries, raw measurement
-audits, QPY circuits, timing, provenance, and a validation bundle in `artifacts/`.
+audits, QPY circuits, timing, provenance, and a validation bundle in `artifacts/`. The final stage generates an offline
+HTML report, Markdown/JSON reports, CSV tables, SVG/PNG figures, and a verified
+evidence manifest.
 Each run must use a fresh output directory.
 
 See [validation and reproducibility](docs/validation.md) for resource limits,
 individual stages, evidence formats, and repeat runs.
+
+## Test profiles and final report
+
+```bash
+# Faster integration profile; each run uses a fresh output folder
+QCENN_PROFILE=smoke QCENN_ARTIFACTS_DIR=./artifacts/smoke \
+  docker compose up --build --abort-on-container-exit --exit-code-from validation
+
+# Independently check table metrics and evidence digests after a run
+docker compose run --rm validation python -m qcenn_mi.evidence_report \
+  --results /artifacts --verify-only
+```
+
+Open `artifacts/final-report.html` for checklist coverage, measured results,
+plots, explicit limitations, and complete CSV downloads. The report separates
+software validation, ideal numerical error, synthetic noisy quality, and
+physical-device validation. See [publication evidence](docs/publication-evidence.md)
+for experiment settings, claim mappings, historical discrepancies and releases.
+
+The image preloads Aer’s actual wheel OpenMP library before starting Python,
+which avoids the Linux `cannot allocate memory in static TLS block` startup
+failure. Startup and real simulator execution are checked on AMD64 and ARM64 CI.
 
 ## Python installation
 
@@ -83,6 +107,12 @@ python -m qcenn_mi.time_varying_benchmark --output-dir results/time-varying
 
 # Native-gate and synthetic-noise checks; no physical QPU submission
 python -m qcenn_mi.hardware --qubit-budget 42 --output-dir results/hardware
+
+# New practical tracking, repeated noise controls, baselines and resource studies
+python -m qcenn_mi.temporal_refresh_benchmark --config configs/full.json
+python -m qcenn_mi.noise_verification_benchmark --config configs/full.json
+python -m qcenn_mi.baseline_benchmark --config configs/full.json
+python -m qcenn_mi.resource_benchmark --config configs/full.json
 ```
 
 For repeatable timings, set `OPENBLAS_NUM_THREADS=1`, `OMP_NUM_THREADS=1`, and
@@ -124,17 +154,17 @@ outside the current coherent implementation's supported domain.
 - [Large structured-statevector simulations](docs/coherent-large.md)
 - [Compact circuits and hardware preparation](docs/compact-hardware.md)
 - [1000×1000 precision and conditioning](docs/precision-1000.md)
-- [Archived simulator results](results/README.md)
+- [Archived simulator results](https://github.com/vtavakkoli/QCeNN-MI/tree/main/results)
 
 ## Development
 
 ```bash
-python -m ruff check src tests
+python -m ruff check src tests docker
 python -m pytest -q
 ```
 
-GitHub Actions runs the complete Docker Compose suite on pushes and pull
-requests to `main`. Each run uploads its evidence and validation bundle as a
+GitHub Actions runs AMD64/ARM64 startup checks, a smoke suite on pull requests,
+and the complete Docker Compose suite on pushes to `main` and candidate tags. Each run uploads its evidence and validation bundle as a
 workflow artifact and publishes the aggregate summary on the workflow run.
 
 | Path | Purpose |

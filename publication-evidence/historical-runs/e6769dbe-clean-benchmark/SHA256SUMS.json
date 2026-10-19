@@ -1,0 +1,23 @@
+{
+  "CIRCUITS.json": "898f7e021864ba8d85e20fff8f0eb557f32112482cac0da3643956a73864ad63",
+  "ORIGINAL_LICENSE": "d923f515168eebb1a577a86d6dfa1a06b52272b9e1f85a49e34fc6ecd35d754f",
+  "hardware/10-inverse-action.qpy.gz": "1e1edb0a61f551075a9a7f70020408655c8442514ef49fde749b77bc3f22a743",
+  "hardware/100-inverse-action.qpy.gz": "a84252a94388f2416212d4d37991c31c90c8b5a6a0b8b259bf255169f4a30440",
+  "hardware/2-inverse-action.qpy.gz": "3632af3161249e70bf72504a832052e2cebda469c49bc46c86caf3b312d46b9b",
+  "hardware/4-inverse-action.qpy.gz": "f744ceec3625e65384371a674049b2ba88bb3f87bacfc3d42892befb1d0ca5aa",
+  "hardware/audit/10-ideal.json": "c0eb2ced1ca9dc0d4642a2a757028f573c06615fba9053e007a4c73ddb64ee7b",
+  "hardware/audit/10-optimistic_synthetic.json": "26024d891e3d74a0fc100caf1050ebe212ddd40a5862b4f97b9e782fc34fef0c",
+  "hardware/audit/10-stress_synthetic.json": "03f4d9c5aeded1950292a4409d80eafbd74e57c870573e75c1dc057ab7b45aba",
+  "hardware/audit/100-ideal.json": "c80324c4663d3a1fd1d9241b1d6423fb3cc480d691442898939167c53fa0d65a",
+  "hardware/audit/100-optimistic_synthetic.json": "d82f151fd20e53e8c819a1dd0182c8ca7adcf5686654e99b6e4966493542f34d",
+  "hardware/audit/2-ideal.json": "ac3a5eb91fab1f4014e9769a2754136ce3d014e6807234d17f0a905e4aff283a",
+  "hardware/audit/2-optimistic_synthetic.json": "28a62445631c4a253c974cf462ac7a5187ecdd8f55358066a6e498d5b403a658",
+  "hardware/audit/2-stress_synthetic.json": "dce61ddaeedb2ab12d738d480609073320ab03dec78a4939b8b724f6a140f73c",
+  "hardware/audit/4-ideal.json": "df9fbff21e18b9675fa3b73d4a9460c61c5cd75695d2204dee3c96062d783bec",
+  "hardware/audit/4-optimistic_synthetic.json": "5a5d1bab8d629af3aca1a64d161d400d7614bd36df65e5ac8bee2c8dd8215727",
+  "hardware/audit/4-stress_synthetic.json": "8a59ddf7cad81c7cafaed9e8373d3b5e785ba6769f8919785bf819886f6e8895",
+  "hardware/result.json": "9c7625766243aeef3c86041cf90f89925a81ff86669f859056e6593099bcb640",
+  "logs/hardware.log": "1a7de3c1874af0cf28e3569f4dfb1f18a3f494ac76a4469467e7e46156f93db1",
+  "logs/hardware.metrics.json": "f2fb07800a25eb82f142d6c58b779bcb7816cb3ee1c730f66bdff9d1ac65e2cb",
+  "validation.json": "90102f9f0d223f47167a72336a2fcb8f9d6119c627ea0fbe4681225706fc0788"
+}

@@ -14,6 +14,12 @@ from qcenn_mi.validation import create_bundle, execute_stage, source_fingerprint
 def test_suite_contains_every_existing_campaign_and_1000_precision(tmp_path):
     commands = dict(stage_commands(tmp_path))
     assert set(commands) == {
+        "runtime-smoke",
+        "temporal-refresh",
+        "noise-verification",
+        "baselines",
+        "resources",
+        "operator-audit",
         "compile",
         "lint",
         "unit-tests",
@@ -87,3 +93,18 @@ def test_theory_operator_and_normalized_state_bounds(family):
     assert relative <= operation.residual_bound + 1e-12
     assert state_error <= 2 * operation.residual_bound + 1e-12
     assert operation.normalization <= 1 / np.min(operation.encoding.singular_values) + 1e-12
+
+
+def test_generated_build_metadata_does_not_change_source_or_enter_the_bundle(tmp_path):
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src/a.py").write_text("x = 1\n")
+    initial = source_fingerprint(tmp_path)
+    metadata = tmp_path / "src/package.egg-info"
+    metadata.mkdir()
+    (metadata / "PKG-INFO").write_text("generated install metadata\n")
+    assert source_fingerprint(tmp_path) == initial
+    output = tmp_path / "evidence"
+    output.mkdir()
+    bundle = create_bundle(tmp_path, output)
+    with zipfile.ZipFile(bundle) as archive:
+        assert not any(".egg-info/" in name for name in archive.namelist())

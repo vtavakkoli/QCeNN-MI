@@ -1,0 +1,15 @@
+{
+  "ORIGINAL_LICENSE": "d923f515168eebb1a577a86d6dfa1a06b52272b9e1f85a49e34fc6ecd35d754f",
+  "audit/10-ideal.json": "88e1b71482f8c32acd21313e6d2a0ffe45cee37bbb2b451bd0558adb79892edf",
+  "audit/10-optimistic_synthetic.json": "06b2c00bc105ab81034d0f9ffa4a0624a559410eefbcdbfee6a676de153c521e",
+  "audit/10-stress_synthetic.json": "528a8564fb01ea6c79eb782c9a038c501696d5ab0f64c285b926375181a37514",
+  "audit/100-ideal.json": "b1f710d872a45b4fa1d9f45c60bd8bb62212139eef96721ccbebfa63d6571b53",
+  "audit/100-optimistic_synthetic.json": "ce8aaea8e0a3b4dfc54e9f24be4618373db4e3c39ef339e79d7865b6b446255d",
+  "audit/2-ideal.json": "47d1c4afd717a95059f3bdaa28a1cd3bd3e69b0bd3dacf6d99d604ace8eb86a7",
+  "audit/2-optimistic_synthetic.json": "e7f49612cfa4dc45d847986560aee60d63264dc890a71a773420499b1ed84c1a",
+  "audit/2-stress_synthetic.json": "f7fd035ae7989211b3aa1f54b94be2c997eb35adfcd5cdb90d7745d39c6644c4",
+  "audit/4-ideal.json": "ee5799f396839d212616237aaf963b7b238ada8e29bc7394a636f3e69741e858",
+  "audit/4-optimistic_synthetic.json": "60e89a744998b07056a3c9287b3f1f08f174a2de2a95d683aedd8715172dba97",
+  "audit/4-stress_synthetic.json": "cdd3b6cf5df491323e0f55d818ed25ad5a330e320be18029d975463f5bd3a469",
+  "result.json": "54cef812f0a88a722a205f2c91fa1f9902569539ad6b38f946aad68ec34e73ff"
+}

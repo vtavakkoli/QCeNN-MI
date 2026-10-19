@@ -120,3 +120,16 @@ eigendecomposition/SVD still costs O(N³), and dense quantum basis changes still
 have substantial gate cost. Native noisy simulation and physical execution at
 1000 dimensions remain untested. The earlier hardware-noise limitations in
 [the hardware protocol](compact-hardware.md) still apply.
+
+
+## Run provenance and publication tables
+
+Archived values in `results/` are historical reference runs. The separate clean
+`e6769dbe` benchmark matches the manuscript's native depth sequence
+66/138/1032/41033 and order-100 noise count 35/64 (echo 10/35); the original
+public hardware archive has 72/142/1033/41024 and 34/64 (echo 8/34).
+Both are preserved in `publication-evidence/historical-reconciliation.json`
+and its linked raw evidence. They are not averaged or silently overwritten.
+For new tables and figures use one completed run's `final-report.html` and
+`publication-evidence/manifest.json`; see
+[publication evidence](publication-evidence.md).

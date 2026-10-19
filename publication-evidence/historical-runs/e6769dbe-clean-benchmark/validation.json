@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-18T19:44:01.951598+00:00",
+  "provenance": {
+    "source_commit": "e6769dbe30b0d1f3d8540b14c467fb3218a05c46",
+    "working_tree_dirty": false,
+    "source_sha256": "afc5dd6c50b7ec4c763ceca59c7a355cdcb3348401d4ea1f86fb83b8929ace51",
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "logical_cpu_count": 9,
+    "execution_context": "local-process",
+    "container_base_image": null,
+    "packages": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "qiskit": "2.6.0",
+      "qiskit-aer": "0.17.2",
+      "pytest": "8.4.2",
+      "ruff": "0.17.1",
+      "matplotlib": "3.10.8"
+    },
+    "threads": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "eurohpc_allocated_node_execution_claimed": false,
+    "physical_hardware_tested": false,
+    "clock_source": "execution-environment UTC clock; not independently synchronized"
+  },
+  "stages": [
+    {
+      "returncode": 0,
+      "wall_seconds": 0.03920304099983696,
+      "cpu_seconds": 0.038925,
+      "peak_child_rss_bytes": 126930944,
+      "name": "compile",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "tests",
+        "scripts"
+      ],
+      "log": "logs/compile.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 0.030954999000186945,
+      "cpu_seconds": 0.036183,
+      "peak_child_rss_bytes": 123863040,
+      "name": "lint",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests",
+        "scripts"
+      ],
+      "log": "logs/lint.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 32.80985616800035,
+      "cpu_seconds": 32.820311,
+      "peak_child_rss_bytes": 281690112,
+      "name": "unit-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--junitxml=/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/unit-tests.xml"
+      ],
+      "log": "logs/unit-tests.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 1.0735725450003883,
+      "cpu_seconds": 1.0708419999999998,
+      "peak_child_rss_bytes": 127975424,
+      "name": "assumption-a1",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.cli",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/assumption-a1",
+        "--shots",
+        "8192",
+        "--seed",
+        "42"
+      ],
+      "log": "logs/assumption-a1.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 15.261621299000126,
+      "cpu_seconds": 15.314508,
+      "peak_child_rss_bytes": 139231232,
+      "name": "a2-a4",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.experiments",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/a2-a4"
+      ],
+      "log": "logs/a2-a4.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 24.721833336000145,
+      "cpu_seconds": 24.713501,
+      "peak_child_rss_bytes": 133926912,
+      "name": "scaling",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.scaling",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/scaling"
+      ],
+      "log": "logs/scaling.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 18.436845691000144,
+      "cpu_seconds": 18.722533000000002,
+      "peak_child_rss_bytes": 496283648,
+      "name": "coherent",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.coherent_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/coherent"
+      ],
+      "log": "logs/coherent.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 5.808072548000382,
+      "cpu_seconds": 5.88225,
+      "peak_child_rss_bytes": 376668160,
+      "name": "coherent-large",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.coherent_large_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/coherent-large"
+      ],
+      "log": "logs/coherent-large.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 1.856265126999915,
+      "cpu_seconds": 1.852552,
+      "peak_child_rss_bytes": 241795072,
+      "name": "compact",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.compact_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/compact"
+      ],
+      "log": "logs/compact.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 18.53193776800026,
+      "cpu_seconds": 18.528458999999998,
+      "peak_child_rss_bytes": 282148864,
+      "name": "precision-1000",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.precision_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/precision-1000"
+      ],
+      "log": "logs/precision-1000.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 0.8487581740000678,
+      "cpu_seconds": 0.848444,
+      "peak_child_rss_bytes": 126820352,
+      "name": "theory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.theory_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/theory"
+      ],
+      "log": "logs/theory.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 20.686528237999937,
+      "cpu_seconds": 20.684392000000003,
+      "peak_child_rss_bytes": 360345600,
+      "name": "time-varying",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.time_varying_benchmark",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/time-varying"
+      ],
+      "log": "logs/time-varying.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 37.32171806899987,
+      "cpu_seconds": 37.961892,
+      "peak_child_rss_bytes": 563482624,
+      "name": "hardware",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-m",
+        "qcenn_mi.hardware",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/hardware",
+        "--qubit-budget",
+        "42",
+        "--large-noise-shots",
+        "64"
+      ],
+      "log": "logs/hardware.log",
+      "passed": true
+    },
+    {
+      "returncode": 0,
+      "wall_seconds": 5.827831636000155,
+      "cpu_seconds": 5.827149,
+      "peak_child_rss_bytes": 123527168,
+      "name": "publication",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "scripts/build_publication.py",
+        "--results",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified",
+        "--output-dir",
+        "/workspace/scratch/c3b1d9548e8e/QCeNN-MI/artifacts/time-varying-verified/publication",
+        "--project-metadata",
+        "/workspace/scratch/c3b1d9548e8e/eurohpc-submission-metadata.json"
+      ],
+      "log": "logs/publication.log",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "all_noisy_quality_gates_passed": false,
+  "finished_utc": "2026-10-18T19:47:14.650411+00:00"
+}

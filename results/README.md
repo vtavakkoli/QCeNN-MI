@@ -18,3 +18,16 @@ review. Workflow artifacts retain each CI run's regenerated results tied to its
 commit, environment, seed and acceptance threshold. The precision JSON records
 package versions, seeds, full-operator residuals, reference errors, qubit and
 memory estimates, postselection probabilities and the explicit degree-limit case.
+
+
+## Run provenance and publication tables
+
+Archived values in `results/` are historical reference runs. The separate clean
+`e6769dbe` benchmark matches the manuscript's native depth sequence
+66/138/1032/41033 and order-100 noise count 35/64 (echo 10/35); the original
+public hardware archive has 72/142/1033/41024 and 34/64 (echo 8/34).
+Both are preserved in `publication-evidence/historical-reconciliation.json`
+and its linked raw evidence. They are not averaged or silently overwritten.
+For new tables and figures use one completed run's `final-report.html` and
+`publication-evidence/manifest.json`; see
+[publication evidence](../docs/publication-evidence.md).

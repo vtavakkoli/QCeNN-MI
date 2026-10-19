@@ -16,10 +16,16 @@ WORKDIR /app
 COPY requirements.lock ./
 RUN python -m pip install --no-cache-dir -r requirements.lock
 COPY pyproject.toml README.md LICENSE CITATION.cff ./
+COPY docker ./docker
+COPY configs ./configs
+COPY publication-evidence ./publication-evidence
 COPY src ./src
 COPY tests ./tests
 COPY docs ./docs
 COPY .github ./.github
 COPY Dockerfile docker-compose.yml requirements.lock .dockerignore .gitignore ./
 RUN python -m pip install --no-deps . && python -m pip check
-CMD ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts"]
+ENV QCENN_REQUIRE_AER_PRELOAD=1
+RUN python -S docker/entrypoint.py python -c "from qiskit_aer import AerSimulator; print(AerSimulator().name)"
+ENTRYPOINT ["python", "-S", "/app/docker/entrypoint.py"]
+CMD ["python", "-m", "qcenn_mi.validation", "--output-dir", "/artifacts", "--profile", "full"]
