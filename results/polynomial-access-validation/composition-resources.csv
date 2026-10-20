@@ -1,0 +1,61 @@
+size,condition,polynomial_degree,data_qubits,total_qubits,macro_updates,residual_unitary_calls,extra_control_incidents,controlled_swaps,auxiliary_resets,largest_controlled_unitary_qubits,intermediate_data_measurements,status,preprocessing_seconds,wall_seconds,maximum_density_error,trace,width,cx,depth,qpy_file,native_gate_execution,simulation,reason
+2,2,0,2,5,1,1,0,2,0,3,0,complete,0.0009838549999585666,0.014804123999965668,0.0,1.0000000000000004,5,34,108,n2-k2-m0.qpy,False,complete coherent circuit at residual-unitary level,
+2,2,1,2,6,1,2,1,4,0,4,0,complete,0.0009429130000171426,0.026039373000003252,1.8607246463329224e-15,1.0000000000000002,6,98,344,n2-k2-m1.qpy,False,complete coherent circuit at residual-unitary level,
+2,2,2,2,7,1,3,3,6,0,5,0,complete,0.0007360810000136553,0.0649497929998688,1.6986412276764895e-14,0.9999999999999942,7,346,1328,n2-k2-m2.qpy,False,complete coherent circuit at residual-unitary level,
+2,2,4,2,9,1,5,10,10,0,7,0,complete,0.0008656959998916136,2.6135606569996526,9.57012247226885e-14,0.9999999999998662,9,5514,21746,n2-k2-m4.qpy,False,complete coherent circuit at residual-unitary level,
+2,2,8,2,13,1,9,36,18,0,11,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+2,2,16,2,21,1,17,136,34,0,19,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+2,100,0,2,5,1,1,0,2,0,3,0,complete,0.0008353610000995104,0.01147534000028827,0.0,1.0000000000000002,5,34,108,n2-k100-m0.qpy,False,complete coherent circuit at residual-unitary level,
+2,100,1,2,6,1,2,1,4,0,4,0,complete,0.0008222510000450711,0.02591574500002025,2.587345052149216e-15,0.9999999999999989,6,98,342,n2-k100-m1.qpy,False,complete coherent circuit at residual-unitary level,
+2,100,2,2,7,1,3,3,6,0,5,0,complete,0.0008909349999157712,0.07891889299980903,1.0050763103013411e-14,0.9999999999999952,7,346,1324,n2-k100-m2.qpy,False,complete coherent circuit at residual-unitary level,
+2,100,4,2,9,1,5,10,10,0,7,0,complete,0.001201604000016232,2.7474000640004306,1.2867484855405564e-13,0.9999999999998712,9,5514,21742,n2-k100-m4.qpy,False,complete coherent circuit at residual-unitary level,
+2,100,8,2,13,1,9,36,18,0,11,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+2,100,16,2,21,1,17,136,34,0,19,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+4,2,0,3,7,1,1,0,3,0,4,0,complete,0.00103248799996436,0.019171525000274414,0.0,1.0000000000000007,7,119,416,n4-k2-m0.qpy,False,complete coherent circuit at residual-unitary level,
+4,2,1,3,8,1,2,1,6,0,5,0,complete,0.0010453169998072553,0.08193383800016818,6.441482392603697e-15,0.9999999999999947,8,373,1400,n4-k2-m1.qpy,False,complete coherent circuit at residual-unitary level,
+4,2,2,3,9,1,3,3,9,0,6,0,complete,0.0009270890000152576,0.406901998000194,2.1094237467877974e-14,0.999999999999964,9,1395,5438,n4-k2-m2.qpy,False,complete coherent circuit at residual-unitary level,
+4,2,4,3,11,1,5,10,15,0,8,0,complete,0.0008646049996059446,35.83485421399973,4.691802502065912e-13,0.9999999999994356,11,22383,87872,n4-k2-m4.qpy,False,complete coherent circuit at residual-unitary level,
+4,2,8,3,15,1,9,36,27,0,12,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+4,2,16,3,23,1,17,136,51,0,20,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+4,100,0,3,7,1,1,0,3,0,4,0,complete,0.0011903559998245328,0.015645012999812025,1.1102230246251565e-16,0.9999999999999999,7,119,416,n4-k100-m0.qpy,False,complete coherent circuit at residual-unitary level,
+4,100,1,3,8,1,2,1,6,0,5,0,complete,0.0008068679999269079,0.06071259600003032,1.148274911197186e-14,0.9999999999999901,8,373,1400,n4-k100-m1.qpy,False,complete coherent circuit at residual-unitary level,
+4,100,2,3,9,1,3,3,9,0,6,0,complete,0.0008517349997418933,0.3130872960000488,3.319566843629218e-14,0.9999999999999667,9,1395,5440,n4-k100-m2.qpy,False,complete coherent circuit at residual-unitary level,
+4,100,4,3,11,1,5,10,15,0,8,0,complete,0.0009360129997730837,32.57270404799965,5.635492072997295e-13,0.9999999999994365,11,22383,87876,n4-k100-m4.qpy,False,complete coherent circuit at residual-unitary level,
+4,100,8,3,15,1,9,36,27,0,12,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+4,100,16,3,23,1,17,136,51,0,20,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+10,2,0,4,9,1,1,0,4,0,5,0,complete,0.000857815000017581,0.019817126999896573,1.1102230246251565e-16,0.9999999999999997,9,455,1648,n10-k2-m0.qpy,False,complete coherent circuit at residual-unitary level,
+10,2,1,4,10,1,2,1,8,0,6,0,complete,0.0012584799997057416,0.28001300399955653,2.275957200481571e-14,0.999999999999976,10,1483,5688,n10-k2-m1.qpy,False,complete coherent circuit at residual-unitary level,
+10,2,2,4,11,1,3,3,12,0,7,0,complete,0.0010794800000439864,2.548714800000198,9.203748874142548e-14,0.9999999999998737,11,5647,22080,n10-k2-m2.qpy,False,complete coherent circuit at residual-unitary level,
+10,2,4,4,13,1,5,10,20,0,9,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+10,2,8,4,17,1,9,36,36,0,13,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+10,2,16,4,25,1,17,136,68,0,21,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+10,100,0,4,9,1,1,0,4,0,5,0,complete,0.0009261989998776698,0.019891062000169768,0.0,1.0000000000000004,9,455,1648,n10-k100-m0.qpy,False,complete coherent circuit at residual-unitary level,
+10,100,1,4,10,1,2,1,8,0,6,0,complete,0.0009918569999172178,0.3213483629997427,2.3425705819590803e-14,0.999999999999977,10,1483,5686,n10-k100-m1.qpy,False,complete coherent circuit at residual-unitary level,
+10,100,2,4,11,1,3,3,12,0,7,0,complete,0.00093150600014269,2.6996209120002277,1.3555823130673161e-13,0.999999999999865,11,5647,22078,n10-k100-m2.qpy,False,complete coherent circuit at residual-unitary level,
+10,100,4,4,13,1,5,10,20,0,9,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+10,100,8,4,17,1,9,36,36,0,13,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+10,100,16,4,25,1,17,136,68,0,21,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,2,0,7,15,1,1,0,7,0,8,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,2,1,7,16,1,2,1,14,0,9,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,2,2,7,17,1,3,3,21,0,10,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,2,4,7,19,1,5,10,35,0,12,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,2,8,7,23,1,9,36,63,0,16,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,2,16,7,31,1,17,136,119,0,24,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,100,0,7,15,1,1,0,7,0,8,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,100,1,7,16,1,2,1,14,0,9,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,100,2,7,17,1,3,3,21,0,10,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,100,4,7,19,1,5,10,35,0,12,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,100,8,7,23,1,9,36,63,0,16,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+100,100,16,7,31,1,17,136,119,0,24,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,2,0,10,21,1,1,0,10,0,11,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,2,1,10,22,1,2,1,20,0,12,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,2,2,10,23,1,3,3,30,0,13,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,2,4,10,25,1,5,10,50,0,15,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,2,8,10,29,1,9,36,90,0,19,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,2,16,10,37,1,17,136,170,0,27,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,100,0,10,21,1,1,0,10,0,11,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,100,1,10,22,1,2,1,20,0,12,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,100,2,10,23,1,3,3,30,0,13,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,100,4,10,25,1,5,10,50,0,15,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,100,8,10,29,1,9,36,90,0,19,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
+1000,100,16,10,37,1,17,136,170,0,27,0,resource_rejected,,,,,,,,,,,Input/control-unitary dense synthesis budget
