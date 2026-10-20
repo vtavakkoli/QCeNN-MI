@@ -1,0 +1,15 @@
+{
+  "run": "qcenn-2beba723e4d54f86a69a19a1183b6da0",
+  "exact_source_commit": "c2c18d71ac24b4082048826c9b0080212efcfa6d",
+  "full_validation_bundle_sha256": "541e0ba2558d7f3ef6ae0854541c031b8a463eac445115e55c11cfe99d0dda92",
+  "raw_result_sha256": "106d383cfc9671680fabc11eb7feeedc43a41acf51c2cd3828078abd33567874",
+  "software_stages_passed": 23,
+  "unit_tests_passed": 213,
+  "matched_trajectories": 27,
+  "matched_joint_accuracy_passed": 17,
+  "variable_spectrum_trajectories": 18,
+  "new_actual_input_matrices": 39,
+  "condition_100_finite_budget_noisy_failures": 12,
+  "condition_100_stationary_noisy_failures": 10,
+  "physical_hardware_tested": false
+}

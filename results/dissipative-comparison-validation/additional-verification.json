@@ -1,0 +1,371 @@
+{
+  "passed": true,
+  "scope": "independent post-hoc diagnostics, separate from the 23-stage campaign",
+  "source_commit": "c2c18d71ac24b4082048826c9b0080212efcfa6d",
+  "source_sha256": "55baaed7dcdca62b49ad7692d04556dbf000f1206b80f8e47c90a0ce75e9fd99",
+  "input_matrices_verified": 39,
+  "inputs": [
+    {
+      "file": "inputs/n10-k2.npz",
+      "size": 10,
+      "condition": 1.9999999999999993,
+      "sigma_min": 1.0,
+      "sigma_max": 1.9999999999999993,
+      "reference_relative_residual": 3.030619258065513e-16,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n10-k10.npz",
+      "size": 10,
+      "condition": 9.999999999999993,
+      "sigma_min": 1.0000000000000002,
+      "sigma_max": 9.999999999999995,
+      "reference_relative_residual": 3.5927200039886987e-16,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n10-k100.npz",
+      "size": 10,
+      "condition": 100.00000000000006,
+      "sigma_min": 0.9999999999999994,
+      "sigma_max": 100.0,
+      "reference_relative_residual": 2.7190130013505518e-15,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n100-k2.npz",
+      "size": 100,
+      "condition": 2.000000000000002,
+      "sigma_min": 0.9999999999999997,
+      "sigma_max": 2.0000000000000013,
+      "reference_relative_residual": 1.8002603476943127e-15,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n100-k10.npz",
+      "size": 100,
+      "condition": 10.0,
+      "sigma_min": 1.0000000000000002,
+      "sigma_max": 10.000000000000002,
+      "reference_relative_residual": 2.895235955533737e-15,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n100-k100.npz",
+      "size": 100,
+      "condition": 100.00000000000011,
+      "sigma_min": 0.9999999999999992,
+      "sigma_max": 100.00000000000004,
+      "reference_relative_residual": 5.79140110698762e-15,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n1000-k2.npz",
+      "size": 1000,
+      "condition": 2.000000000000003,
+      "sigma_min": 1.0,
+      "sigma_max": 2.000000000000003,
+      "reference_relative_residual": 2.152809676392498e-14,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n1000-k10.npz",
+      "size": 1000,
+      "condition": 10.000000000000005,
+      "sigma_min": 0.9999999999999999,
+      "sigma_max": 10.000000000000004,
+      "reference_relative_residual": 2.7343551782013767e-14,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n1000-k100.npz",
+      "size": 1000,
+      "condition": 99.99999999999994,
+      "sigma_min": 0.9999999999999982,
+      "sigma_max": 99.99999999999977,
+      "reference_relative_residual": 6.640364144751013e-14,
+      "reference_vs_independent_solve": 0.0
+    },
+    {
+      "file": "inputs/n10-spectrum-00.npz",
+      "size": 10,
+      "condition": 2.0,
+      "sigma_min": 0.5000000000000001,
+      "sigma_max": 1.0000000000000002,
+      "reference_relative_residual": 7.67057063376172e-16,
+      "reference_vs_independent_solve": 6.457697194290812e-16
+    },
+    {
+      "file": "inputs/n10-spectrum-01.npz",
+      "size": 10,
+      "condition": 4.0,
+      "sigma_min": 0.2901742256054088,
+      "sigma_max": 1.1606969024216351,
+      "reference_relative_residual": 8.033947717429138e-16,
+      "reference_vs_independent_solve": 5.604623927020089e-16
+    },
+    {
+      "file": "inputs/n10-spectrum-02.npz",
+      "size": 10,
+      "condition": 10.000000000000004,
+      "sigma_min": 0.12462019382530518,
+      "sigma_max": 1.2462019382530523,
+      "reference_relative_residual": 1.1053356204636115e-15,
+      "reference_vs_independent_solve": 6.680687240983174e-16
+    },
+    {
+      "file": "inputs/n10-spectrum-03.npz",
+      "size": 10,
+      "condition": 30.00000000000004,
+      "sigma_min": 0.04055021169820361,
+      "sigma_max": 1.2165063509461098,
+      "reference_relative_residual": 2.265513671461522e-15,
+      "reference_vs_independent_solve": 1.9473990970743182e-15
+    },
+    {
+      "file": "inputs/n10-spectrum-04.npz",
+      "size": 10,
+      "condition": 100.00000000000007,
+      "sigma_min": 0.010855050358314168,
+      "sigma_max": 1.0855050358314176,
+      "reference_relative_residual": 5.0235436900707605e-15,
+      "reference_vs_independent_solve": 1.1334763557349875e-15
+    },
+    {
+      "file": "inputs/n10-spectrum-05.npz",
+      "size": 10,
+      "condition": 99.9999999999998,
+      "sigma_min": 0.009144949641685848,
+      "sigma_max": 0.914494964168583,
+      "reference_relative_residual": 2.699182699685025e-15,
+      "reference_vs_independent_solve": 1.4870041253092023e-15
+    },
+    {
+      "file": "inputs/n10-spectrum-06.npz",
+      "size": 10,
+      "condition": 30.00000000000001,
+      "sigma_min": 0.026116454968463012,
+      "sigma_max": 0.7834936490538906,
+      "reference_relative_residual": 1.147695882016786e-15,
+      "reference_vs_independent_solve": 7.045847269753018e-16
+    },
+    {
+      "file": "inputs/n10-spectrum-07.npz",
+      "size": 10,
+      "condition": 10.000000000000005,
+      "sigma_min": 0.07537980617469478,
+      "sigma_max": 0.7537980617469482,
+      "reference_relative_residual": 9.118122780782211e-16,
+      "reference_vs_independent_solve": 7.967887576412968e-16
+    },
+    {
+      "file": "inputs/n10-spectrum-08.npz",
+      "size": 10,
+      "condition": 3.999999999999999,
+      "sigma_min": 0.2098257743945913,
+      "sigma_max": 0.839303097578365,
+      "reference_relative_residual": 8.678600138753096e-16,
+      "reference_vs_independent_solve": 7.396585283338545e-16
+    },
+    {
+      "file": "inputs/n10-spectrum-09.npz",
+      "size": 10,
+      "condition": 2.0000000000000013,
+      "sigma_min": 0.49999999999999983,
+      "sigma_max": 1.0000000000000002,
+      "reference_relative_residual": 6.87044034669131e-16,
+      "reference_vs_independent_solve": 5.867110375355261e-16
+    },
+    {
+      "file": "inputs/n100-spectrum-00.npz",
+      "size": 100,
+      "condition": 1.9999999999999996,
+      "sigma_min": 0.5000000000000001,
+      "sigma_max": 1.0,
+      "reference_relative_residual": 1.156485521747623e-15,
+      "reference_vs_independent_solve": 2.771396916699734e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-01.npz",
+      "size": 100,
+      "condition": 3.999999999999999,
+      "sigma_min": 0.29017422560540873,
+      "sigma_max": 1.1606969024216347,
+      "reference_relative_residual": 1.2847297246503827e-15,
+      "reference_vs_independent_solve": 2.4700413341068173e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-02.npz",
+      "size": 100,
+      "condition": 9.999999999999995,
+      "sigma_min": 0.12462019382530522,
+      "sigma_max": 1.2462019382530516,
+      "reference_relative_residual": 1.8195996884455652e-15,
+      "reference_vs_independent_solve": 2.061384268686885e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-03.npz",
+      "size": 100,
+      "condition": 30.00000000000005,
+      "sigma_min": 0.04055021169820361,
+      "sigma_max": 1.2165063509461103,
+      "reference_relative_residual": 3.616995835818019e-15,
+      "reference_vs_independent_solve": 3.2805723366577943e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-04.npz",
+      "size": 100,
+      "condition": 99.9999999999998,
+      "sigma_min": 0.0108550503583142,
+      "sigma_max": 1.0855050358314178,
+      "reference_relative_residual": 8.923096051212534e-15,
+      "reference_vs_independent_solve": 7.69590478896774e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-05.npz",
+      "size": 100,
+      "condition": 99.99999999999999,
+      "sigma_min": 0.009144949641685822,
+      "sigma_max": 0.914494964168582,
+      "reference_relative_residual": 6.973646452909017e-15,
+      "reference_vs_independent_solve": 6.577363956369754e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-06.npz",
+      "size": 100,
+      "condition": 29.99999999999998,
+      "sigma_min": 0.02611645496846303,
+      "sigma_max": 0.7834936490538903,
+      "reference_relative_residual": 2.6213170835595643e-15,
+      "reference_vs_independent_solve": 2.8805644842410574e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-07.npz",
+      "size": 100,
+      "condition": 9.999999999999995,
+      "sigma_min": 0.07537980617469481,
+      "sigma_max": 0.7537980617469476,
+      "reference_relative_residual": 1.5245485869530923e-15,
+      "reference_vs_independent_solve": 2.5563671227861055e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-08.npz",
+      "size": 100,
+      "condition": 4.000000000000002,
+      "sigma_min": 0.20982577439459124,
+      "sigma_max": 0.8393030975783654,
+      "reference_relative_residual": 1.2348134907106229e-15,
+      "reference_vs_independent_solve": 1.9551470404398724e-15
+    },
+    {
+      "file": "inputs/n100-spectrum-09.npz",
+      "size": 100,
+      "condition": 1.9999999999999991,
+      "sigma_min": 0.49999999999999994,
+      "sigma_max": 0.9999999999999994,
+      "reference_relative_residual": 1.2000484070950141e-15,
+      "reference_vs_independent_solve": 1.992204831718592e-15
+    },
+    {
+      "file": "inputs/n1000-spectrum-00.npz",
+      "size": 1000,
+      "condition": 2.0000000000000027,
+      "sigma_min": 0.49999999999999983,
+      "sigma_max": 1.0000000000000009,
+      "reference_relative_residual": 2.2460781614699634e-15,
+      "reference_vs_independent_solve": 2.341632489415838e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-01.npz",
+      "size": 1000,
+      "condition": 4.000000000000012,
+      "sigma_min": 0.2901742256054086,
+      "sigma_max": 1.160696902421638,
+      "reference_relative_residual": 2.5004064436509806e-15,
+      "reference_vs_independent_solve": 2.2373350962298854e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-02.npz",
+      "size": 1000,
+      "condition": 10.000000000000014,
+      "sigma_min": 0.12462019382530519,
+      "sigma_max": 1.2462019382530536,
+      "reference_relative_residual": 3.5354005657034558e-15,
+      "reference_vs_independent_solve": 2.202677579186213e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-03.npz",
+      "size": 1000,
+      "condition": 30.000000000000057,
+      "sigma_min": 0.04055021169820366,
+      "sigma_max": 1.216506350946112,
+      "reference_relative_residual": 6.358390118534509e-15,
+      "reference_vs_independent_solve": 2.524482880800424e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-04.npz",
+      "size": 1000,
+      "condition": 99.99999999999977,
+      "sigma_min": 0.01085505035831419,
+      "sigma_max": 1.0855050358314167,
+      "reference_relative_residual": 1.4258222295830844e-14,
+      "reference_vs_independent_solve": 4.091217630192057e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-05.npz",
+      "size": 1000,
+      "condition": 99.99999999999996,
+      "sigma_min": 0.009144949641685829,
+      "sigma_max": 0.9144949641685824,
+      "reference_relative_residual": 1.3581349389738168e-14,
+      "reference_vs_independent_solve": 3.23816058486631e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-06.npz",
+      "size": 1000,
+      "condition": 30.00000000000006,
+      "sigma_min": 0.026116454968462998,
+      "sigma_max": 0.7834936490538915,
+      "reference_relative_residual": 5.116222318888956e-15,
+      "reference_vs_independent_solve": 2.2664572200008837e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-07.npz",
+      "size": 1000,
+      "condition": 10.000000000000014,
+      "sigma_min": 0.07537980617469474,
+      "sigma_max": 0.7537980617469484,
+      "reference_relative_residual": 3.178620140912405e-15,
+      "reference_vs_independent_solve": 2.1839853053375e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-08.npz",
+      "size": 1000,
+      "condition": 3.9999999999999982,
+      "sigma_min": 0.20982577439459124,
+      "sigma_max": 0.8393030975783646,
+      "reference_relative_residual": 2.528363686555756e-15,
+      "reference_vs_independent_solve": 2.7417333472008756e-14
+    },
+    {
+      "file": "inputs/n1000-spectrum-09.npz",
+      "size": 1000,
+      "condition": 2.0000000000000027,
+      "sigma_min": 0.4999999999999997,
+      "sigma_max": 1.0000000000000007,
+      "reference_relative_residual": 2.2637751914153403e-15,
+      "reference_vs_independent_solve": 2.6655797967228632e-14
+    }
+  ],
+  "sampling_algebra_cases": 2000,
+  "maximum_sampling_bound_positive_excess": 0,
+  "critical_1000_condition_10_shang_refinement": {
+    "rtol": 2e-11,
+    "atol": 2e-13,
+    "ode_evaluations": 5084,
+    "original_final_residual": 1.090716134137427e-06,
+    "refined_final_residual": 1.0906996595872445e-06,
+    "absolute_residual_difference": 1.6474550182459343e-11,
+    "criterion_still_failed": true
+  }
+}
