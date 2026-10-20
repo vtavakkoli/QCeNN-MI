@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "files": {
+    "REPORT.md": "c5cc0c5c5ee1bd0abf0d96d3f533ffdc41c0331c5289294992e2514a09dd5b91",
+    "dynamic_trajectories.csv": "b79962e6e9b0f071cb90ae8b6a2c1cdd43f57d06c084129ac3b00d17a719e4d5",
+    "figures/dynamic_x1_tracking.png": "32354d696254dce8f08264a9fe90ac9b31ca001f4c6229e660a24c8665eb7893",
+    "figures/dynamic_x1_tracking.svg": "59b1455656e480bf98e44668adf33f9336717f0ae7b84c4c66dfb75670685723",
+    "figures/noise_sensitivity.png": "0ef5cdb112d41c978eac9a8b22882eb17e7a114698b98f2453621a1d3634996c",
+    "figures/noise_sensitivity.svg": "9b1efaeed03fa6e2ea57c2b0b006b48b1e445a1474f2126d3daed0aae0be798e",
+    "figures/static_x1_convergence.png": "799deadaab3f042d98cf99e1a4a86b42fdf05224475dac0f4f2d909e2f3b97b2",
+    "figures/static_x1_convergence.svg": "f435b5d5570473778d21c67a881690eca37b7381d13b6d9876e079fd565ba8db",
+    "inputs/n10-controlled_indefinite-k10.npz": "da847eeb8d89cd2bee708f6b141fb9a46f3c0ffe569313b977ed7dfb8cea96fb",
+    "inputs/n10-controlled_indefinite-k2.npz": "26dba4b12d10d324e389e079ae1e87d626a377bf6820aea47a47d0e9f12fbca4",
+    "inputs/n10-controlled_nonsymmetric-k10.npz": "1db42c456075a60e21c8f9f2afac72dc362927a1c8e5b819f0d81883c86befb5",
+    "inputs/n10-controlled_nonsymmetric-k100.npz": "489da8dfd4ce1b004e11548ecfb5ae378ffe93973ca06793d08994afcfe8fa71",
+    "inputs/n10-controlled_nonsymmetric-k2.npz": "6707a499596530ff1677eca64af325da3ddde7e76f45de22b3a71bc062d2c75a",
+    "inputs/n10-controlled_spd-k10.npz": "433a34259dd63b01b2f542985a9aa87d7b0216b43d468e4f0f1a52843f68e434",
+    "inputs/n10-controlled_spd-k2.npz": "7d1858b3185c190a7430e6d7655faf4e5c85e0b4c3b9107f84bda52092472012",
+    "inputs/n10-dynamic-rhs.npz": "a21c6aed03b89c25d3a4599412f5e526ce0929151b800e65b8dd805653d06bf3",
+    "inputs/n100-controlled_indefinite-k10.npz": "fdaaa1829cbe14735a686b41b9f9d94f4bdaaee573e0b23c34867af3820ba14d",
+    "inputs/n100-controlled_indefinite-k2.npz": "eec5b4e401f0a1e13ca851b088c7f4ec3864d4689aadfe38a2192ea6f5a146c5",
+    "inputs/n100-controlled_nonsymmetric-k10.npz": "6ae490bdf0f8c33af691b5ec3a95f8dd3974c7df7a3dea6ffd0c1991aa370735",
+    "inputs/n100-controlled_nonsymmetric-k100.npz": "aaee286471115d1ed041f632832b4fd4be39a8ee048e2afcf9b6521b160b418d",
+    "inputs/n100-controlled_nonsymmetric-k2.npz": "e052bcf518dc4e31b19e9ffd2242ed4d082b938b4a85e27f415b413c2c88ae1f",
+    "inputs/n100-controlled_spd-k10.npz": "f528d07c8913a691b3e060d106af598207d4187a3e0ce0ab159669b26209e0b1",
+    "inputs/n100-controlled_spd-k2.npz": "3053e6d53b5a724e62749911f32b03f8147c24ea33963a700f594b1a07533e5c",
+    "inputs/n100-dynamic-rhs.npz": "7124049de3eeffede370b41524f1cac7fad0dc2be1f5d4a899812d76f57f596b",
+    "inputs/n1000-controlled_indefinite-k10.npz": "e80f7eadcbe18702632b4400939dae8a31831a78db0ce730e78e401a25ffeaec",
+    "inputs/n1000-controlled_indefinite-k2.npz": "5cdabd52eaabe854b7e2f91bb405df0520bbed8d5990e4eeadf07407e3074af0",
+    "inputs/n1000-controlled_nonsymmetric-k10.npz": "da2dc120d5882e4a7ef48770f1bc456e7a3bf0c9487616a6d22ee315a7f95966",
+    "inputs/n1000-controlled_nonsymmetric-k100.npz": "803bb99ce3f721cdf2699b74acd40219b7818500c23cc52137836f7004a31720",
+    "inputs/n1000-controlled_nonsymmetric-k2.npz": "8dad1d00363d404d3dac67fe5037089e0a8b115a424dfe07b720e85b6c967889",
+    "inputs/n1000-controlled_spd-k10.npz": "ebfd1351d6e45b3dd2b3d204d31dd98f44a7d27a232ca10eb1005512bbf6f9a3",
+    "inputs/n1000-controlled_spd-k2.npz": "380b34654f0972ac09014f8150a0fe0b5453e3eb2e19c6c7d75659f2ca538dac",
+    "inputs/n1000-dynamic-rhs.npz": "17ba4120661c9ec4e2a44b251aed4f4b550fe5f2177418b17f275b35b8f6011e",
+    "result.json": "16e02e87dfb6c84142f5d097954bb52eed5cd93a63fcc6924cee51b94aabcb59",
+    "static_summary.csv": "1c0f86fdabfe2e666ec13d08ede2a4776d73aa6c1af800c01afab0255a4a9722",
+    "static_trajectories.csv": "369ed9689b7ba6fed854dab0952496f84f0ed3995a085a832e0b6d86e5032e2d"
+  },
+  "figures": [
+    {
+      "name": "static_x1_convergence",
+      "caption": "Reduced-density simulations, nonsymmetric condition-2 fixtures and signed random right-hand sides. x1 is reconstructed from solution/reference coherences. p is global depolarization per update, not a gate error. Noisy lines are ensemble means.",
+      "files": [
+        "figures/static_x1_convergence.png",
+        "figures/static_x1_convergence.svg"
+      ]
+    },
+    {
+      "name": "dynamic_x1_tracking",
+      "caption": "M(k)=M(0)G(theta(k)) rotates two columns at condition number 2. The state is not reinitialized. Shading marks initial settling; the dotted line marks a jump at update 960. Matrix values are preprogrammed. The final segment holds the matrix constant. x1 uses simulator coherences, not a measured signal.",
+      "files": [
+        "figures/dynamic_x1_tracking.png",
+        "figures/dynamic_x1_tracking.svg"
+      ]
+    },
+    {
+      "name": "noise_sensitivity",
+      "caption": "Worst final residual over the three matrix families for the signed random RHS. Different iteration budgets are used at condition numbers 2 and 10. The profiles are logical depolarization, not native CX noise or calibrated hardware data.",
+      "files": [
+        "figures/noise_sensitivity.png",
+        "figures/noise_sensitivity.svg"
+      ]
+    }
+  ],
+  "source_commit": "807c9534c8f9119f427555c6dc3eef2ab52aceb2",
+  "source_sha256": "58caaa34ea6bd26032e4be32f569bb433ed3124e0a8efe8d2266b2dccc7ec214"
+}

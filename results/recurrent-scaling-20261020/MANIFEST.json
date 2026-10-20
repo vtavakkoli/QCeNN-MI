@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "compact evidence subset; original full inputs supplied separately",
+  "source_commit": "807c9534c8f9119f427555c6dc3eef2ab52aceb2",
+  "files": {
+    "FULL_RUN_MANIFEST.json": "e671804ac68a758f5236433a0f8296d822bd763c52f931aeee980798cf1a62b6",
+    "README.md": "a5d6119d2652ce6bf9a07f8dc7c57199d556b8107839d2e81a2ff7b1dd72c52a",
+    "REPORT.md": "c5cc0c5c5ee1bd0abf0d96d3f533ffdc41c0331c5289294992e2514a09dd5b91",
+    "dynamic_trajectories.csv": "b79962e6e9b0f071cb90ae8b6a2c1cdd43f57d06c084129ac3b00d17a719e4d5",
+    "figures/dynamic_x1_tracking.png": "32354d696254dce8f08264a9fe90ac9b31ca001f4c6229e660a24c8665eb7893",
+    "figures/dynamic_x1_tracking.svg": "59b1455656e480bf98e44668adf33f9336717f0ae7b84c4c66dfb75670685723",
+    "figures/noise_sensitivity.png": "0ef5cdb112d41c978eac9a8b22882eb17e7a114698b98f2453621a1d3634996c",
+    "figures/noise_sensitivity.svg": "9b1efaeed03fa6e2ea57c2b0b006b48b1e445a1474f2126d3daed0aae0be798e",
+    "figures/static_x1_convergence.png": "799deadaab3f042d98cf99e1a4a86b42fdf05224475dac0f4f2d909e2f3b97b2",
+    "figures/static_x1_convergence.svg": "f435b5d5570473778d21c67a881690eca37b7381d13b6d9876e079fd565ba8db",
+    "result.json.gz": "20111339a82e72085fe7ad666f108ee878a65ee4bb18e023e6ade86c3fa9f0a2",
+    "static_summary.csv": "1c0f86fdabfe2e666ec13d08ede2a4776d73aa6c1af800c01afab0255a4a9722",
+    "static_trajectories.csv.gz": "da62b9a10dd419f6bd70a5c7b96390011a4970047baecab3d7097e4392e00883"
+  }
+}

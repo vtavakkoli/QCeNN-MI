@@ -133,5 +133,39 @@
     "seed": 1729,
     "minimum_augmented_fidelity": 0.95,
     "max_memory_mib": 256
+  },
+  "recurrent-scaling": {
+    "sizes": [
+      10
+    ],
+    "conditions": [
+      2
+    ],
+    "families": [
+      "controlled_nonsymmetric"
+    ],
+    "noise_probabilities": [
+      0,
+      0.0001,
+      0.001,
+      0.01
+    ],
+    "steps": {
+      "2": 256
+    },
+    "record_points": 17,
+    "dynamic_steps": 256,
+    "dynamic_noise_probabilities": [
+      0,
+      0.001
+    ],
+    "dynamic_stride": 8,
+    "stress_condition": null,
+    "stress_steps": 4096,
+    "seed": 1729,
+    "workers": 1,
+    "ideal_residual_target": 1e-06,
+    "noisy_residual_target": 0.01,
+    "max_memory_mib": 512
   }
 }

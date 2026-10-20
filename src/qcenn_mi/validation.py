@@ -75,6 +75,7 @@ def stage_commands(output, *, profile="full", config=None):
         ("resources", "qcenn_mi.resource_benchmark"),
         ("operator-audit", "qcenn_mi.operator_audit"),
         ("recurrent-quantum", "qcenn_mi.recurrent_quantum_benchmark"),
+        ("recurrent-scaling", "qcenn_mi.recurrent_scaling_benchmark"),
     ]:
         commands.append(
             campaign(
@@ -374,6 +375,11 @@ def run_suite(output, *, profile="full", config=None, selected=None):
     if recurrent_study.exists():
         quality["recurrent_quantum"] = json.loads(recurrent_study.read_text()).get(
             "all_synthetic_quality_gates_passed"
+        )
+    scaling_study = output / "recurrent-scaling/result.json"
+    if scaling_study.exists():
+        quality["recurrent_scaling_logical_noise"] = json.loads(scaling_study.read_text()).get(
+            "all_logical_noisy_accuracy_passed"
         )
     payload["synthetic_quality_by_study"] = quality
     observed_quality = [value for value in quality.values() if value is not None]
