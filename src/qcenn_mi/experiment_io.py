@@ -2,8 +2,22 @@
 
 from __future__ import annotations
 
+import io
 import json
+import os
 from pathlib import Path
+
+import numpy as np
+
+
+def save_npz_atomic(path, **arrays):
+    """Publish a complete NPZ at once, before downstream hashing or transfer."""
+    path = Path(path)
+    buffer = io.BytesIO()
+    np.savez_compressed(buffer, **arrays)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_bytes(buffer.getvalue())
+    os.replace(temporary, path)
 
 
 def configuration(path, section, defaults):

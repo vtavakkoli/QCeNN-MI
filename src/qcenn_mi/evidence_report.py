@@ -225,6 +225,22 @@ TABLES = {
 }
 
 
+TABLES["polynomial-recurrent"] = (
+    "polynomial-recurrent/result.json",
+    [
+        "size",
+        "condition",
+        "family",
+        "polynomial_degree",
+        "initial_state",
+        "first_sustained_sampled_update",
+        "relative_residual",
+        "conditional_solution_fidelity",
+        "accuracy_passed",
+    ],
+)
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -236,6 +252,8 @@ def read_json(path, default=None):
 def rows_for(root, table):
     source, _ = TABLES[table]
     data = read_json(Path(root) / source, {})
+    if table == "polynomial-recurrent":
+        return [{**row, **row["final"]} for row in data.get("static_cases", [])]
     if table in {"recurrent-scaling", "dissipative-comparison"}:
         return [{**row, **row["final"]} for row in data.get("cases", [])]
     if table == "condition-100-noise":
@@ -808,6 +826,7 @@ def generate(root):
         "image_provenance_available": (root / "base-image.json").exists(),
         "paper_sources_in_repository": False,
     }
+    payload["polynomial_recurrent"] = read_json(root / "polynomial-recurrent/SUMMARY.json", {})
     (root / "final-report.json").write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
     lines = [
         "# QCeNN-MI final validation report",
@@ -916,6 +935,8 @@ def generate(root):
                 "</tbody></table></div>"
             )
         )
+    if (root / "polynomial-recurrent/REPORT.md").exists():
+        lines += ["", (root / "polynomial-recurrent/REPORT.md").read_text()]
     (root / "final-report.md").write_text("\n".join(lines) + "\n")
     figure_html = ""
     for figure in figures:
@@ -1047,6 +1068,10 @@ def verify(root):
         from .dissipative_report import verify as verify_comparison
 
         verify_comparison(root / "dissipative-comparison")
+    if (root / "polynomial-recurrent/MANIFEST.json").exists():
+        from .polynomial_report import verify as verify_polynomial
+
+        verify_polynomial(root / "polynomial-recurrent")
     manifest = read_json(root / "publication-evidence/manifest.json")
     if not manifest or manifest.get("schema_version") != 1:
         raise ValueError("Missing or invalid evidence manifest")

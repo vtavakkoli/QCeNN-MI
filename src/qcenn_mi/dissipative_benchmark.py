@@ -20,7 +20,7 @@ from .dissipative_comparison import (
     shang_channel,
     stationary_depolarized,
 )
-from .experiment_io import configuration, save_result
+from .experiment_io import configuration, save_npz_atomic, save_result
 from .precision_benchmark import controlled_fixture
 from .recurrent_density import DensityObserver, build_density_channel
 from .validation import provenance
@@ -86,7 +86,7 @@ def matched_fixture(output, size, condition, settings):
     rhs = np.random.default_rng(settings["seed"] + size).normal(size=size)
     reference = np.linalg.solve(matrix, rhs)  # Read-only independent diagnostic.
     fixture = output / "inputs" / f"n{size}-k{condition}.npz"
-    np.savez_compressed(fixture, matrix=matrix, rhs=rhs, reference_solution=reference)
+    save_npz_atomic(fixture, matrix=matrix, rhs=rhs, reference_solution=reference)
     channel = build_density_channel(matrix, rhs)
     times = sampled_times(settings["steps"][str(condition)], settings["record_points"])
     observer = DensityObserver.create(channel, reference)
@@ -245,7 +245,7 @@ def dynamic_fixture(output, size, settings):
         channels.append(channel)
         observers.append(DensityObserver.create(channel, reference))
         path = output / "inputs" / f"n{size}-spectrum-{index:02d}.npz"
-        np.savez_compressed(
+        save_npz_atomic(
             path, matrix=matrix, rhs=rhs, singular_values=singular, reference_solution=reference
         )
         snapshots.append(

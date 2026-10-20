@@ -226,3 +226,7 @@ Academic and commercial reuse are permitted only subject to the
 [attribution and citation requirements](LICENSE). No alternative license is
 offered for the current release. Previously distributed copies remain subject
 to the terms under which they were originally licensed.
+
+## Polynomial recurrent-channel extension
+
+See [polynomial recurrence](docs/polynomial-recurrent.md) for the explicit dense collision circuit, original/accelerated matched grids, dynamic/noise studies, resource limits and reproduction commands. The full validation profile includes this study. Per-update convergence gains are not claims of quantum runtime speedup.

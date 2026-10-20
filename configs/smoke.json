@@ -200,5 +200,41 @@
     ],
     "dynamic_stride": 4,
     "extended_steps": 1024
+  },
+  "polynomial-recurrent": {
+    "sizes": [
+      2,
+      4
+    ],
+    "conditions": [
+      2
+    ],
+    "families": [
+      "controlled_spd",
+      "controlled_nonsymmetric"
+    ],
+    "degrees": [
+      0,
+      2
+    ],
+    "budgets": {
+      "2": 64
+    },
+    "dynamic_sizes": [
+      3
+    ],
+    "dynamic_degrees": [
+      0,
+      2
+    ],
+    "dynamic_conditions": [
+      2,
+      10,
+      100,
+      2
+    ],
+    "dynamic_hold": 64,
+    "dynamic_dwell": 8,
+    "dynamic_stride": 8
   }
 }

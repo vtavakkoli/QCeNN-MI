@@ -21,7 +21,7 @@ from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import depolarizing_error
 
-from .experiment_io import configuration, save_result
+from .experiment_io import configuration, save_npz_atomic, save_result
 from .precision_benchmark import controlled_fixture
 from .recurrent_density import DensityObserver, build_density_channel
 from .recurrent_quantum import build_recurrent_solver, recurrent_circuit
@@ -129,7 +129,7 @@ def _static_fixture(task):
             )
             results.append(result)
     path = output / "inputs" / f"{identity}.npz"
-    np.savez_compressed(path, **inputs)
+    save_npz_atomic(path, **inputs)
     return {
         "cases": results,
         "input": {
@@ -200,7 +200,7 @@ def _dynamic_fixture(task):
             }
         )
     path = output / "inputs" / f"n{size}-dynamic-rhs.npz"
-    np.savez_compressed(
+    save_npz_atomic(
         path,
         rhs=rhs,
         manufactured_seed_solution=manufactured,
