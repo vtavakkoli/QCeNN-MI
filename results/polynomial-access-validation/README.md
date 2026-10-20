@@ -4,6 +4,13 @@ These are actual records from the full 25-stage profile, run
 `qcenn-b1c07881e9ed4223ba824b4d2b969965`. All stages passed numerical-integrity
 validation; 267 unit tests passed. Accuracy failures remain failures.
 
+Post-run archive audit found that the legacy `coherent/spd4-coherent.qpy`
+payload was empty. This run's numerical results remain recorded, but its original
+serialized-circuit archive is incomplete. The full-stage PASS predates the stricter
+QPY readability gate added afterward. The original record is preserved; it must
+not be relabeled a complete archival reproduction. A fresh source-pinned campaign
+with atomic circuit publication and independent QPY loading supersedes it.
+
 The executed source is `6a745ae83ae17163bf4d86d4d622c6c63305c19e`.
 The public counterpart `4e22cc07f7bb4fa6a4be1f91cfd4d73423832c2f` has the
 independently verified identical Git tree

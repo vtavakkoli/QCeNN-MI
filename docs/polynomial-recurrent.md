@@ -77,6 +77,12 @@ raw JSON. Failed accuracy criteria are separate from numerical integrity.
 Every experiment records exact source provenance. Manuscript sources remain
 outside this repository. Physical QPU performance is unmeasured.
 
+Circuit artifacts are published atomically after serialization and final evidence
+validation independently loads every archived QPY. An empty or truncated circuit
+is an integrity failure even when numerical simulation passed. The earlier
+6a745ae campaign's empty legacy coherent QPY is retained as an archival exception,
+with a new pinned rerun required for a complete archive.
+
 ## Composition from the supplied residual unitary
 
 `polynomial_composition.py` implements the same channel by ell controlled calls to the original U_F. A coherent first-residual flag prevents further residual calls on a branch that has already jumped; controlled swaps reset all jump branches only at the end. The no-jump branch is C^ell. Jump effects sum to G_m. No transformed residual factorization or target state is supplied. Extra flags and controls are charged explicitly. The budgeted composition campaign preserves timeouts and synthesis rejections. The dense direct compiler and the controlled composition have different costs, and both remain separate from an efficient general-purpose matrix oracle.

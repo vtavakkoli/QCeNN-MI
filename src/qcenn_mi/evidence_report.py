@@ -1065,6 +1065,9 @@ def generate(root):
 
 def verify(root):
     root = Path(root).resolve()
+    from .experiment_io import audit_qpy
+
+    audit_qpy(root)
     if (root / "dissipative-comparison/MANIFEST.json").exists():
         from .dissipative_report import verify as verify_comparison
 

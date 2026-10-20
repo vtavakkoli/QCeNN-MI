@@ -13,10 +13,10 @@ import time
 from pathlib import Path
 
 import numpy as np
-from qiskit import ClassicalRegister, qpy, transpile
+from qiskit import ClassicalRegister, transpile
 from qiskit_aer import AerSimulator
 
-from .experiment_io import configuration, save_result
+from .experiment_io import configuration, save_qpy_atomic, save_result
 from .precision_benchmark import controlled_fixture
 from .recurrent_quantum import (
     build_recurrent_solver,
@@ -93,11 +93,9 @@ def _native_readout(output, settings):
     classical = ClassicalRegister(operation.data_qubits, "final_data")
     measured.add_register(classical)
     measured.measure(list(range(operation.data_qubits)), classical)
-    with (output / "recurrent-reset-native.qpy").open("wb") as handle:
-        qpy.dump([native, measured], handle)
+    save_qpy_atomic(output / "recurrent-reset-native.qpy", [native, measured])
     coherent = operation.circuit(settings["coherent_steps"], workspace="coherent")
-    with (output / "recurrent-coherent.qpy").open("wb") as handle:
-        qpy.dump(coherent, handle)
+    save_qpy_atomic(output / "recurrent-coherent.qpy", coherent)
     coherent_native = transpile(
         coherent,
         basis_gates=["rz", "sx", "x", "cx"],
@@ -108,8 +106,7 @@ def _native_readout(output, settings):
     coherent_bits = ClassicalRegister(operation.data_qubits, "final_data")
     coherent_measured.add_register(coherent_bits)
     coherent_measured.measure(list(range(operation.data_qubits)), coherent_bits)
-    with (output / "recurrent-coherent-native.qpy").open("wb") as handle:
-        qpy.dump([coherent_native, coherent_measured], handle)
+    save_qpy_atomic(output / "recurrent-coherent-native.qpy", [coherent_native, coherent_measured])
     closed_backend = AerSimulator(method="statevector", max_parallel_threads=1)
     closed_diagnostic = coherent_native.copy()
     closed_diagnostic.save_density_matrix(list(range(operation.data_qubits)), label="final_data")
