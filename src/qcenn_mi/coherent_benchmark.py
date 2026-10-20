@@ -8,10 +8,11 @@ import json
 from pathlib import Path
 
 import numpy as np
-from qiskit import qpy, transpile
+from qiskit import transpile
 from qiskit_aer import AerSimulator
 
 from .coherent import build_inverse_action
+from .experiment_io import save_qpy_atomic
 
 
 def campaign(output, *, shots=131072, seed=42):
@@ -79,8 +80,7 @@ def campaign(output, *, shots=131072, seed=42):
             seed_transpiler=seed,
         )
         filename = f"{name}-coherent.qpy"
-        with (output / filename).open("wb") as handle:
-            qpy.dump(circuits, handle)
+        save_qpy_atomic(output / filename, circuits)
         rows.append(
             {
                 "case": name,

@@ -1,0 +1,19 @@
+{
+  "experimental_commit": "6a745ae83ae17163bf4d86d4d622c6c63305c19e",
+  "published_commit": "4e22cc07f7bb4fa6a4be1f91cfd4d73423832c2f",
+  "verified_identical_git_tree": "35f668eb38284ec9ad5cd9e1de0043e48b07c1d2",
+  "identity": "full Git tree equality independently checked by public fetch; commit metadata differs",
+  "template_url": "https://ieeeaccess.ieee.org/wp-content/uploads/2026/05/ACCESS_latex_template_20260513-1-1.zip",
+  "template_date": "2026-05-13",
+  "pr": "https://github.com/vtavakkoli/QCeNN-MI/pull/6",
+  "previous_validated_snapshot": {
+    "experimental_commit": "04acf0bd406dae4c50344df519a1113a977034a1",
+    "published_commit": "4081dcbe17a7592d5613e4b2a05704597b97c3c6",
+    "verified_identical_git_tree": "02edd4f2d8243aa1c8277a7dbe279fd3180eef05"
+  },
+  "canonical_source_sha256": "36404cf7a25b54a7d6bc3b3009a174754bea9a00d73f49c6083c274fbc397ff0",
+  "main_run_id": "qcenn-b1c07881e9ed4223ba824b4d2b969965",
+  "main_profile": "full",
+  "main_stages": 25,
+  "main_unit_tests": 267
+}

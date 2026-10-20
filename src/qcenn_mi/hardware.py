@@ -14,13 +14,14 @@ import time
 from pathlib import Path
 
 import numpy as np
-from qiskit import qpy, transpile
+from qiskit import transpile
 from qiskit.transpiler import CouplingMap
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, ReadoutError, depolarizing_error
 
 from .coherent_large_benchmark import fixture
 from .compact import build_compact_inverse
+from .experiment_io import save_qpy_atomic
 
 NATIVE_BASIS = ["rz", "sx", "x", "cx"]
 PROFILES = {
@@ -187,8 +188,7 @@ def campaign(
         verifier.measure_all()
         compiled_verifier = compile_native(verifier, qubit_budget=qubit_budget)
         filename = f"{n}-inverse-action.qpy"
-        with (output / filename).open("wb") as handle:
-            qpy.dump([compiled, compiled_verifier], handle)
+        save_qpy_atomic(output / filename, [compiled, compiled_verifier])
         counts, job = run_verification(compiled_verifier, shots=shots)
         exact = read_echo_counts(
             counts,

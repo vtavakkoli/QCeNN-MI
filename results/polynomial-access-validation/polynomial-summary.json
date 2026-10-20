@@ -1,0 +1,12 @@
+{
+  "static_cases": 1416,
+  "static_accuracy_passed": 770,
+  "dynamic_cases": 27,
+  "logical_noise_cases": 72,
+  "gate_noise_cases": 18,
+  "native_compiled": 72,
+  "native_resource_rejected": 48,
+  "complete_circuit_comparisons": 72,
+  "maximum_complete_circuit_density_error": 9.547918011776346e-15,
+  "physical_hardware_tested": false
+}

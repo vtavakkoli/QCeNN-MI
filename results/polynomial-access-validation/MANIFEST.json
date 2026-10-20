@@ -1,0 +1,19 @@
+{
+  "files": {
+    "README.md": "b5652bbaf8a65fb75ab71f54bf9a2d11acd802f9bac0da1334892746641f3a5e",
+    "composition-resources.csv": "2d2eafe69ab16ee0cb909e52550cf50bedd838f253bf2a2367cd35cecca1ca97",
+    "composition-result.json": "001d6cba54588610d6da48343ff28c1c18e11f0397f08ab134509ede56453c62",
+    "dissipative-result.json.gz": "add8f6b353a67cd9aef36a52c8d7a016131c04d5b168ec082e23a8b5cd8fd014",
+    "fixed-call-result.json": "4baf8434aa6631b9a5951cf0615aedb626c3faf069fe9995c18495d8dea5bed1",
+    "fixed_call_audit.py": "55fe35aaab4ee2a80da0642fea03a7c28194b3f9d1c5622407c95b71cb9f270b",
+    "polynomial-result.json.gz": "c4d56e974a4bf8170bcccf81ae721f1a6319e33eacb6295f91d8735faee4065a",
+    "polynomial-summary.json": "d4b91cc694e6fe40e86975e4b367350b278ea64e56efea0bff86aec1f884744a",
+    "recurrent-scaling-result.json.gz": "feed93e00a61d3ef117ec73b7ae538f15d79e2912c5830a8761431303cb48180",
+    "source-files.json": "ee10dc5136552ab565a2512f4fa292b25e27b4df9a5a96b376b2eef8a1058bf3",
+    "source-identity.json": "95bd3f2c7c00928c06b21b5d1e78d234a69fb2c499fa280febbe325cd94485c6",
+    "summary.md": "fda83d872a278a525c888d81bf7ca2e642c4aacd436755a17f3e3c7f50103a90",
+    "unit-tests.xml": "809b215b0ab4a4e5158089ef78a1bfebe5cab311874ded95d98adde8423af463",
+    "validation.json": "92904b826c1d9b4bf50a34696c66842c90db33365a5b6de16fa06b5b01872ad4"
+  },
+  "physical_hardware_tested": false
+}

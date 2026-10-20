@@ -215,5 +215,7 @@
     "noisy_residual_target": 0.01,
     "max_memory_mib": 512
   },
-  "dissipative-comparison": {}
+  "dissipative-comparison": {},
+  "polynomial-recurrent": {},
+  "polynomial-composition": {}
 }
