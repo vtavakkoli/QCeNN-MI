@@ -56,7 +56,7 @@ configuration. For Python selection use `--profile`, `--config`, `--stages`, and
 `--list-stages` on `qcenn_mi.validation`. New experiment CLIs expose sizes,
 conditions, ages, targets, seeds, shots, profiles and optimization settings;
 configuration files are recorded in each output and never change old baseline
-defaults silently. A full run has 20 stages, including its final report.
+defaults silently. A full run has 21 stages, including its final report.
 
 ## Validation stages
 
@@ -75,6 +75,7 @@ defaults silently. A full run has 20 stages, including its final report.
 | `precision-1000` | Full-operator audit for thirteen 1000×1000 matrices |
 | `theory` | 162 degree, condition-number, and matrix-family bound checks |
 | `time-varying` | 40 snapshots, 32 delayed-operator pairs, 16 acquisition-error cases, and 8 rank-loss rejections |
+| `recurrent-quantum` | Complete quantum channel circuits, convergence, coherent/reset equivalence, state reuse, QPY exports, final counts and separate CX-only synthetic noise |
 | `hardware` | Native ideal and synthetic-noise 2×2/4×4/10×10/100×100 checks |
 
 Additional full-profile stages are `temporal-refresh`, `noise-verification`,

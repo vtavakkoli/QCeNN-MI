@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "publication_run_id": "qcenn-933a9b1ce82241e9803927d8a08cec11",
+  "source_commit": "82dcfeca1d88fccfb94ee4cca45adf01af00d601",
+  "source_sha256": "1f1b7412762d8240a6a99158a4a9c73e326705efbc4a301dbcfbff5f8155ee0c",
+  "producer": "src/qcenn_mi/evidence_report.py",
+  "producer_sha256": "388fbe13cf46da5356f20a066be15df4744aee9d01de322a79b99c59c7d428a4",
+  "tables": [
+    {
+      "id": "native-resources",
+      "file": "tables/native-resources.csv",
+      "input": "hardware/result.json",
+      "fields": [
+        "size",
+        "required_qubits",
+        "native_action_depth",
+        "native_action_operations",
+        "native_ideal_residual"
+      ],
+      "rows": 0,
+      "sha256": "2faad0696670d1deaa6493d9a84943c13ca7f55f9d5e6642b850572aa0996356",
+      "input_sha256": null
+    },
+    {
+      "id": "native-noise",
+      "file": "tables/native-noise.csv",
+      "input": "hardware/result.json",
+      "fields": [
+        "size",
+        "profile",
+        "shots",
+        "accepted",
+        "observed_echo_return",
+        "echo_return_95ci",
+        "quality_gate"
+      ],
+      "rows": 0,
+      "sha256": "e673f3f4b2811f25d34b12927cc6a961eeb8b1a2b0706633f35f980481e12745",
+      "input_sha256": null
+    },
+    {
+      "id": "precision",
+      "file": "tables/precision.csv",
+      "input": "precision-1000/result.json",
+      "fields": [
+        "size",
+        "family",
+        "condition_number",
+        "degree",
+        "operator_relative_residual_2",
+        "minimum_success_probability_all_inputs"
+      ],
+      "rows": 0,
+      "sha256": "52837d356e4b2fd162f42e38fb3f5dd566f622018f8d08e4a7e030e5daee22d2",
+      "input_sha256": null
+    },
+    {
+      "id": "refresh-accuracy",
+      "file": "tables/refresh-accuracy.csv",
+      "input": "temporal-refresh/result.json",
+      "fields": [
+        "size",
+        "condition",
+        "family",
+        "update_time",
+        "noise_to_gap_ratio",
+        "refresh_age",
+        "left_residual",
+        "right_residual",
+        "tracking_bound_eq24"
+      ],
+      "rows": 0,
+      "sha256": "ae5a659b103f4a104b61fb10352569b819a91a44603545d300a252474362cc48",
+      "input_sha256": null
+    },
+    {
+      "id": "refresh-intervals",
+      "file": "tables/refresh-intervals.csv",
+      "input": "temporal-refresh/result.json",
+      "fields": [
+        "size",
+        "condition",
+        "family",
+        "noise_to_gap_ratio",
+        "target",
+        "sufficient_refresh_age_eq25",
+        "empirical_maximum_sampled_feasible_age",
+        "sufficient_condition_validated"
+      ],
+      "rows": 0,
+      "sha256": "65c5f87511f7761218bade5a2e7939e945c4ddeeef3a671210ff5668d1679d52",
+      "input_sha256": null
+    },
+    {
+      "id": "noise-controls",
+      "file": "tables/noise-controls.csv",
+      "input": "noise-verification/result.json",
+      "fields": [
+        "size",
+        "decomposition",
+        "optimization_level",
+        "profile",
+        "noise_scale",
+        "control",
+        "shots",
+        "accepted",
+        "observed_echo_return",
+        "echo_return_95ci",
+        "effective_good_output_probability",
+        "quality_gate"
+      ],
+      "rows": 0,
+      "sha256": "505b883ce4b3d406000580019a3c19880f56860c3125a6f8489582d943183dd0",
+      "input_sha256": null
+    },
+    {
+      "id": "optimization-resources",
+      "file": "tables/optimization-resources.csv",
+      "input": "noise-verification/result.json",
+      "fields": [
+        "size",
+        "decomposition",
+        "optimization_level",
+        "native_depth",
+        "single_qubit_gates",
+        "two_qubit_gates",
+        "synthesis_and_transpile_seconds",
+        "native_ideal_residual",
+        "passed"
+      ],
+      "rows": 0,
+      "sha256": "00701c61a944748fd6ec80c8e18e3f3d024ce951a34a84b37ad4292fb15a1651",
+      "input_sha256": null
+    },
+    {
+      "id": "refresh-latency",
+      "file": "tables/refresh-latency.csv",
+      "input": "temporal-refresh/result.json",
+      "fields": [
+        "size",
+        "condition",
+        "family",
+        "noise_to_gap_ratio",
+        "update_time",
+        "encoding_and_polynomial_seconds",
+        "isolated_svd_seconds_not_added_twice",
+        "native_synthesis_seconds",
+        "native_transpile_seconds",
+        "native_gate_simulation_seconds",
+        "physical_acquisition_seconds"
+      ],
+      "rows": 0,
+      "sha256": "259ae1f5adff07b5e8b736d58d3b71ddf645269de414dd1f0c3e1edbafae9465",
+      "input_sha256": null
+    },
+    {
+      "id": "solver-baselines",
+      "file": "tables/solver-baselines.csv",
+      "input": "baselines/result.json",
+      "fields": [
+        "size",
+        "condition",
+        "family",
+        "method",
+        "target_tolerance",
+        "median_solve_seconds",
+        "median_end_to_end_seconds",
+        "end_to_end_simulator_seconds",
+        "relative_residual"
+      ],
+      "rows": 0,
+      "sha256": "df68ac196a55b49d4ddb8a301402c4afdb96689b4de00799e2ed78735ae15173",
+      "input_sha256": null
+    },
+    {
+      "id": "conditioning-resources",
+      "file": "tables/conditioning-resources.csv",
+      "input": "resources/result.json",
+      "fields": [
+        "size",
+        "condition",
+        "target_tolerance",
+        "status",
+        "degree",
+        "raw_qubits",
+        "encoded_operator_residual",
+        "minimum_success_probability",
+        "native_cx",
+        "native_depth"
+      ],
+      "rows": 0,
+      "sha256": "674ac4230663660e164a997f83b9700417a5083af5789f56444e78a5ebb82cbe",
+      "input_sha256": null
+    },
+    {
+      "id": "operator-correctness",
+      "file": "tables/operator-correctness.csv",
+      "input": "operator-audit/result.json",
+      "fields": [
+        "size",
+        "family",
+        "left_operator_residual",
+        "right_operator_residual",
+        "analytic_residual_bound",
+        "native_depth",
+        "native_cx",
+        "passed"
+      ],
+      "rows": 0,
+      "sha256": "d867a0bfe52df2d7714aaa8dc62aa8ef4af0c6e7e74acf5cf1152a0d0b198f34",
+      "input_sha256": null
+    },
+    {
+      "id": "recurrent-convergence",
+      "file": "tables/recurrent-convergence.csv",
+      "input": "recurrent-quantum/result.json",
+      "fields": [
+        "size",
+        "family",
+        "condition",
+        "steps",
+        "qubits",
+        "augmented_fidelity",
+        "conditional_solution_fidelity",
+        "coherence_relative_residual",
+        "solution_probability",
+        "augmented_infidelity_upper_bound",
+        "certificate_passed"
+      ],
+      "rows": 60,
+      "sha256": "743ae8b0cc3b5d9c9f402e30ae8242c1fbc81dddcea153958a87a0721aa6999c",
+      "input_sha256": "781a5b9f57764c9808945159874912a3a69c3ac4236c02c55322e2244e776faf"
+    }
+  ],
+  "figures": [
+    {
+      "id": "recurrent-convergence",
+      "files": [
+        "figures/recurrent-convergence.svg",
+        "figures/recurrent-convergence.png"
+      ],
+      "inputs": [
+        "recurrent-quantum/result.json"
+      ],
+      "caption": "Ideal complete reset-circuit convergence for the configured nonsymmetric fixtures. Coherent environment circuits are cross-checked separately. Dense encoding and final simulator diagnostics do not establish hardware quality."
+    }
+  ],
+  "files": {
+    "configuration.json": "3fb40a01aa96d4dc8784364163c0de0b41b9683dcd149ff5b25cc9af8b371b4a",
+    "figures/recurrent-convergence.png": "7eb2d80c1c980d6d6e301dec50de7498a71984dbb5e7e63daea0bef7bb422de9",
+    "figures/recurrent-convergence.svg": "d9e360c4604355f9f9698c00fc26bb442b0102c9074af97da4f613605488ab70",
+    "final-report.html": "18fc0a8abc35fe4e19d555020fed7f191a1b9b48917904eae2cc44610b50fe20",
+    "final-report.json": "10ffdcf7a6e5d92b6e0fbf86d7b6680e66cdad351be2f3f10773b573cf18eb08",
+    "final-report.md": "77d70728ea0ebe86092d2386fb4465f58570eb0c512e3c55befa0b8e9a5dfbee",
+    "historical-reconciliation.json": "af78fca2a2a6b69851d53c0cb91448feb4fd69c1b6fcce9abe487435ddf63917",
+    "recurrent-quantum/SUMMARY.md": "96adb4a5dee21b3185e2e83df5f769b4537065e71c4a7c682509f084e5e1d3fe",
+    "recurrent-quantum/convergence.png": "dc7cdc147900874ec5e71f90e63c1afc566d78fe6025638c72dc2c5002bb33bb",
+    "recurrent-quantum/convergence.svg": "d2bab0927b156be055ee0ad032d348a1df3a77d05be4798ff674a818086df32c",
+    "recurrent-quantum/recurrent-coherent-native.qpy": "e07ef7dd10820427630f67027084de1896a60769bab5703e7f86994e167d4bdc",
+    "recurrent-quantum/recurrent-coherent.qpy": "91aecb79ee14970ad55bce0cf4261686672ea140a4aadf86db5465e2c326b44b",
+    "recurrent-quantum/recurrent-reset-native.qpy": "4e8c7c53771b5301cdfdb64b5c1f317f72f896582e2a63fe27d7d834250f9791",
+    "recurrent-quantum/result.json": "781a5b9f57764c9808945159874912a3a69c3ac4236c02c55322e2244e776faf",
+    "tables/conditioning-resources.csv": "674ac4230663660e164a997f83b9700417a5083af5789f56444e78a5ebb82cbe",
+    "tables/native-noise.csv": "e673f3f4b2811f25d34b12927cc6a961eeb8b1a2b0706633f35f980481e12745",
+    "tables/native-resources.csv": "2faad0696670d1deaa6493d9a84943c13ca7f55f9d5e6642b850572aa0996356",
+    "tables/noise-controls.csv": "505b883ce4b3d406000580019a3c19880f56860c3125a6f8489582d943183dd0",
+    "tables/operator-correctness.csv": "d867a0bfe52df2d7714aaa8dc62aa8ef4af0c6e7e74acf5cf1152a0d0b198f34",
+    "tables/optimization-resources.csv": "00701c61a944748fd6ec80c8e18e3f3d024ce951a34a84b37ad4292fb15a1651",
+    "tables/precision.csv": "52837d356e4b2fd162f42e38fb3f5dd566f622018f8d08e4a7e030e5daee22d2",
+    "tables/recurrent-convergence.csv": "743ae8b0cc3b5d9c9f402e30ae8242c1fbc81dddcea153958a87a0721aa6999c",
+    "tables/refresh-accuracy.csv": "ae5a659b103f4a104b61fb10352569b819a91a44603545d300a252474362cc48",
+    "tables/refresh-intervals.csv": "65c5f87511f7761218bade5a2e7939e945c4ddeeef3a671210ff5668d1679d52",
+    "tables/refresh-latency.csv": "259ae1f5adff07b5e8b736d58d3b71ddf645269de414dd1f0c3e1edbafae9465",
+    "tables/solver-baselines.csv": "df68ac196a55b49d4ddb8a301402c4afdb96689b4de00799e2ed78735ae15173"
+  },
+  "mutable_aggregate_files_excluded": [
+    "validation.json",
+    "summary.md",
+    "logs/"
+  ]
+}
