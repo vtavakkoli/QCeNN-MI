@@ -3,6 +3,7 @@
 import hashlib
 import importlib.util
 import json
+import runpy
 import shutil
 import subprocess
 import sys
@@ -122,3 +123,20 @@ def test_git_autocrlf_checkout_preserves_frozen_checksums(tmp_path):
             == (record["sha256"])
         )
     assert (checkout / "circuit.qpy.gz").read_bytes() == binary.read_bytes()
+
+
+def test_exported_source_pin_works_without_git_or_scientific_packages(tmp_path):
+    helper = tmp_path / "src/qcenn_mi/source_provenance.py"
+    helper.parent.mkdir(parents=True)
+    shutil.copyfile(ROOT / "src/qcenn_mi/source_provenance.py", helper)
+    (tmp_path / "README.md").write_bytes(b"source fixture\n")
+    api = runpy.run_path(str(helper))
+    pin = {"source_commit": "a" * 40, "source_sha256": api["source_fingerprint"](tmp_path)}
+    (tmp_path / "SOURCE_REVISION.json").write_text(json.dumps(pin))
+    wrapper = runpy.run_path(str(ROOT / "docker/reproduce.py"))
+    environment = wrapper["pinned_environment"](tmp_path, "full")
+    assert environment["SOURCE_COMMIT"] == pin["source_commit"]
+    assert environment["SOURCE_SHA256"] == pin["source_sha256"]
+    (tmp_path / "README.md").write_bytes(b"changed source\n")
+    with pytest.raises(ValueError, match="does not match"):
+        wrapper["pinned_environment"](tmp_path, "full")

@@ -184,10 +184,42 @@ TABLES = {
     "recurrent-scaling": (
         "recurrent-scaling/result.json",
         [
-            "size", "condition", "family", "rhs_kind", "steps",
-            "logical_depolarizing_probability", "relative_residual",
-            "relative_solution_error", "conditional_solution_fidelity",
-            "accuracy_passed", "stress_probe",
+            "size",
+            "condition",
+            "family",
+            "rhs_kind",
+            "steps",
+            "logical_depolarizing_probability",
+            "relative_residual",
+            "relative_solution_error",
+            "conditional_solution_fidelity",
+            "accuracy_passed",
+            "stress_probe",
+        ],
+    ),
+    "dissipative-comparison": (
+        "dissipative-comparison/result.json",
+        [
+            "size",
+            "condition",
+            "method",
+            "relative_residual",
+            "conditional_solution_fidelity",
+            "first_sustained_sampled_time",
+            "accuracy_passed",
+        ],
+    ),
+    "condition-100-noise": (
+        "dissipative-comparison/result.json",
+        [
+            "size",
+            "steps",
+            "logical_depolarizing_probability",
+            "ideal_same_budget_residual",
+            "transient_residual",
+            "stationary_residual",
+            "transient_accuracy_passed",
+            "stationary_accuracy_passed",
         ],
     ),
 }
@@ -204,8 +236,17 @@ def read_json(path, default=None):
 def rows_for(root, table):
     source, _ = TABLES[table]
     data = read_json(Path(root) / source, {})
-    if table == "recurrent-scaling":
+    if table in {"recurrent-scaling", "dissipative-comparison"}:
         return [{**row, **row["final"]} for row in data.get("cases", [])]
+    if table == "condition-100-noise":
+        return [
+            {
+                **row,
+                "transient_residual": row["transient"]["relative_residual"],
+                "stationary_residual": row["stationary"]["relative_residual"],
+            }
+            for row in data.get("condition_100_noise", [])
+        ]
     if table == "native-noise":
         return [
             {"size": row["size"], **profile}
@@ -265,16 +306,35 @@ def plot_figures(root, run_id):
                 shutil.copyfile(
                     source.with_suffix(f".{suffix}"), root / "figures" / f"{name}.{suffix}"
                 )
-            figures.append({
-                "id": name,
-                "files": [f"figures/{name}.svg", f"figures/{name}.png"],
-                "inputs": ["recurrent-scaling/result.json"],
-                "caption": (
-                    "Structured reduced-density recurrent-channel simulations. x1 uses simulator "
-                    "coherences; p is logical depolarization per update. These are not large "
-                    "native-gate or QPU runs. The dynamic family rotates two columns."
-                ),
-            })
+            figures.append(
+                {
+                    "id": name,
+                    "files": [f"figures/{name}.svg", f"figures/{name}.png"],
+                    "inputs": ["recurrent-scaling/result.json"],
+                    "caption": (
+                        "Reduced-density recurrent-channel simulations. x1 uses simulator "
+                        "coherences; p is logical depolarization per update. These are not large "
+                        "native-gate or QPU runs. The dynamic family rotates two columns."
+                    ),
+                }
+            )
+    for name in ("dissipative_comparison", "variable_spectrum_tracking", "condition_100_diagnosis"):
+        source = root / "dissipative-comparison/figures" / f"{name}.svg"
+        if source.exists():
+            for suffix in ("svg", "png"):
+                shutil.copyfile(
+                    source.with_suffix(f".{suffix}"), root / "figures" / f"{name}.{suffix}"
+                )
+            figures.append(
+                {
+                    "id": name,
+                    "files": [f"figures/{name}.svg", f"figures/{name}.png"],
+                    "inputs": ["dissipative-comparison/result.json"],
+                    "caption": "Matched reduced-density dissipative simulations, changing singular "
+                    "spectra and conditioning, and separate condition-100 transient/floor "
+                    "diagnostics. Model time is not hardware runtime; p is logical noise.",
+                }
+            )
 
     def save(fig, name, inputs, caption):
         fig.tight_layout()
@@ -620,13 +680,24 @@ def coverage(root, validation):
         {
             "item": "Large recurrent, noisy and dynamical studies",
             "status": "structured quantum-channel simulation passed"
-            if available("recurrent-scaling") else "not run or failed",
+            if available("recurrent-scaling")
+            else "not run or failed",
             "evidence": "recurrent-scaling/result.json; recurrent-scaling/REPORT.md",
             "scope": (
                 "Archived matrices and trajectories at configured orders, per-update logical "
                 "depolarization and x1 tracking. Complete-circuit cross-checks through order 10; "
                 "large runs do not establish native-gate execution or calibrated noise resilience."
             ),
+        },
+        {
+            "item": "Dissipative baseline and variable-spectrum dynamics",
+            "status": "implemented reduced-density comparison"
+            if available("dissipative-comparison")
+            else "not run or failed",
+            "evidence": "dissipative-comparison/result.json; dissipative-comparison/REPORT.md",
+            "scope": "Shang's generator /2, matched inputs and criteria, discrete/continuous "
+            "control, changing full spectra and condition numbers. Logical noise "
+            "stationary floors are separated from finite-budget ideal failures.",
         },
         {
             "item": "Physical device validation",
@@ -676,6 +747,7 @@ def generate(root):
     precision = read_json(root / "precision-1000/result.json", {})
     recurrent = read_json(root / "recurrent-quantum/result.json", {})
     recurrent_scaling = read_json(root / "recurrent-scaling/result.json", {})
+    dissipative = read_json(root / "dissipative-comparison/result.json", {})
     findings = {
         "temporal_positive_accuracy_cases": temporal.get("positive_accuracy_cases"),
         "intentional_stale_operator_failures": temporal.get("intentional_accuracy_failures"),
@@ -696,21 +768,29 @@ def generate(root):
         "worst_1000_operator_residual": max(
             (r["operator_relative_residual_2"] for r in precision.get("cases", [])), default=None
         ),
-        "recurrent_quantum_circuit_cases": len(recurrent.get("cases", []))
-        if recurrent
-        else None,
+        "recurrent_quantum_circuit_cases": len(recurrent.get("cases", [])) if recurrent else None,
         "recurrent_quantum_classical_iterate_updates": recurrent.get("classical_iterate_updates"),
         "recurrent_quantum_synthetic_quality_passed": recurrent.get(
             "all_synthetic_quality_gates_passed"
         ),
         "large_recurrent_trajectories": len(recurrent_scaling.get("cases", []))
-        if recurrent_scaling else None,
+        if recurrent_scaling
+        else None,
         "large_recurrent_ideal_accuracy_passed": recurrent_scaling.get(
             "all_main_ideal_accuracy_passed"
         ),
         "large_recurrent_logical_noisy_accuracy_passed": recurrent_scaling.get(
             "all_logical_noisy_accuracy_passed"
         ),
+        "matched_dissipative_trajectories": len(dissipative.get("cases", []))
+        if dissipative
+        else None,
+        "variable_spectrum_tracking_trajectories": len(dissipative.get("dynamic_cases", []))
+        if dissipative
+        else None,
+        "condition_100_logical_noise_trajectories": len(dissipative.get("condition_100_noise", []))
+        if dissipative
+        else None,
     }
     payload = {
         "schema_version": 1,
@@ -963,6 +1043,10 @@ def generate(root):
 
 def verify(root):
     root = Path(root).resolve()
+    if (root / "dissipative-comparison/MANIFEST.json").exists():
+        from .dissipative_report import verify as verify_comparison
+
+        verify_comparison(root / "dissipative-comparison")
     manifest = read_json(root / "publication-evidence/manifest.json")
     if not manifest or manifest.get("schema_version") != 1:
         raise ValueError("Missing or invalid evidence manifest")

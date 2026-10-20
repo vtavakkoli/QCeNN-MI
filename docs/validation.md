@@ -6,7 +6,7 @@ From a clean checkout, Docker Engine and Compose v2 run the complete default
 simulator suite:
 
 ```bash
-docker compose up --build --abort-on-container-exit --exit-code-from validation
+python docker/reproduce.py --profile full
 ```
 
 The image includes the source, pinned Python dependencies, and test tools.
@@ -56,7 +56,7 @@ configuration. For Python selection use `--profile`, `--config`, `--stages`, and
 `--list-stages` on `qcenn_mi.validation`. New experiment CLIs expose sizes,
 conditions, ages, targets, seeds, shots, profiles and optimization settings;
 configuration files are recorded in each output and never change old baseline
-defaults silently. A full run has 22 stages, including its final report.
+defaults silently. A full run has 23 stages, including its final report.
 
 ## Validation stages
 

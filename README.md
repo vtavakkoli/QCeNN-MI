@@ -37,10 +37,10 @@ Docker Engine and Compose v2 run all unit tests and default simulator campaigns:
 ```bash
 git clone https://github.com/vtavakkoli/QCeNN-MI.git
 cd QCeNN-MI
-docker compose up --build --abort-on-container-exit --exit-code-from validation
+python docker/reproduce.py --profile full
 ```
 
-The 22 full-profile stages cover compilation, lint, unit tests, hybrid solvers, coherent
+The 23 full-profile stages cover compilation, lint, unit tests, hybrid solvers, coherent
 circuits, scaling, precision, theoretical bounds, temporal dynamics, and hardware
 simulation. Outputs include JSON results, Markdown summaries, raw measurement
 audits, QPY circuits, timing, provenance, and a validation bundle in `artifacts/`. The final stage generates an offline
@@ -165,6 +165,7 @@ outside the current coherent implementation's supported domain.
 - [Compact circuits and hardware preparation](docs/compact-hardware.md)
 - [Recurrent quantum convergence without classical iterate feedback](docs/recurrent-quantum.md)
 - [Large recurrent/noisy/dynamical simulation and x1 diagnostics](docs/recurrent-scaling.md)
+- [Matched dissipative baseline, changing spectra and condition-100 diagnosis](docs/dissipative-comparison.md)
 - [1000×1000 precision and conditioning](docs/precision-1000.md)
 - [Archived simulator results](https://github.com/vtavakkoli/QCeNN-MI/tree/main/results)
 

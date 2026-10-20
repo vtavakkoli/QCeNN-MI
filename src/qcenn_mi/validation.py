@@ -22,6 +22,14 @@ import zipfile
 from datetime import UTC, datetime
 from pathlib import Path
 
+from .source_provenance import (
+    freeze_source,
+    is_source_file,
+    source_fingerprint,
+    source_paths,
+    source_scope,
+)
+
 
 def stage_commands(output, *, profile="full", config=None):
     output = Path(output).resolve()
@@ -76,6 +84,7 @@ def stage_commands(output, *, profile="full", config=None):
         ("operator-audit", "qcenn_mi.operator_audit"),
         ("recurrent-quantum", "qcenn_mi.recurrent_quantum_benchmark"),
         ("recurrent-scaling", "qcenn_mi.recurrent_scaling_benchmark"),
+        ("dissipative-comparison", "qcenn_mi.dissipative_benchmark"),
     ]:
         commands.append(
             campaign(
@@ -83,50 +92,6 @@ def stage_commands(output, *, profile="full", config=None):
             )
         )
     return commands
-
-
-def is_source_file(path):
-    return path.is_file() and not any(
-        part == "__pycache__" or part.endswith(".egg-info") for part in path.parts
-    )
-
-
-def source_fingerprint(root):
-    root = Path(root)
-    paths = [
-        p
-        for folder in (
-            "src",
-            "tests",
-            "docker",
-            "configs",
-            "docs",
-            ".github",
-            "publication-evidence",
-        )
-        for p in (root / folder).rglob("*")
-        if is_source_file(p)
-    ]
-    paths += [
-        root / name
-        for name in (
-            "Dockerfile",
-            "docker-compose.yml",
-            "requirements.lock",
-            "pyproject.toml",
-            "README.md",
-            "CITATION.cff",
-            "LICENSE",
-            ".dockerignore",
-            ".gitignore",
-            ".gitattributes",
-        )
-        if (root / name).is_file()
-    ]
-    digest = hashlib.sha256()
-    for path in sorted(paths):
-        digest.update(str(path.relative_to(root)).encode() + b"\0" + path.read_bytes() + b"\0")
-    return digest.hexdigest()
 
 
 def create_bundle(root, output):
@@ -166,6 +131,10 @@ def create_bundle(root, output):
     with zipfile.ZipFile(bundle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(source_files):
             archive.write(path, "QCeNN-MI/" + str(path.relative_to(root)))
+        run_metadata = output / "validation.json"
+        if run_metadata.exists():
+            metadata = json.loads(run_metadata.read_text()).get("provenance", {})
+            archive.writestr("QCeNN-MI/SOURCE_REVISION.json", json.dumps(metadata, indent=2) + "\n")
         for path in sorted(output.rglob("*")):
             if path.is_file() and path != bundle and path.name != "PACKAGE_SHA256":
                 archive.write(path, "QCeNN-MI/evidence/" + str(path.relative_to(output)))
@@ -191,6 +160,22 @@ def provenance(root):
         )
     except (OSError, subprocess.CalledProcessError):
         revision, dirty = os.environ.get("QCENN_SOURCE_COMMIT", "unknown"), None
+    fingerprint = source_fingerprint(root)
+    expected = os.environ.get("QCENN_EXPECTED_SOURCE_SHA256")
+    if expected and expected != fingerprint:
+        raise ValueError("Source bytes differ from the pinned build fingerprint")
+    source_dirty = None
+    if (Path(root) / ".git").exists():
+        paths = [p.relative_to(root).as_posix() for p in source_paths(root)]
+        changed = subprocess.check_output(
+            ["git", "diff", "HEAD", "--name-only", "--", *source_scope()], text=True, cwd=root
+        )
+        untracked = subprocess.check_output(
+            ["git", "ls-files", "--others", "--exclude-standard", "--", *paths],
+            text=True,
+            cwd=root,
+        )
+        source_dirty = bool(changed.strip() or untracked.strip())
     packages = (
         "numpy",
         "scipy",
@@ -204,7 +189,10 @@ def provenance(root):
     return {
         "source_commit": revision,
         "working_tree_dirty": dirty,
-        "source_sha256": source_fingerprint(root),
+        "fingerprinted_source_dirty": source_dirty,
+        "source_sha256": fingerprint,
+        "expected_source_sha256": expected,
+        "source_bytes_match_pin": expected == fingerprint if expected else None,
         "source_fingerprint_policy": (
             "source, tests, docs, config, workflow, container policies and license; "
             "generated egg-info and caches excluded"
@@ -342,6 +330,7 @@ def run_suite(output, *, profile="full", config=None, selected=None):
         "stages": [],
         "passed": False,
     }
+    payload["source_snapshot"] = freeze_source(Path.cwd(), output)
     config = Path(config or f"configs/{profile}.json").resolve()
     config_data = json.loads(config.read_text())
     (output / "configuration.json").write_text(
@@ -381,14 +370,27 @@ def run_suite(output, *, profile="full", config=None, selected=None):
         quality["recurrent_scaling_logical_noise"] = json.loads(scaling_study.read_text()).get(
             "all_logical_noisy_accuracy_passed"
         )
+    comparison = output / "dissipative-comparison/result.json"
+    if comparison.exists():
+        noise = json.loads(comparison.read_text()).get("condition_100_noise", [])
+        quality["condition_100_logical_noise"] = (
+            all(row["transient_accuracy_passed"] for row in noise) if noise else None
+        )
     payload["synthetic_quality_by_study"] = quality
     observed_quality = [value for value in quality.values() if value is not None]
     payload["all_noisy_quality_gates_passed"] = all(observed_quality) if observed_quality else None
-    payload["passed"] = all(row["passed"] for row in payload["stages"])
+    payload["source_unchanged_during_run"] = (
+        source_fingerprint(Path.cwd()) == payload["provenance"]["source_sha256"]
+    )
+    payload["passed"] = (
+        all(row["passed"] for row in payload["stages"]) and payload["source_unchanged_during_run"]
+    )
     persist_summary(output, payload)
     report_command = [sys.executable, "-m", "qcenn_mi.evidence_report", "--results", str(output)]
     payload["stages"].append(execute_stage("final-report", report_command, output, env=env))
-    payload["passed"] = all(row["passed"] for row in payload["stages"])
+    payload["passed"] = (
+        all(row["passed"] for row in payload["stages"]) and payload["source_unchanged_during_run"]
+    )
     payload["evidence_integrity_passed"] = payload["stages"][-1]["passed"]
     payload["finished_utc"] = datetime.now(UTC).isoformat()
     persist_summary(output, payload)

@@ -8,7 +8,14 @@ import pytest
 
 from qcenn_mi.compact import build_compact_inverse
 from qcenn_mi.precision_benchmark import audit_operator, controlled_fixture
-from qcenn_mi.validation import create_bundle, execute_stage, source_fingerprint, stage_commands
+from qcenn_mi.validation import (
+    create_bundle,
+    execute_stage,
+    freeze_source,
+    provenance,
+    source_fingerprint,
+    stage_commands,
+)
 
 
 def test_suite_contains_every_existing_campaign_and_1000_precision(tmp_path):
@@ -22,6 +29,7 @@ def test_suite_contains_every_existing_campaign_and_1000_precision(tmp_path):
         "operator-audit",
         "recurrent-quantum",
         "recurrent-scaling",
+        "dissipative-comparison",
         "compile",
         "lint",
         "unit-tests",
@@ -60,6 +68,25 @@ def test_fingerprint_changes_when_the_solver_changes(tmp_path):
     initial = source_fingerprint(tmp_path)
     source.write_text("a = 2\n")
     assert source_fingerprint(tmp_path) != initial
+
+
+def test_frozen_source_contains_every_fingerprinted_byte(tmp_path):
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src/module.py").write_text("a = 1\n")
+    output = tmp_path / "run"
+    output.mkdir()
+    inventory = freeze_source(tmp_path, output)
+    with zipfile.ZipFile(output / "source-snapshot.zip") as archive:
+        assert archive.read("QCeNN-MI/src/module.py") == b"a = 1\n"
+    assert inventory["source_sha256"] == source_fingerprint(tmp_path)
+    (tmp_path / "src/module.py").write_text("a = 2\n")
+    assert inventory["source_sha256"] != source_fingerprint(tmp_path)
+
+
+def test_pinned_build_rejects_changed_source_bytes(tmp_path, monkeypatch):
+    monkeypatch.setenv("QCENN_EXPECTED_SOURCE_SHA256", "0" * 64)
+    with pytest.raises(ValueError, match="Source bytes differ"):
+        provenance(tmp_path)
 
 
 def test_checkout_policy_is_fingerprinted_and_included_in_source_bundle(tmp_path):
