@@ -5,6 +5,7 @@ services:
       context: .
       args:
         SOURCE_COMMIT: ${SOURCE_COMMIT:-unknown}
+        SOURCE_SHA256: ${SOURCE_SHA256:-}
     init: true
     cpus: ${QCENN_CPUS:-4}
     mem_limit: ${QCENN_MEMORY_LIMIT:-4g}

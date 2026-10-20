@@ -214,5 +214,6 @@
     "ideal_residual_target": 1e-06,
     "noisy_residual_target": 0.01,
     "max_memory_mib": 512
-  }
+  },
+  "dissipative-comparison": {}
 }

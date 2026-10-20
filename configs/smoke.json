@@ -167,5 +167,38 @@
     "ideal_residual_target": 1e-06,
     "noisy_residual_target": 0.01,
     "max_memory_mib": 512
+  },
+  "dissipative-comparison": {
+    "sizes": [
+      3
+    ],
+    "conditions": [
+      2,
+      100
+    ],
+    "steps": {
+      "2": 64,
+      "100": 64
+    },
+    "record_points": 9,
+    "noise_probabilities": [
+      1e-05,
+      0.001
+    ],
+    "dynamic_conditions": [
+      2,
+      10,
+      2
+    ],
+    "dynamic_dwells": [
+      4
+    ],
+    "dynamic_hold": 32,
+    "dynamic_probabilities": [
+      0,
+      0.001
+    ],
+    "dynamic_stride": 4,
+    "extended_steps": 1024
   }
 }
