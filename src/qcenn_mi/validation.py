@@ -86,6 +86,7 @@ def stage_commands(output, *, profile="full", config=None):
         ("recurrent-scaling", "qcenn_mi.recurrent_scaling_benchmark"),
         ("dissipative-comparison", "qcenn_mi.dissipative_benchmark"),
         ("polynomial-recurrent", "qcenn_mi.polynomial_benchmark"),
+        ("polynomial-composition", "qcenn_mi.polynomial_composition_benchmark"),
     ]:
         commands.append(
             campaign(

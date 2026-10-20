@@ -42,7 +42,7 @@ after ancilla reset, with other gates/readout ideal.
 ## Reproduce
 
 `python docker/reproduce.py --profile full` now includes `polynomial-recurrent`.
-The aggregate full profile has 24 software stages including the final report.
+The aggregate full profile has 25 software stages including the final report.
 The reduced smoke configuration is for CI and does not establish large-order
 performance. A stand-alone study is
 
@@ -76,3 +76,7 @@ explicitly report the missing matched comparison.
 raw JSON. Failed accuracy criteria are separate from numerical integrity.
 Every experiment records exact source provenance. Manuscript sources remain
 outside this repository. Physical QPU performance is unmeasured.
+
+## Composition from the supplied residual unitary
+
+`polynomial_composition.py` implements the same channel by ell controlled calls to the original U_F. A coherent first-residual flag prevents further residual calls on a branch that has already jumped; controlled swaps reset all jump branches only at the end. The no-jump branch is C^ell. Jump effects sum to G_m. No transformed residual factorization or target state is supplied. Extra flags and controls are charged explicitly. The budgeted composition campaign preserves timeouts and synthesis rejections. The dense direct compiler and the controlled composition have different costs, and both remain separate from an efficient general-purpose matrix oracle.

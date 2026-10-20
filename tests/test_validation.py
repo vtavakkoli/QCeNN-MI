@@ -31,6 +31,7 @@ def test_suite_contains_every_existing_campaign_and_1000_precision(tmp_path):
         "recurrent-scaling",
         "dissipative-comparison",
         "polynomial-recurrent",
+        "polynomial-composition",
         "compile",
         "lint",
         "unit-tests",

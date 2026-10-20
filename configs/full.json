@@ -216,5 +216,6 @@
     "max_memory_mib": 512
   },
   "dissipative-comparison": {},
-  "polynomial-recurrent": {}
+  "polynomial-recurrent": {},
+  "polynomial-composition": {}
 }
