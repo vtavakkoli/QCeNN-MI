@@ -172,5 +172,47 @@
     "seed": 1729,
     "minimum_augmented_fidelity": 0.99,
     "max_memory_mib": 256
+  },
+  "recurrent-scaling": {
+    "sizes": [
+      10,
+      100,
+      1000
+    ],
+    "conditions": [
+      2,
+      10
+    ],
+    "families": [
+      "controlled_spd",
+      "controlled_nonsymmetric",
+      "controlled_indefinite"
+    ],
+    "noise_probabilities": [
+      0,
+      1e-05,
+      0.0001,
+      0.001,
+      0.01
+    ],
+    "steps": {
+      "2": 512,
+      "10": 4096
+    },
+    "record_points": 65,
+    "dynamic_steps": 1600,
+    "dynamic_noise_probabilities": [
+      0,
+      0.0001,
+      0.001
+    ],
+    "dynamic_stride": 8,
+    "stress_condition": 100,
+    "stress_steps": 4096,
+    "seed": 1729,
+    "workers": 3,
+    "ideal_residual_target": 1e-06,
+    "noisy_residual_target": 0.01,
+    "max_memory_mib": 512
   }
 }

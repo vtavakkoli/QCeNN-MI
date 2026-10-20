@@ -181,6 +181,15 @@ TABLES = {
             "certificate_passed",
         ],
     ),
+    "recurrent-scaling": (
+        "recurrent-scaling/result.json",
+        [
+            "size", "condition", "family", "rhs_kind", "steps",
+            "logical_depolarizing_probability", "relative_residual",
+            "relative_solution_error", "conditional_solution_fidelity",
+            "accuracy_passed", "stress_probe",
+        ],
+    ),
 }
 
 
@@ -195,6 +204,8 @@ def read_json(path, default=None):
 def rows_for(root, table):
     source, _ = TABLES[table]
     data = read_json(Path(root) / source, {})
+    if table == "recurrent-scaling":
+        return [{**row, **row["final"]} for row in data.get("cases", [])]
     if table == "native-noise":
         return [
             {"size": row["size"], **profile}
@@ -247,6 +258,23 @@ def plot_figures(root, run_id):
     )
     root = Path(root)
     figures = []
+    for name in ("static_x1_convergence", "dynamic_x1_tracking", "noise_sensitivity"):
+        source = root / "recurrent-scaling/figures" / f"{name}.svg"
+        if source.exists():
+            for suffix in ("svg", "png"):
+                shutil.copyfile(
+                    source.with_suffix(f".{suffix}"), root / "figures" / f"{name}.{suffix}"
+                )
+            figures.append({
+                "id": name,
+                "files": [f"figures/{name}.svg", f"figures/{name}.png"],
+                "inputs": ["recurrent-scaling/result.json"],
+                "caption": (
+                    "Structured reduced-density recurrent-channel simulations. x1 uses simulator "
+                    "coherences; p is logical depolarization per update. These are not large "
+                    "native-gate or QPU runs. The dynamic family rotates two columns."
+                ),
+            })
 
     def save(fig, name, inputs, caption):
         fig.tight_layout()
@@ -590,6 +618,17 @@ def coverage(root, validation):
             ),
         },
         {
+            "item": "Large recurrent, noisy and dynamical studies",
+            "status": "structured quantum-channel simulation passed"
+            if available("recurrent-scaling") else "not run or failed",
+            "evidence": "recurrent-scaling/result.json; recurrent-scaling/REPORT.md",
+            "scope": (
+                "Archived matrices and trajectories at configured orders, per-update logical "
+                "depolarization and x1 tracking. Complete-circuit cross-checks through order 10; "
+                "large runs do not establish native-gate execution or calibrated noise resilience."
+            ),
+        },
+        {
             "item": "Physical device validation",
             "status": "not run",
             ("evidence"): (
@@ -636,6 +675,7 @@ def generate(root):
     operator = read_json(root / "operator-audit/result.json", {})
     precision = read_json(root / "precision-1000/result.json", {})
     recurrent = read_json(root / "recurrent-quantum/result.json", {})
+    recurrent_scaling = read_json(root / "recurrent-scaling/result.json", {})
     findings = {
         "temporal_positive_accuracy_cases": temporal.get("positive_accuracy_cases"),
         "intentional_stale_operator_failures": temporal.get("intentional_accuracy_failures"),
@@ -662,6 +702,14 @@ def generate(root):
         "recurrent_quantum_classical_iterate_updates": recurrent.get("classical_iterate_updates"),
         "recurrent_quantum_synthetic_quality_passed": recurrent.get(
             "all_synthetic_quality_gates_passed"
+        ),
+        "large_recurrent_trajectories": len(recurrent_scaling.get("cases", []))
+        if recurrent_scaling else None,
+        "large_recurrent_ideal_accuracy_passed": recurrent_scaling.get(
+            "all_main_ideal_accuracy_passed"
+        ),
+        "large_recurrent_logical_noisy_accuracy_passed": recurrent_scaling.get(
+            "all_logical_noisy_accuracy_passed"
         ),
     }
     payload = {
