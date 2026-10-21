@@ -331,6 +331,8 @@ def cost_and_noise_study(output, settings):
         reference = np.linalg.solve(matrix, rhs)
         start = time.perf_counter()
         base_channel = build_density_channel(matrix, rhs)
+        diagnostic_preprocessing = time.perf_counter() - start
+        start = time.perf_counter()
         baseline = build_recurrent_solver(matrix, rhs)
         common_preprocessing = time.perf_counter() - start
         start = time.perf_counter()
@@ -352,6 +354,7 @@ def cost_and_noise_study(output, settings):
             / 3
         )
         for method in ["original", "power_4_dense", "power_16_dense", "chebyshev_qsp"]:
+            diagnostic_transform = 0.0
             start = time.perf_counter()
             if method == "chebyshev_qsp":
                 filtered = filter_density_channel(base_channel)
@@ -367,11 +370,16 @@ def cost_and_noise_study(output, settings):
                     residual_eigenvalues=np.maximum(0, 1 - values**2),
                 )
                 solver = None
+                diagnostic_transform = time.perf_counter() - start
+                transform_time = 0.0
             else:
                 degree = 0 if method == "original" else 4 if method == "power_4_dense" else 16
-                channel = accelerate_density_channel(base_channel, degree)
+                start = time.perf_counter()
                 solver = build_polynomial_solver(matrix, rhs, degree)
-            transform_time = time.perf_counter() - start
+                transform_time = time.perf_counter() - start
+                start = time.perf_counter()
+                channel = accelerate_density_channel(base_channel, degree)
+                diagnostic_transform = time.perf_counter() - start
             times = np.arange(4097)
             trajectory = renewal_observables(channel, 4096, times, "reference", reference)
             first = sustained(trajectory, settings)
@@ -392,6 +400,9 @@ def cost_and_noise_study(output, settings):
                 "size": 2,
                 "method": method,
                 "transform_seconds": transform_time,
+                "diagnostic_preprocessing_seconds_excluded": diagnostic_preprocessing,
+                "diagnostic_transform_seconds_excluded": diagnostic_transform,
+                "accuracy_crossing_selected_offline": True,
                 "common_preprocessing_seconds": common_preprocessing,
                 "readout_basis_compile_seconds": readout_compile,
                 "readout_basis_cx_counts": [c.count_ops().get("cx", 0) for c in readout_rotations],
@@ -407,12 +418,12 @@ def cost_and_noise_study(output, settings):
                     row | {"status": "resource_rejected", "reason": "convergence update budget"}
                 )
             else:
+                start = time.perf_counter()
                 circuit = (
                     chebyshev_schedule_circuit([(baseline, spec)] * first)
                     if solver is None
                     else solver.circuit(first, workspace="reset")
                 )
-                start = time.perf_counter()
                 native = transpile(
                     circuit,
                     basis_gates=["rz", "sx", "x", "cx", "reset"],

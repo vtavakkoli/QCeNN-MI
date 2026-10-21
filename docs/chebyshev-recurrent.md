@@ -77,6 +77,10 @@ Hoeffding shots include all N coherences and the reference population. A
 rejected tighter readout certificate remains rejected rather than assigned
 zero shots. Input preprocessing, phase synthesis, transformation, native
 compilation, repeated executions and readout enter the reported model.
+Simulator-only spectral replay and diagnostic matrix extraction are timed
+separately and excluded from implementation latency. Circuit assembly is
+included with native compilation. Accuracy crossings are selected offline
+from benchmark reference records; they are not a free hardware stopping test.
 
 The duration model uses declared CX/one-qubit/reset durations and dependency
 scheduling, not calibrated device measurements. Reuse refers to repetitions
