@@ -1,0 +1,989 @@
+{
+  "source": {
+    "source_commit": "dd487c6fc242fe528438e609aa21ed51f032f4c6",
+    "working_tree_dirty": false,
+    "fingerprinted_source_dirty": false,
+    "source_sha256": "984dc8f1cdaafe820bed71e09b5683521fea33b2e5dacdde15f0f156d8fdb2d6",
+    "expected_source_sha256": null,
+    "source_bytes_match_pin": null,
+    "source_fingerprint_policy": "source, tests, docs, config, workflow, container policies and license; generated egg-info and caches excluded",
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "logical_cpu_count": 9,
+    "execution_context": "local-process",
+    "container_base_image": null,
+    "packages": {
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "qiskit": "2.6.0",
+      "qiskit-aer": "0.17.2",
+      "pytest": "8.4.2",
+      "ruff": "0.17.1",
+      "matplotlib": "3.10.8",
+      "pyqsp": "0.2.0",
+      "qcenn-mi": "0.2.0rc1"
+    },
+    "openmp_preload": null,
+    "glibc_tunables": null,
+    "github_run_id": null,
+    "github_run_attempt": null,
+    "threads": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "eurohpc_allocated_node_execution_claimed": false,
+    "physical_hardware_tested": false,
+    "clock_source": "execution-environment UTC clock; not independently synchronized"
+  },
+  "study_result_sha256": "85d9350b6a4efcc45f6f39c7413d45d21f5535cf3876c12bdafa0974a47cc81d",
+  "script_sha256": "56e0621391be09d32d11b4bb74ee9db4d492e5941cbba22ebb554528252a7069",
+  "upstream_repository": "Qiskit/qiskit-ibm-runtime",
+  "upstream_revision": "52fa07770f5e955000de84a6220e0c8026540428",
+  "snapshot_date": "2024-05-27T15:32:24-03:00",
+  "properties_sha256": "29a90998e66c95580125b41456202ba0893a2ec37f467d15caa6aa8be3b34b43",
+  "configuration_sha256": "15b25bc0c7fdf72a4db606cfd20dfc4363a20c5233c6325cfd3d8115ea859d0b",
+  "physical_hardware_tested": false,
+  "reset_duration_is_assumed": true,
+  "accuracy_includes_calibration_noise": false,
+  "interpretation": "Historical topology/duration projection of an ideal-accuracy workload; no achievable hardware time claimed",
+  "cases": [
+    {
+      "condition": 2,
+      "method": "original",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 6952,
+          "depth": 15114,
+          "width": 7,
+          "reset_count": 294,
+          "qpy_file": "k2-original-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0020517888888889743
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0021642888888889285
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0032892888888886593
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 6954,
+          "depth": 15118,
+          "width": 7,
+          "reset_count": 294,
+          "qpy_file": "k2-original-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0020527346666667523
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0021652346666667065
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0032902346666664373
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 6951,
+          "depth": 15113,
+          "width": 7,
+          "reset_count": 294,
+          "qpy_file": "k2-original-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0020512737777778614
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.002157473777777819
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0032194737777775663
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.18032728399975895,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 13948.384186914242
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 13948.138257099234
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 14698.83503171394
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 14698.589101898931
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 22203.343479712144
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 22203.09754989714
+        }
+      ],
+      "input_qpy_sha256": "6da0414d8e257f25709ff32ca331a7c38d0cb3b3c9a011b56c1eed76eb5374d4",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.0010278343696702272,
+        "shots_per_setting": 2265854,
+        "total_executions": 6797562,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 2,
+      "method": "power_4_dense",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 1590,
+          "depth": 3370,
+          "width": 7,
+          "reset_count": 66,
+          "qpy_file": "k2-power_4_dense-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0004685631111111075
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0004928631111111074
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0007358631111111088
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 1592,
+          "depth": 3373,
+          "width": 7,
+          "reset_count": 66,
+          "qpy_file": "k2-power_4_dense-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.00046950888888888523
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.000493808888888885
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0007368088888888866
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 1586,
+          "depth": 3359,
+          "width": 7,
+          "reset_count": 66,
+          "qpy_file": "k2-power_4_dense-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0004676528888888853
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0004919528888888852
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0007349528888888865
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.046711568999853625,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 3277.5045651094174
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 3277.4223576861323
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 3447.469602909416
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 3447.387395486131
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 5147.119980909426
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 5147.03777348614
+        }
+      ],
+      "input_qpy_sha256": "d87977510e3f7fdcd87de06e9f7851265da4ecb91e3142a71df02c108c5ad1e8",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.00101326508194638,
+        "shots_per_setting": 2331482,
+        "total_executions": 6994446,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 2,
+      "method": "power_16_dense",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 1243,
+          "depth": 2635,
+          "width": 7,
+          "reset_count": 51,
+          "qpy_file": "k2-power_16_dense-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0003676395555555546
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0003865395555555543
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.000575539555555552
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 1245,
+          "depth": 2638,
+          "width": 7,
+          "reset_count": 51,
+          "qpy_file": "k2-power_16_dense-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.00036858533333333234
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.00038748533333333204
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0005764853333333298
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 1239,
+          "depth": 2624,
+          "width": 7,
+          "reset_count": 51,
+          "qpy_file": "k2-power_16_dense-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.00036677199999999904
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.00038567199999999874
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0005746719999999966
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.0446892680001838,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 2529.558162375437
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 2529.457643036397
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 2659.585947675435
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 2659.4854283363948
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 3959.8638006754195
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 3959.7632813363794
+        }
+      ],
+      "input_qpy_sha256": "324ff7b785d85aba2b0490a710ef1488fc07b9b84603181def4de75a3fa1c4ec",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.0010216743616698475,
+        "shots_per_setting": 2293259,
+        "total_executions": 6879777,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 2,
+      "method": "chebyshev_qsp",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 6339,
+          "depth": 15090,
+          "width": 7,
+          "reset_count": 80,
+          "qpy_file": "k2-chebyshev_qsp-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.002275784444444322
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0022960186666665444
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.002594744888888761
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 6341,
+          "depth": 15089,
+          "width": 7,
+          "reset_count": 80,
+          "qpy_file": "k2-chebyshev_qsp-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0022766591111109892
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0022968933333332117
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0025956195555554284
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 6332,
+          "depth": 15076,
+          "width": 7,
+          "reset_count": 80,
+          "qpy_file": "k2-chebyshev_qsp-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0022740991111109892
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0022943333333332117
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0025930595555554285
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.19451147800100443,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 15898.563957400813
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 15898.219509966038
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 16039.933365855482
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 16039.588918420708
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 18127.02862761811
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 18126.68418018334
+        }
+      ],
+      "input_qpy_sha256": "4399446ca47b9bb3fe25b55302e76ebd66d0291ea4ecd85941b3bfdd23315997",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.001013830163250477,
+        "shots_per_setting": 2328883,
+        "total_executions": 6986649,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 10,
+      "method": "original",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 158738,
+          "depth": 336461,
+          "width": 7,
+          "reset_count": 6876,
+          "qpy_file": "k10-original-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.04625545866663312
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.048802458666633255
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0742724586666735
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 158740,
+          "depth": 336465,
+          "width": 7,
+          "reset_count": 6876,
+          "qpy_file": "k10-original-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0462564044444109
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.04880340444441103
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.07427340444445128
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 158737,
+          "depth": 336453,
+          "width": 7,
+          "reset_count": 6876,
+          "qpy_file": "k10-original-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.04625500355552201
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.048802003555522146
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.07427200355556238
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 3.665631095000208,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 8069594.108153553
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 8069589.429837281
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 8513934.564047577
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 8513929.885731304
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 12957339.122994596
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 12957334.444678323
+        }
+      ],
+      "input_qpy_sha256": "87b271152fab638eb8d26aebfdc173ab14f8840280ea2cf468f7ce23c96f6905",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.00020288792285125249,
+        "shots_per_setting": 58152134,
+        "total_executions": 174456402,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 10,
+      "method": "power_4_dense",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 31908,
+          "depth": 67639,
+          "width": 7,
+          "reset_count": 1380,
+          "qpy_file": "k10-power_4_dense-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.00930789155555428
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.00981549155555428
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.014891491555554442
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 31910,
+          "depth": 67642,
+          "width": 7,
+          "reset_count": 1380,
+          "qpy_file": "k10-power_4_dense-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.009308837333332058
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.009816437333332059
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.014892437333332221
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 31904,
+          "depth": 67628,
+          "width": 7,
+          "reset_count": 1380,
+          "qpy_file": "k10-power_4_dense-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.009306981333332057
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.009814581333332057
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.01489058133333222
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.6490529900002002,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 1623833.0318671563
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 1623832.1912771857
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 1712387.5842499565
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 1712386.743659986
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 2597933.108077985
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 2597932.267488014
+        }
+      ],
+      "input_qpy_sha256": "c4ab97fe534ce6141a052719002b12b7b7c80ce16b7abee79417dd246bf9863c",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.00020288736974466187,
+        "shots_per_setting": 58152451,
+        "total_executions": 174457353,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 10,
+      "method": "power_16_dense",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 9694,
+          "depth": 21079,
+          "width": 7,
+          "reset_count": 411,
+          "qpy_file": "k10-power_16_dense-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.002854533333333133
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.003009333333333101
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.004557333333332866
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 9696,
+          "depth": 21078,
+          "width": 7,
+          "reset_count": 411,
+          "qpy_file": "k10-power_16_dense-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.002855137777777578
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0030099377777775458
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.00455793777777731
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 9690,
+          "depth": 21065,
+          "width": 7,
+          "reset_count": 411,
+          "qpy_file": "k10-power_16_dense-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.0028529546666664672
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.0030077546666664352
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0045557546666662
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.22463259500091226,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 497681.8624857602
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 497681.559577097
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 524673.9700617546
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 524673.6671530914
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 794595.0458217135
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 794594.7429130503
+        }
+      ],
+      "input_qpy_sha256": "017dd955a28daa024b1f44d41844012d3e543e414456dcdb2a4de3082a8b604f",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.00020293956802395073,
+        "shots_per_setting": 58122540,
+        "total_executions": 174367620,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    },
+    {
+      "condition": 10,
+      "method": "chebyshev_qsp",
+      "settings": [
+        {
+          "setting": 0,
+          "native_cx": 17983,
+          "depth": 43475,
+          "width": 7,
+          "reset_count": 70,
+          "qpy_file": "k10-chebyshev_qsp-setting0.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.00678161733333129
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.006795228444442396
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0070210151111089626
+            }
+          ]
+        },
+        {
+          "setting": 1,
+          "native_cx": 17985,
+          "depth": 43474,
+          "width": 7,
+          "reset_count": 70,
+          "qpy_file": "k10-chebyshev_qsp-setting1.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.006782491999997956
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.006796103111109062
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.0070218897777756285
+            }
+          ]
+        },
+        {
+          "setting": 2,
+          "native_cx": 17978,
+          "depth": 43461,
+          "width": 7,
+          "reset_count": 70,
+          "qpy_file": "k10-chebyshev_qsp-setting2.qpy",
+          "models": [
+            {
+              "reset_microseconds": 0.1,
+              "modeled_seconds": 0.006779931999997958
+            },
+            {
+              "reset_microseconds": 1,
+              "modeled_seconds": 0.006793543111109064
+            },
+            {
+              "reset_microseconds": 10,
+              "modeled_seconds": 0.007019329777775631
+            }
+          ]
+        }
+      ],
+      "route_compile_seconds": 0.4671123179996357,
+      "models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "projected_seconds": 1169175.4317006469
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "projected_seconds": 1169174.5382936583
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1,
+          "projected_seconds": 1171522.1283489794
+        },
+        {
+          "reset_microseconds": 1,
+          "reuse": 1000,
+          "projected_seconds": 1171521.2349419908
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1,
+          "projected_seconds": 1210450.0901868823
+        },
+        {
+          "reset_microseconds": 10,
+          "reuse": 1000,
+          "projected_seconds": 1210449.1967798937
+        }
+      ],
+      "input_qpy_sha256": "c231781b4d931706970ba75204f5f27a1f09752f096389bdc72288b763fe5890",
+      "ideal_shot_budget": {
+        "status": "bounded",
+        "measurement_settings": 3,
+        "absolute_observable_precision": 0.00020408823275380457,
+        "shots_per_setting": 57470122,
+        "total_executions": 172410366,
+        "confidence": 0.95,
+        "residual_target": 0.01,
+        "model": "independent bounded measurements; ideal readout settings; no device evidence"
+      },
+      "physical_accuracy_certified": false
+    }
+  ]
+}

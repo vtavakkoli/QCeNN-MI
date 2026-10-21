@@ -239,6 +239,21 @@ TABLES["polynomial-recurrent"] = (
         "accuracy_passed",
     ],
 )
+TABLES["chebyshev-recurrent"] = (
+    "chebyshev-recurrent/result.json",
+    [
+        "size",
+        "condition",
+        "family",
+        "method",
+        "initial_state",
+        "first_sustained_sampled_update",
+        "queries_to_sampled_accuracy",
+        "relative_residual",
+        "conditional_solution_fidelity",
+        "accuracy_passed",
+    ],
+)
 
 
 def digest(path):
@@ -252,7 +267,7 @@ def read_json(path, default=None):
 def rows_for(root, table):
     source, _ = TABLES[table]
     data = read_json(Path(root) / source, {})
-    if table == "polynomial-recurrent":
+    if table in {"polynomial-recurrent", "chebyshev-recurrent"}:
         return [{**row, **row["final"]} for row in data.get("static_cases", [])]
     if table in {"recurrent-scaling", "dissipative-comparison"}:
         return [{**row, **row["final"]} for row in data.get("cases", [])]
@@ -828,6 +843,17 @@ def generate(root):
     }
     payload["polynomial_recurrent"] = read_json(root / "polynomial-recurrent/SUMMARY.json", {})
     payload["polynomial_composition"] = read_json(root / "polynomial-composition/SUMMARY.json", {})
+    chebyshev = read_json(root / "chebyshev-recurrent/result.json", {})
+    if chebyshev:
+        payload["chebyshev_recurrent"] = {
+            "static_cases": len(chebyshev["static_cases"]),
+            "static_accuracy_passed": sum(r["accuracy_passed"] for r in chebyshev["static_cases"]),
+            "compiled_native_cases": sum(
+                r["status"] == "compiled" for r in chebyshev["native_cases"]
+            ),
+            "physical_hardware_tested": False,
+            "timing_model_is_calibrated": False,
+        }
     (root / "final-report.json").write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
     lines = [
         "# QCeNN-MI final validation report",
@@ -938,6 +964,18 @@ def generate(root):
         )
     if (root / "polynomial-recurrent/REPORT.md").exists():
         lines += ["", (root / "polynomial-recurrent/REPORT.md").read_text()]
+    if chebyshev:
+        lines += [
+            "",
+            "## Chebyshev-filtered recurrent channel and implementation cost",
+            "The distinct real-Julia QSP construction uses 2d original residual calls. "
+            "Its ideal query comparison concerns augmented-state preparation. "
+            "Static macro caps differ; raw tables are not an equal-budget speedup claim. "
+            "Small complete native circuits, phase arrays, readout shots and assumed "
+            "latencies are retained in chebyshev-recurrent/result.json. "
+            "Dense preprocessing, output costs and synthetic noise limit interpretation. "
+            "No calibrated hardware time or end-to-end quantum speedup is measured.",
+        ]
     (root / "final-report.md").write_text("\n".join(lines) + "\n")
     figure_html = ""
     for figure in figures:
@@ -1068,6 +1106,10 @@ def verify(root):
     from .experiment_io import audit_qpy
 
     audit_qpy(root)
+    if (root / "chebyshev-recurrent/MANIFEST.json").exists():
+        from .chebyshev_benchmark import verify as verify_chebyshev
+
+        verify_chebyshev(root / "chebyshev-recurrent")
     if (root / "dissipative-comparison/MANIFEST.json").exists():
         from .dissipative_report import verify as verify_comparison
 

@@ -217,5 +217,6 @@
   },
   "dissipative-comparison": {},
   "polynomial-recurrent": {},
-  "polynomial-composition": {}
+  "polynomial-composition": {},
+  "chebyshev-recurrent": {}
 }

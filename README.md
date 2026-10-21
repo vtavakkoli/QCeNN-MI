@@ -230,3 +230,9 @@ to the terms under which they were originally licensed.
 ## Polynomial recurrent-channel extension
 
 See [polynomial recurrence](docs/polynomial-recurrent.md) for the explicit dense collision circuit, original/accelerated matched grids, dynamic/noise studies, resource limits and reproduction commands. The full validation profile includes this study. Per-update convergence gains are not claims of quantum runtime speedup.
+
+The distinct [Chebyshev recurrent filter and cost study](docs/chebyshev-recurrent.md)
+adds real-Julia quantum signal processing, signed filtering, finite phase error,
+matched compiled circuits and an explicit readout/latency cost model. Its ideal
+query separation is relative to the original recurrent channel; device timings
+and an end-to-end quantum advantage remain unmeasured.
