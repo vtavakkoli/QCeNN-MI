@@ -1,0 +1,2193 @@
+{
+  "schema_version": 1,
+  "kind": "derived review record; full raw data supplied in the reproduction archive",
+  "source_identity": {
+    "executed_commit": "dd487c6fc242fe528438e609aa21ed51f032f4c6",
+    "published_commit": "95605dbf79371860f4ea57bd1e6a5ffc910d41ac",
+    "verified_identical_tree": "7511264c2aa3780764242173f87553430146fee5",
+    "source_sha256": "984dc8f1cdaafe820bed71e09b5683521fea33b2e5dacdde15f0f156d8fdb2d6",
+    "run_id": "qcenn-c9f4ca0135704ed39149067c2e49c7d4",
+    "pr": "https://github.com/vtavakkoli/QCeNN-MI/pull/7"
+  },
+  "raw_result_sha256": "85d9350b6a4efcc45f6f39c7413d45d21f5535cf3876c12bdafa0974a47cc81d",
+  "campaign_validation_sha256": "4a240b777ccb49e18017002283154ca19f32fe42d6daaecd689f9884948a71d8",
+  "campaign_passed": true,
+  "stages": 26,
+  "tests": 281,
+  "source_unchanged": true,
+  "main_qpy_files": 158,
+  "physical_hardware_tested": false,
+  "static_summary": {
+    "power_0": {
+      "cases": 176,
+      "passed": 88,
+      "caps_differ": true
+    },
+    "power_4": {
+      "cases": 176,
+      "passed": 88,
+      "caps_differ": true
+    },
+    "power_16": {
+      "cases": 176,
+      "passed": 132,
+      "caps_differ": true
+    },
+    "chebyshev_ideal": {
+      "cases": 176,
+      "passed": 176,
+      "caps_differ": true
+    }
+  },
+  "lower_bound": [
+    {
+      "condition": 2,
+      "method": "original",
+      "degree": 4,
+      "updates_to_purified_distance_1e_3": 63,
+      "primitive_queries": 63,
+      "final_purified_distance": 0.0009148480191001988,
+      "previous_infidelity": 1.0461836225644462e-06,
+      "trace_error": 2.1094237467877974e-15,
+      "baseline_no_event_lower_bound": 7.846377169233353e-07,
+      "small_power_crosscheck_error": 3.461788834536657e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 2,
+      "method": "power_16",
+      "degree": 4,
+      "updates_to_purified_distance_1e_3": 9,
+      "primitive_queries": 153,
+      "final_purified_distance": 0.000750977981470251,
+      "previous_infidelity": 2.8198396373114e-06,
+      "trace_error": 4.440892098500626e-16,
+      "baseline_no_event_lower_bound": 0.134217728,
+      "small_power_crosscheck_error": 4.884981308350689e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 2,
+      "method": "chebyshev_ideal",
+      "degree": 4,
+      "updates_to_purified_distance_1e_3": 9,
+      "primitive_queries": 72,
+      "final_purified_distance": 0.0007391614827657632,
+      "previous_infidelity": 2.7121540944006743e-06,
+      "trace_error": 0.0,
+      "baseline_no_event_lower_bound": 0.134217728,
+      "small_power_crosscheck_error": 3.1086244689504383e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 10,
+      "method": "original",
+      "degree": 15,
+      "updates_to_purified_distance_1e_3": 1389,
+      "primitive_queries": 1389,
+      "final_purified_distance": 0.0009973041443200607,
+      "previous_infidelity": 1.0045617118407488e-06,
+      "trace_error": 7.360778653264788e-14,
+      "baseline_no_event_lower_bound": 9.945160947223407e-07,
+      "small_power_crosscheck_error": 1.459943277382081e-14,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 10,
+      "method": "power_16",
+      "degree": 15,
+      "updates_to_purified_distance_1e_3": 82,
+      "primitive_queries": 1394,
+      "final_purified_distance": 0.0009736504182444359,
+      "previous_infidelity": 1.1227148416069931e-06,
+      "trace_error": 4.107825191113079e-15,
+      "baseline_no_event_lower_bound": 0.4422291333605326,
+      "small_power_crosscheck_error": 4.736382599409833e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 10,
+      "method": "chebyshev_ideal",
+      "degree": 15,
+      "updates_to_purified_distance_1e_3": 4,
+      "primitive_queries": 120,
+      "final_purified_distance": 0.0003907179943640149,
+      "previous_infidelity": 7.72316155159585e-06,
+      "trace_error": 0.0,
+      "baseline_no_event_lower_bound": 0.9609803444828163,
+      "small_power_crosscheck_error": 4.884981308350689e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 100,
+      "method": "original",
+      "degree": 150,
+      "updates_to_purified_distance_1e_3": 138163,
+      "primitive_queries": 138163,
+      "final_purified_distance": 0.0009999506696734778,
+      "previous_infidelity": 1.0000013319146145e-06,
+      "trace_error": 3.5853542357244805e-12,
+      "baseline_no_event_lower_bound": 9.99901331781423e-07,
+      "small_power_crosscheck_error": 9.325873406851315e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 100,
+      "method": "power_16",
+      "degree": 150,
+      "updates_to_purified_distance_1e_3": 8128,
+      "primitive_queries": 138176,
+      "final_purified_distance": 0.0009993010254191956,
+      "previous_infidelity": 1.000301522499583e-06,
+      "trace_error": 1.9406698470447736e-13,
+      "baseline_no_event_lower_bound": 0.44363223350049996,
+      "small_power_crosscheck_error": 1.1113332476497817e-13,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 100,
+      "method": "chebyshev_ideal",
+      "degree": 150,
+      "updates_to_purified_distance_1e_3": 3,
+      "primitive_queries": 900,
+      "final_purified_distance": 0.000994907675624837,
+      "previous_infidelity": 9.932160033164675e-05,
+      "trace_error": 0.0,
+      "baseline_no_event_lower_bound": 0.9997000599900016,
+      "small_power_crosscheck_error": 2.4424906541753444e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 1000,
+      "method": "original",
+      "degree": 1497,
+      "updates_to_purified_distance_1e_3": 13815518,
+      "primitive_queries": 13815518,
+      "final_purified_distance": 0.0009999997328598697,
+      "previous_infidelity": 1.000000465719277e-06,
+      "trace_error": 7.153541092819182e-10,
+      "baseline_no_event_lower_bound": 9.99999465718811e-07,
+      "small_power_crosscheck_error": 4.9960036108132044e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 1000,
+      "method": "power_16",
+      "degree": 1497,
+      "updates_to_purified_distance_1e_3": 812678,
+      "primitive_queries": 13815526,
+      "final_purified_distance": 0.0009999957328789388,
+      "previous_infidelity": 1.0000084657670039e-06,
+      "trace_error": 4.06955580345425e-11,
+      "baseline_no_event_lower_bound": 0.44366851036897526,
+      "small_power_crosscheck_error": 1.1268763699945339e-13,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    },
+    {
+      "condition": 1000,
+      "method": "chebyshev_ideal",
+      "degree": 1497,
+      "updates_to_purified_distance_1e_3": 3,
+      "primitive_queries": 8982,
+      "final_purified_distance": 0.000997832781732231,
+      "previous_infidelity": 9.971114198872146e-05,
+      "trace_error": 0.0,
+      "baseline_no_event_lower_bound": 0.999997000006,
+      "small_power_crosscheck_error": 3.3306690738754696e-15,
+      "simulation": "analytic population recurrence; small-K density cross-check"
+    }
+  ],
+  "native_cases": [
+    {
+      "size": 2,
+      "condition": 2,
+      "degree": 4,
+      "status": "compiled",
+      "preprocessing_seconds": 0.0002695440007300931,
+      "phase_synthesis_seconds": 0.3486022839997531,
+      "transpile_seconds": 0.013799868999740283,
+      "phase_attenuation": 0.999999999999,
+      "phases": [
+        0.06150198454782045,
+        0.11793935835175477,
+        0.19590880355123783,
+        0.26411785511635866,
+        0.29185889507285123,
+        0.26411785511635866,
+        0.19590880355123783,
+        0.11793935835175477,
+        0.06150198454782045
+      ],
+      "input_file": "inputs/native-n2-k2.npz",
+      "input_sha256": "2281a08975fa18803ccdf4a9e03b748101273795f9b5c79383174c6c4e38d470",
+      "coefficient_error_estimate": 1.8193779816044753e-14,
+      "maximum_block_error": 1.5432821136887348e-14,
+      "cx": 194,
+      "depth": 716,
+      "width": 7,
+      "primitive_queries_per_macro": 8,
+      "complete_circuit_comparisons": [
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 2.55351295663786e-15,
+          "width": 12,
+          "qpy_file": "circuits/cheb-n2-k2-reference-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 7.798298460745912e-16,
+          "width": 7,
+          "qpy_file": "circuits/cheb-n2-k2-reference-reset.qpy"
+        },
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 2.7756994408962046e-15,
+          "width": 12,
+          "qpy_file": "circuits/cheb-n2-k2-complex-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 1.1108075472505993e-15,
+          "width": 7,
+          "qpy_file": "circuits/cheb-n2-k2-complex-reset.qpy"
+        }
+      ]
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "degree": 15,
+      "status": "compiled",
+      "preprocessing_seconds": 0.000307174999761628,
+      "phase_synthesis_seconds": 0.196902417000274,
+      "transpile_seconds": 0.02330692000032286,
+      "phase_attenuation": 0.999999999999,
+      "phases": [
+        0.06044747517166085,
+        0.022845771064620747,
+        0.026841236712506183,
+        0.031051628757312936,
+        0.03542694349672623,
+        0.03990560864658972,
+        0.04441398210027998,
+        0.04886646338036194,
+        0.05316651406081399,
+        0.05720887159938402,
+        0.06088315792384958,
+        0.06407891474397152,
+        0.06669184798099273,
+        0.06863077119081168,
+        0.06982447165897025,
+        0.07022756936199806,
+        0.06982447165897025,
+        0.06863077119081168,
+        0.06669184798099273,
+        0.06407891474397152,
+        0.06088315792384958,
+        0.05720887159938402,
+        0.05316651406081399,
+        0.04886646338036194,
+        0.04441398210027998,
+        0.03990560864658972,
+        0.03542694349672623,
+        0.031051628757312936,
+        0.026841236712506183,
+        0.022845771064620747,
+        0.06044747517166085
+      ],
+      "input_file": "inputs/native-n2-k10.npz",
+      "input_sha256": "855439b5856cda932cca7a42401a76b10bd2a527da93d153febd4d32a3ceebde",
+      "coefficient_error_estimate": 1.772193503057906e-14,
+      "maximum_block_error": 3.3306690738754696e-14,
+      "cx": 626,
+      "depth": 2370,
+      "width": 7,
+      "primitive_queries_per_macro": 30,
+      "complete_circuit_comparisons": [
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.3877787807814457e-14,
+          "width": 12,
+          "qpy_file": "circuits/cheb-n2-k10-reference-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.3655790624480234e-14,
+          "width": 7,
+          "qpy_file": "circuits/cheb-n2-k10-reference-reset.qpy"
+        },
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 1.0103078774136561e-14,
+          "width": 12,
+          "qpy_file": "circuits/cheb-n2-k10-complex-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 9.436895993446056e-15,
+          "width": 7,
+          "qpy_file": "circuits/cheb-n2-k10-complex-reset.qpy"
+        }
+      ]
+    },
+    {
+      "size": 2,
+      "condition": 100,
+      "degree": 150,
+      "status": "resource_rejected",
+      "reason": "phase degree budget"
+    },
+    {
+      "size": 2,
+      "condition": 1000,
+      "degree": 1497,
+      "status": "resource_rejected",
+      "reason": "phase degree budget"
+    },
+    {
+      "size": 4,
+      "condition": 2,
+      "degree": 4,
+      "status": "compiled",
+      "preprocessing_seconds": 0.0006742810001014732,
+      "phase_synthesis_seconds": 0.3486022839997531,
+      "transpile_seconds": 0.021900347999689984,
+      "phase_attenuation": 0.999999999999,
+      "phases": [
+        0.06150198454782045,
+        0.11793935835175477,
+        0.19590880355123783,
+        0.26411785511635866,
+        0.29185889507285123,
+        0.26411785511635866,
+        0.19590880355123783,
+        0.11793935835175477,
+        0.06150198454782045
+      ],
+      "input_file": "inputs/native-n4-k2.npz",
+      "input_sha256": "923813b1f65434689c8310a35a726d0976224f1f6999d1d6064e422420d3d47a",
+      "coefficient_error_estimate": 1.8193779816044753e-14,
+      "maximum_block_error": 1.743271118537394e-14,
+      "cx": 810,
+      "depth": 3076,
+      "width": 9,
+      "primitive_queries_per_macro": 8,
+      "complete_circuit_comparisons": [
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 2.1094237467877974e-14,
+          "width": 15,
+          "qpy_file": "circuits/cheb-n4-k2-reference-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.9539932714628044e-14,
+          "width": 9,
+          "qpy_file": "circuits/cheb-n4-k2-reference-reset.qpy"
+        },
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 1.199041045061328e-14,
+          "width": 15,
+          "qpy_file": "circuits/cheb-n4-k2-complex-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 9.881069581593204e-15,
+          "width": 9,
+          "qpy_file": "circuits/cheb-n4-k2-complex-reset.qpy"
+        }
+      ]
+    },
+    {
+      "size": 4,
+      "condition": 10,
+      "degree": 15,
+      "status": "compiled",
+      "preprocessing_seconds": 0.0003312899998491048,
+      "phase_synthesis_seconds": 0.196902417000274,
+      "transpile_seconds": 0.08588941500056535,
+      "phase_attenuation": 0.999999999999,
+      "phases": [
+        0.06044747517166085,
+        0.022845771064620747,
+        0.026841236712506183,
+        0.031051628757312936,
+        0.03542694349672623,
+        0.03990560864658972,
+        0.04441398210027998,
+        0.04886646338036194,
+        0.05316651406081399,
+        0.05720887159938402,
+        0.06088315792384958,
+        0.06407891474397152,
+        0.06669184798099273,
+        0.06863077119081168,
+        0.06982447165897025,
+        0.07022756936199806,
+        0.06982447165897025,
+        0.06863077119081168,
+        0.06669184798099273,
+        0.06407891474397152,
+        0.06088315792384958,
+        0.05720887159938402,
+        0.05316651406081399,
+        0.04886646338036194,
+        0.04441398210027998,
+        0.03990560864658972,
+        0.03542694349672623,
+        0.031051628757312936,
+        0.026841236712506183,
+        0.022845771064620747,
+        0.06044747517166085
+      ],
+      "input_file": "inputs/native-n4-k10.npz",
+      "input_sha256": "e9e130bc2a6005de3beeb0f2fe3d15a631be2971cf1593db5b6f55a5fedaf14d",
+      "coefficient_error_estimate": 1.772193503057906e-14,
+      "maximum_block_error": 3.1308511516639236e-14,
+      "cx": 2944,
+      "depth": 11436,
+      "width": 9,
+      "primitive_queries_per_macro": 30,
+      "complete_circuit_comparisons": [
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.3322676295501878e-14,
+          "width": 15,
+          "qpy_file": "circuits/cheb-n4-k10-reference-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.3988810128149689e-14,
+          "width": 9,
+          "qpy_file": "circuits/cheb-n4-k10-reference-reset.qpy"
+        },
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 1.1102232313135544e-14,
+          "width": 15,
+          "qpy_file": "circuits/cheb-n4-k10-complex-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 1.0325269716271689e-14,
+          "width": 9,
+          "qpy_file": "circuits/cheb-n4-k10-complex-reset.qpy"
+        }
+      ]
+    },
+    {
+      "size": 4,
+      "condition": 100,
+      "degree": 150,
+      "status": "resource_rejected",
+      "reason": "phase degree budget"
+    },
+    {
+      "size": 4,
+      "condition": 1000,
+      "degree": 1497,
+      "status": "resource_rejected",
+      "reason": "phase degree budget"
+    },
+    {
+      "size": 10,
+      "condition": 2,
+      "degree": 4,
+      "status": "compiled",
+      "preprocessing_seconds": 0.000374549999833107,
+      "phase_synthesis_seconds": 0.3486022839997531,
+      "transpile_seconds": 0.08962038699974073,
+      "phase_attenuation": 0.999999999999,
+      "phases": [
+        0.06150198454782045,
+        0.11793935835175477,
+        0.19590880355123783,
+        0.26411785511635866,
+        0.29185889507285123,
+        0.26411785511635866,
+        0.19590880355123783,
+        0.11793935835175477,
+        0.06150198454782045
+      ],
+      "input_file": "inputs/native-n10-k2.npz",
+      "input_sha256": "4a2b4a270eab4bfc43da0201a204e7b21db1fb1cd8a1c7ab3ac3ee0426810393",
+      "coefficient_error_estimate": 1.8193779816044753e-14,
+      "maximum_block_error": 1.6653462462800322e-14,
+      "cx": 3442,
+      "depth": 12876,
+      "width": 11,
+      "primitive_queries_per_macro": 8,
+      "complete_circuit_comparisons": [
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.5210055437364645e-14,
+          "width": 18,
+          "qpy_file": "circuits/cheb-n10-k2-reference-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "initial_state": "reference",
+          "status": "resource_rejected",
+          "reason": "complete density simulation width budget"
+        },
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 8.881786851959116e-15,
+          "width": 18,
+          "qpy_file": "circuits/cheb-n10-k2-complex-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "initial_state": "complex",
+          "status": "resource_rejected",
+          "reason": "complete density simulation width budget"
+        }
+      ]
+    },
+    {
+      "size": 10,
+      "condition": 10,
+      "degree": 15,
+      "status": "compiled",
+      "preprocessing_seconds": 0.0011475560004328145,
+      "phase_synthesis_seconds": 0.196902417000274,
+      "transpile_seconds": 0.33252483700016455,
+      "phase_attenuation": 0.999999999999,
+      "phases": [
+        0.06044747517166085,
+        0.022845771064620747,
+        0.026841236712506183,
+        0.031051628757312936,
+        0.03542694349672623,
+        0.03990560864658972,
+        0.04441398210027998,
+        0.04886646338036194,
+        0.05316651406081399,
+        0.05720887159938402,
+        0.06088315792384958,
+        0.06407891474397152,
+        0.06669184798099273,
+        0.06863077119081168,
+        0.06982447165897025,
+        0.07022756936199806,
+        0.06982447165897025,
+        0.06863077119081168,
+        0.06669184798099273,
+        0.06407891474397152,
+        0.06088315792384958,
+        0.05720887159938402,
+        0.05316651406081399,
+        0.04886646338036194,
+        0.04441398210027998,
+        0.03990560864658972,
+        0.03542694349672623,
+        0.031051628757312936,
+        0.026841236712506183,
+        0.022845771064620747,
+        0.06044747517166085
+      ],
+      "input_file": "inputs/native-n10-k10.npz",
+      "input_sha256": "d1bea38fdbe684ffd52931e4772e42d67048e8cb331615b972a98baa49b7c73e",
+      "coefficient_error_estimate": 1.772193503057906e-14,
+      "maximum_block_error": 2.3315493040696425e-14,
+      "cx": 12792,
+      "depth": 48164,
+      "width": 11,
+      "primitive_queries_per_macro": 30,
+      "complete_circuit_comparisons": [
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "reference",
+          "maximum_density_error": 1.3324728811518166e-15,
+          "width": 18,
+          "qpy_file": "circuits/cheb-n10-k10-reference-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "initial_state": "reference",
+          "status": "resource_rejected",
+          "reason": "complete density simulation width budget"
+        },
+        {
+          "workspace": "coherent",
+          "status": "complete",
+          "initial_state": "complex",
+          "maximum_density_error": 8.992809900782643e-15,
+          "width": 18,
+          "qpy_file": "circuits/cheb-n10-k10-complex-coherent.qpy"
+        },
+        {
+          "workspace": "reset",
+          "initial_state": "complex",
+          "status": "resource_rejected",
+          "reason": "complete density simulation width budget"
+        }
+      ]
+    },
+    {
+      "size": 10,
+      "condition": 100,
+      "degree": 150,
+      "status": "resource_rejected",
+      "reason": "phase degree budget"
+    },
+    {
+      "size": 10,
+      "condition": 1000,
+      "degree": 1497,
+      "status": "resource_rejected",
+      "reason": "phase degree budget"
+    }
+  ],
+  "cost_cases": [
+    {
+      "condition": 2,
+      "size": 2,
+      "method": "original",
+      "transform_seconds": 0.000492410999868298,
+      "diagnostic_preprocessing_seconds_excluded": 0.0002556179997554864,
+      "diagnostic_transform_seconds_excluded": 7.587199979752768e-05,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.0002035609995800769,
+      "readout_basis_compile_seconds": 0.01771638699938194,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.0,
+      "first_joint_accuracy_update": 99,
+      "updates": 99,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 1.0,
+        "reference_probability": 0.6939750902324971,
+        "solution_probability": 0.30602490976750285,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 1.0,
+        "augmented_purified_distance": 0.0,
+        "conditional_solution_fidelity": 0.9999999999999998,
+        "relative_residual": 3.3123363259729416e-16,
+        "relative_solution_error": 2.3823985721163587e-16,
+        "x1": 0.989406786796715,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 2.220446049250313e-16,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.047436347999791906,
+      "cx": 3465,
+      "depth": 11286,
+      "width": 5,
+      "reset_count": 294,
+      "complete_native_simulation_seconds": 0.47143453100034094,
+      "complete_native_diagnostics": {
+        "trace": 0.9999999999999712,
+        "purity": 0.9999999999109972,
+        "solution_probability": 0.30602447588117676,
+        "reference_probability": 0.6939755241187946,
+        "padding_probability": -1.1175571123776198e-16,
+        "encoded_residual_expectation": 1.2966754854441825e-11,
+        "coherence_relative_residual": 9.493886468496246e-07
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 99,
+        "trace": 1.0000000000000004,
+        "reference_probability": 0.6939755241188168,
+        "solution_probability": 0.30602447588118364,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999550053,
+        "augmented_purified_distance": 6.707806992810579e-06,
+        "conditional_solution_fidelity": 0.9999999999271465,
+        "relative_residual": 9.493886565690448e-07,
+        "relative_solution_error": 1.421677630348222e-06,
+        "x1": 0.9894058838365883,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 9.029601268917276e-07,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.0010278343696702272,
+          "shots_per_setting": 2265854,
+          "total_executions": 6797562,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0010305899999999766,
+          "modeled_total_seconds": 7015.62566204684,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0010305899999999766,
+          "modeled_total_seconds": 7015.559879188549,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0010305899999999766,
+          "modeled_total_seconds": 7015.62566204684,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0010305899999999766,
+          "modeled_total_seconds": 7015.559879188549,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0019047499999999625,
+          "modeled_total_seconds": 12957.782459966744,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0019047499999999625,
+          "modeled_total_seconds": 12957.716677108454,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 2,
+      "size": 2,
+      "method": "power_4_dense",
+      "transform_seconds": 0.0007309859993256396,
+      "diagnostic_preprocessing_seconds_excluded": 0.0002556179997554864,
+      "diagnostic_transform_seconds_excluded": 5.345000045053894e-05,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.0002035609995800769,
+      "readout_basis_compile_seconds": 0.01771638699938194,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.0,
+      "first_joint_accuracy_update": 21,
+      "updates": 23,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 1.0,
+        "reference_probability": 0.6939750902324971,
+        "solution_probability": 0.30602490976750285,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 1.0,
+        "augmented_purified_distance": 0.0,
+        "conditional_solution_fidelity": 0.9999999999999998,
+        "relative_residual": 3.3123363259729416e-16,
+        "relative_solution_error": 2.3823985721163587e-16,
+        "x1": 0.989406786796715,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 2.220446049250313e-16,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.016927210000176274,
+      "cx": 782,
+      "depth": 2484,
+      "width": 5,
+      "reset_count": 66,
+      "complete_native_simulation_seconds": 0.09330126799977734,
+      "complete_native_diagnostics": {
+        "trace": 0.9999999999999845,
+        "purity": 0.9999999988203052,
+        "solution_probability": 0.3060248155049278,
+        "reference_probability": 0.6939751844950566,
+        "padding_probability": -3.545341107604854e-17,
+        "encoded_residual_expectation": 2.8993877337377383e-10,
+        "coherence_relative_residual": 2.065472637289989e-07
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 23,
+        "trace": 1.0,
+        "reference_probability": 0.6939751844950678,
+        "solution_probability": 0.3060248155049322,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999994101432,
+        "augmented_purified_distance": 2.4286968317322817e-05,
+        "conditional_solution_fidelity": 0.9999999995662802,
+        "relative_residual": 2.065472658485144e-07,
+        "relative_solution_error": 3.095037237222377e-07,
+        "x1": 0.9894065893236044,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 1.974731108633776e-07,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.00101326508194638,
+          "shots_per_setting": 2331482,
+          "total_executions": 6994446,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.00023115000000000405,
+          "modeled_total_seconds": 1627.1535511240268,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.00023115000000000405,
+          "modeled_total_seconds": 1627.1180085581723,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.00023115000000000405,
+          "modeled_total_seconds": 1627.1535511240268,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.00023115000000000405,
+          "modeled_total_seconds": 1627.1180085581723,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0004273900000000007,
+          "modeled_total_seconds": 2999.743634164003,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0004273900000000007,
+          "modeled_total_seconds": 2999.7080915981487,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 2,
+      "size": 2,
+      "method": "power_16_dense",
+      "transform_seconds": 0.013467130999742949,
+      "diagnostic_preprocessing_seconds_excluded": 0.0002556179997554864,
+      "diagnostic_transform_seconds_excluded": 0.00020728799972857814,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.0002035609995800769,
+      "readout_basis_compile_seconds": 0.01771638699938194,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.0,
+      "first_joint_accuracy_update": 13,
+      "updates": 18,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 1.0000000000000002,
+        "reference_probability": 0.6939750902324971,
+        "solution_probability": 0.3060249097675031,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 1.0000000000000002,
+        "augmented_purified_distance": 0.0,
+        "conditional_solution_fidelity": 1.0000000000000016,
+        "relative_residual": 3.3123363259729416e-16,
+        "relative_solution_error": 2.3823985721163587e-16,
+        "x1": 0.989406786796715,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 2.220446049250313e-16,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.024543612000343273,
+      "cx": 612,
+      "depth": 1944,
+      "width": 5,
+      "reset_count": 51,
+      "complete_native_simulation_seconds": 0.06646864499998628,
+      "complete_native_diagnostics": {
+        "trace": 0.9999999999999789,
+        "purity": 0.9999999996000573,
+        "solution_probability": 0.30602490951844324,
+        "reference_probability": 0.6939750904815358,
+        "padding_probability": -7.105135105336474e-17,
+        "encoded_residual_expectation": 1.295898906414419e-10,
+        "coherence_relative_residual": 9.817659861162738e-10
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 18,
+        "trace": 1.0,
+        "reference_probability": 0.6939750904815488,
+        "solution_probability": 0.3060249095184512,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999998000487,
+        "augmented_purified_distance": 1.4140412927396893e-05,
+        "conditional_solution_fidelity": 0.9999999999950697,
+        "relative_residual": 9.817647124016892e-10,
+        "relative_solution_error": 1.0631346433104693e-09,
+        "x1": 0.989406785765275,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 1.0314402665301259e-09,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.0010216743616698475,
+          "shots_per_setting": 2293259,
+          "total_executions": 6879777,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.00018090000000000147,
+          "modeled_total_seconds": 1254.789659951009,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.00018090000000000147,
+          "modeled_total_seconds": 1254.733785190701,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.00018090000000000147,
+          "modeled_total_seconds": 1254.789659951009,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.00018090000000000147,
+          "modeled_total_seconds": 1254.733785190701,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0003325400000000013,
+          "modeled_total_seconds": 2298.0390442310077,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0003325400000000013,
+          "modeled_total_seconds": 2297.9831694706995,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 2,
+      "size": 2,
+      "method": "chebyshev_qsp",
+      "transform_seconds": 0.0,
+      "diagnostic_preprocessing_seconds_excluded": 0.0002556179997554864,
+      "diagnostic_transform_seconds_excluded": 0.00434128699998837,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.0002035609995800769,
+      "readout_basis_compile_seconds": 0.01771638699938194,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.03942319999987376,
+      "first_joint_accuracy_update": 12,
+      "updates": 17,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 1.0,
+        "reference_probability": 0.6939750902333853,
+        "solution_probability": 0.3060249097666147,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999990992,
+        "augmented_purified_distance": 9.491232597407209e-07,
+        "conditional_solution_fidelity": 1.0,
+        "relative_residual": 4.212557594046255e-12,
+        "relative_solution_error": 4.212498886213134e-12,
+        "x1": 0.9894067867925473,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 4.1678882567453e-12,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.09293760099990322,
+      "cx": 3298,
+      "depth": 12172,
+      "width": 7,
+      "reset_count": 80,
+      "complete_native_simulation_seconds": 1.9705914429996483,
+      "complete_native_diagnostics": {
+        "trace": 0.999999999999948,
+        "purity": 0.9999999988855004,
+        "solution_probability": 0.3060249092350758,
+        "reference_probability": 0.6939750907648727,
+        "padding_probability": -4.510642983295059e-16,
+        "encoded_residual_expectation": 3.641519112086159e-10,
+        "coherence_relative_residual": 2.565313835255494e-09
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 17,
+        "trace": 0.9999999999999999,
+        "reference_probability": 0.6939750907649114,
+        "solution_probability": 0.3060249092350885,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.999999999442797,
+        "augmented_purified_distance": 2.360514669402347e-05,
+        "conditional_solution_fidelity": 0.9999999999999991,
+        "relative_residual": 2.5653303191212236e-09,
+        "relative_solution_error": 2.5653302078726716e-09,
+        "x1": 0.9894067842585601,
+        "reference_x1": 0.9894067867967152,
+        "absolute_x1_error": 2.5381551305159178e-09,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.001013830163250477,
+          "shots_per_setting": 2328883,
+          "total_executions": 6986649,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0009526799999999926,
+          "modeled_total_seconds": 6666.531290588948,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0009526799999999926,
+          "modeled_total_seconds": 6666.381160120698,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0009526799999999926,
+          "modeled_total_seconds": 6666.531290588948,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0009526799999999926,
+          "modeled_total_seconds": 6666.381160120698,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0010665999999999942,
+          "modeled_total_seconds": 7462.450344668959,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0010665999999999942,
+          "modeled_total_seconds": 7462.300214200709,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 10,
+      "size": 2,
+      "method": "original",
+      "transform_seconds": 0.0004877820001638611,
+      "diagnostic_preprocessing_seconds_excluded": 0.00035933100025431486,
+      "diagnostic_transform_seconds_excluded": 5.400099962571403e-05,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.00026042700028483523,
+      "readout_basis_compile_seconds": 0.011762871000428277,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.0,
+      "first_joint_accuracy_update": 2188,
+      "updates": 2293,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 0.9999999999999939,
+        "reference_probability": 0.7923393069098902,
+        "solution_probability": 0.2076606930901037,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999999939,
+        "augmented_purified_distance": 7.81423485405856e-08,
+        "conditional_solution_fidelity": 0.9999999999998928,
+        "relative_residual": 6.720529058370805e-12,
+        "relative_solution_error": 1.3127523201951276e-11,
+        "x1": 0.6118356007732502,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 6.888267733984321e-12,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 1.004857095999796,
+      "cx": 77962,
+      "depth": 247644,
+      "width": 5,
+      "reset_count": 6876,
+      "complete_native_simulation_seconds": 8.996282259000509,
+      "complete_native_diagnostics": {
+        "trace": 0.9999999999987119,
+        "purity": 0.9999999999480301,
+        "solution_probability": 0.20766036534388016,
+        "reference_probability": 0.7923396346548317,
+        "padding_probability": 2.673939813036369e-17,
+        "encoded_residual_expectation": 3.1056694701023107e-13,
+        "coherence_relative_residual": 5.173725977746129e-07
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 2293,
+        "trace": 0.9999999999999968,
+        "reference_probability": 0.7923396346559676,
+        "solution_probability": 0.2076603653440292,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999751131,
+        "augmented_purified_distance": 4.988674206870997e-06,
+        "conditional_solution_fidelity": 0.9999999999956681,
+        "relative_residual": 5.173728065204815e-07,
+        "relative_solution_error": 1.0105968233573047e-06,
+        "x1": 0.6118350705033427,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 5.302767956960608e-07,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.00020288792285125249,
+          "shots_per_setting": 58152134,
+          "total_executions": 174456402,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.02304465000005924,
+          "modeled_total_seconds": 4020545.937202771,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.02304465000005924,
+          "modeled_total_seconds": 4020544.9208519636,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.02304465000005924,
+          "modeled_total_seconds": 4020545.937202771,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.02304465000005924,
+          "modeled_total_seconds": 4020544.9208519636,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.043489290000068306,
+          "modeled_total_seconds": 7587244.271789632,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.043489290000068306,
+          "modeled_total_seconds": 7587243.255438824,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 10,
+      "size": 2,
+      "method": "power_4_dense",
+      "transform_seconds": 0.0007687070001338725,
+      "diagnostic_preprocessing_seconds_excluded": 0.00035933100025431486,
+      "diagnostic_transform_seconds_excluded": 6.596399998670677e-05,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.00026042700028483523,
+      "readout_basis_compile_seconds": 0.011762871000428277,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.0,
+      "first_joint_accuracy_update": 438,
+      "updates": 461,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 0.9999999999999988,
+        "reference_probability": 0.792339306905632,
+        "solution_probability": 0.20766069309436674,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999999988,
+        "augmented_purified_distance": 3.494632065164618e-08,
+        "conditional_solution_fidelity": 0.9999999999999939,
+        "relative_residual": 4.684350955332003e-16,
+        "relative_solution_error": 1.4467646231005182e-16,
+        "x1": 0.6118356007801384,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 0.0,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.17958640699998796,
+      "cx": 15674,
+      "depth": 49788,
+      "width": 5,
+      "reset_count": 1380,
+      "complete_native_simulation_seconds": 1.7767027540003255,
+      "complete_native_diagnostics": {
+        "trace": 0.9999999999998679,
+        "purity": 0.9999999999502516,
+        "solution_probability": 0.20766038625355482,
+        "reference_probability": 0.792339613746313,
+        "padding_probability": -5.533680273840671e-17,
+        "encoded_residual_expectation": 3.202588458235396e-13,
+        "coherence_relative_residual": 4.843683530012687e-07
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 461,
+        "trace": 0.9999999999999993,
+        "reference_probability": 0.7923396137487345,
+        "solution_probability": 0.20766038625126482,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999751065,
+        "augmented_purified_distance": 4.989341808339826e-06,
+        "conditional_solution_fidelity": 0.9999999999957693,
+        "relative_residual": 4.843720211659769e-07,
+        "relative_solution_error": 9.461356026138969e-07,
+        "x1": 0.6118351043270533,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 4.964530850859461e-07,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.00020288736974466187,
+          "shots_per_setting": 58152451,
+          "total_executions": 174457353,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.004633049999998355,
+          "modeled_total_seconds": 808528.028577215,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.004633049999998355,
+          "modeled_total_seconds": 808527.8363911815,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.004633049999998355,
+          "modeled_total_seconds": 808528.028577215,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.004633049999998355,
+          "modeled_total_seconds": 808527.8363911815,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.008736249999998174,
+          "modeled_total_seconds": 1524361.4394067836,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.008736249999998174,
+          "modeled_total_seconds": 1524361.24722075,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 10,
+      "size": 2,
+      "method": "power_16_dense",
+      "transform_seconds": 0.0006513580001410446,
+      "diagnostic_preprocessing_seconds_excluded": 0.00035933100025431486,
+      "diagnostic_transform_seconds_excluded": 5.521300045074895e-05,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.00026042700028483523,
+      "readout_basis_compile_seconds": 0.011762871000428277,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.0,
+      "first_joint_accuracy_update": 130,
+      "updates": 138,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 0.9999999999999997,
+        "reference_probability": 0.7923393069056325,
+        "solution_probability": 0.2076606930943672,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999999997,
+        "augmented_purified_distance": 1.8250120749944284e-08,
+        "conditional_solution_fidelity": 0.9999999999999994,
+        "relative_residual": 3.3123363259729416e-16,
+        "relative_solution_error": 1.6175320223473106e-16,
+        "x1": 0.6118356007801383,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 1.1102230246251565e-16,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.06590462399981334,
+      "cx": 4830,
+      "depth": 15732,
+      "width": 5,
+      "reset_count": 411,
+      "complete_native_simulation_seconds": 0.5536155769996185,
+      "complete_native_diagnostics": {
+        "trace": 0.9999999999996025,
+        "purity": 0.9999999999508594,
+        "solution_probability": 0.20766044857185856,
+        "reference_probability": 0.792339551427744,
+        "padding_probability": -7.962293140217056e-17,
+        "encoded_residual_expectation": 3.4112730115530014e-13,
+        "coherence_relative_residual": 3.8600161585512685e-07
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 138,
+        "trace": 0.9999999999999999,
+        "reference_probability": 0.79233955142806,
+        "solution_probability": 0.20766044857193988,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999757312,
+        "augmented_purified_distance": 4.9263383140514365e-06,
+        "conditional_solution_fidelity": 0.9999999999960171,
+        "relative_residual": 3.8600162081598966e-07,
+        "relative_solution_error": 7.539863555464201e-07,
+        "x1": 0.6118352051504516,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 3.956296867890785e-07,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.00020293956802395073,
+          "shots_per_setting": 58122540,
+          "total_executions": 174367620,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0014365799999999588,
+          "modeled_total_seconds": 250751.17819647284,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0014365799999999588,
+          "modeled_total_seconds": 250751.09969577214,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0014365799999999588,
+          "modeled_total_seconds": 250751.17819647284,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0014365799999999588,
+          "modeled_total_seconds": 250751.09969577214,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0026586199999997736,
+          "modeled_total_seconds": 463835.3845412405,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0026586199999997736,
+          "modeled_total_seconds": 463835.3060405398,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    },
+    {
+      "condition": 10,
+      "size": 2,
+      "method": "chebyshev_qsp",
+      "transform_seconds": 0.0,
+      "diagnostic_preprocessing_seconds_excluded": 0.00035933100025431486,
+      "diagnostic_transform_seconds_excluded": 0.011140880000311881,
+      "accuracy_crossing_selected_offline": true,
+      "common_preprocessing_seconds": 0.00026042700028483523,
+      "readout_basis_compile_seconds": 0.011762871000428277,
+      "readout_basis_cx_counts": [
+        1,
+        3,
+        0
+      ],
+      "phase_synthesis_seconds": 0.18089031299950875,
+      "first_joint_accuracy_update": 9,
+      "updates": 15,
+      "accuracy_passed": true,
+      "final": {
+        "time": 4096,
+        "trace": 0.9999999999999997,
+        "reference_probability": 0.7923393069061837,
+        "solution_probability": 0.20766069309381596,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999994534,
+        "augmented_purified_distance": 7.392988536599827e-07,
+        "conditional_solution_fidelity": 0.9999999999999971,
+        "relative_residual": 3.3115442516535933e-12,
+        "relative_solution_error": 3.334941475949936e-12,
+        "x1": 0.6118356007781005,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 2.0379253840019373e-12,
+        "coherence_readout_defined": true
+      },
+      "status": "compiled",
+      "compile_seconds": 0.23427536100007273,
+      "cx": 9390,
+      "depth": 35550,
+      "width": 7,
+      "reset_count": 70,
+      "complete_native_simulation_seconds": 5.979449804999604,
+      "complete_native_diagnostics": {
+        "trace": 0.999999999999764,
+        "purity": 0.9999999999744739,
+        "solution_probability": 0.2076606930812639,
+        "reference_probability": 0.7923393069184997,
+        "padding_probability": 2.86552839695569e-16,
+        "encoded_residual_expectation": 5.969404069135622e-13,
+        "coherence_relative_residual": 7.532210756172269e-11
+      },
+      "readout_reserve_rule": "P <= (1e-2)*gamma/200, plus joint targets",
+      "selected_accuracy": {
+        "time": 15,
+        "trace": 0.9999999999999999,
+        "reference_probability": 0.7923393069187071,
+        "solution_probability": 0.20766069308129276,
+        "padding_probability": 0.0,
+        "augmented_fidelity": 0.9999999999874691,
+        "augmented_purified_distance": 3.539896218018152e-06,
+        "conditional_solution_fidelity": 0.9999999999999942,
+        "relative_residual": 7.53431290688318e-11,
+        "relative_solution_error": 7.781159378696045e-11,
+        "x1": 0.6118356007327983,
+        "reference_x1": 0.6118356007801384,
+        "absolute_x1_error": 4.73401318146216e-11,
+        "coherence_readout_defined": true
+      },
+      "readout_budgets": {
+        "1e-06": {
+          "status": "state_error_exceeds_readout_certificate",
+          "total_executions": null
+        },
+        "0.01": {
+          "status": "bounded",
+          "measurement_settings": 3,
+          "absolute_observable_precision": 0.00020408823275380457,
+          "shots_per_setting": 57470122,
+          "total_executions": 172410366,
+          "confidence": 0.95,
+          "residual_target": 0.01,
+          "model": "independent bounded measurements; ideal readout settings; no device evidence"
+        }
+      },
+      "assumed_timing_models": [
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0027895499999993642,
+          "modeled_total_seconds": 481202.9310058424,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 0.1,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0027895499999993642,
+          "modeled_total_seconds": 481202.5042440594,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0027895499999993642,
+          "modeled_total_seconds": 481202.9310058424,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 1.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0027895499999993642,
+          "modeled_total_seconds": 481202.5042440594,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1,
+          "modeled_circuit_seconds": 0.0028892299999993183,
+          "modeled_total_seconds": 498388.79628871445,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        },
+        {
+          "reset_microseconds": 10.0,
+          "reuse": 1000,
+          "modeled_circuit_seconds": 0.0028892299999993183,
+          "modeled_total_seconds": 498388.36952693143,
+          "assumption": "CX=300ns, 1q=30ns, virtual RZ, readout=1us; uncalibrated"
+        }
+      ]
+    }
+  ],
+  "gate_noise_cases": [
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "original",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 560,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.08224563500061777,
+      "trace": 0.999999999999996,
+      "purity": 0.9969470399692573,
+      "solution_probability": 0.2729445745116796,
+      "reference_probability": 0.7270554254883167,
+      "padding_probability": -1.8628742328310075e-16,
+      "encoded_residual_expectation": 0.0014334500593233147,
+      "coherence_relative_residual": 0.0762710472638041
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "original",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 560,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.08833678000064538,
+      "trace": 0.9999999999999666,
+      "purity": 0.9859813159149469,
+      "solution_probability": 0.27040535122577514,
+      "reference_probability": 0.7288477266942796,
+      "padding_probability": 0.0007469220799119328,
+      "encoded_residual_expectation": 0.0045319742423317036,
+      "coherence_relative_residual": 0.08717081506816965
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "original",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 560,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.08400251700004446,
+      "trace": 0.9999999999999156,
+      "purity": 0.916703816863205,
+      "solution_probability": 0.2585568877340196,
+      "reference_probability": 0.7340808773164337,
+      "padding_probability": 0.007362234949462296,
+      "encoded_residual_expectation": 0.025339177820021503,
+      "coherence_relative_residual": 0.15528957950461297
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "power_4_dense",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.06845834600062517,
+      "trace": 0.9999999999999896,
+      "purity": 0.9999994920645348,
+      "solution_probability": 0.30601369496373393,
+      "reference_probability": 0.6939863050362558,
+      "padding_probability": -1.833322175333498e-16,
+      "encoded_residual_expectation": 1.2500649030753292e-07,
+      "coherence_relative_residual": 2.467530213008003e-05
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "power_4_dense",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.0864598059997661,
+      "trace": 0.999999999999961,
+      "purity": 0.992921284183381,
+      "solution_probability": 0.304272031002758,
+      "reference_probability": 0.6951847973434107,
+      "padding_probability": 0.0005431716537924029,
+      "encoded_residual_expectation": 0.0023130107479690525,
+      "coherence_relative_residual": 0.009062380601123198
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "power_4_dense",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.07685877299991262,
+      "trace": 0.9999999999999094,
+      "purity": 0.9472558137169421,
+      "solution_probability": 0.29387370223392467,
+      "reference_probability": 0.7007535930371014,
+      "padding_probability": 0.005372704728883376,
+      "encoded_residual_expectation": 0.017479468128240354,
+      "coherence_relative_residual": 0.06367830908381564
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "power_16_dense",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.06267710599968268,
+      "trace": 0.999999999999982,
+      "purity": 0.999999995807364,
+      "solution_probability": 0.3060249071564258,
+      "reference_probability": 0.6939750928435562,
+      "padding_probability": -3.1020948645860794e-17,
+      "encoded_residual_expectation": 1.3586334213020367e-09,
+      "coherence_relative_residual": 1.0292871677212208e-08
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "power_16_dense",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.07501377300013701,
+      "trace": 0.9999999999999604,
+      "purity": 0.9935964664570066,
+      "solution_probability": 0.30491005455818276,
+      "reference_probability": 0.6945470089758563,
+      "padding_probability": 0.0005429364659213422,
+      "encoded_residual_expectation": 0.002230674628596504,
+      "coherence_relative_residual": 0.008047849568999033
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "power_16_dense",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.0764394239995454,
+      "trace": 0.9999999999999069,
+      "purity": 0.9518253596786825,
+      "solution_probability": 0.29785560538860834,
+      "reference_probability": 0.6967918055542311,
+      "padding_probability": 0.00535258905706735,
+      "encoded_residual_expectation": 0.01684437281190438,
+      "coherence_relative_residual": 0.05723841557028805
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "chebyshev_qsp",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 3104,
+      "width": 7,
+      "steps": 16,
+      "seconds": 1.8520860790004008,
+      "trace": 0.9999999999999509,
+      "purity": 0.9999999963632775,
+      "solution_probability": 0.30602490803012833,
+      "reference_probability": 0.6939750919698232,
+      "padding_probability": -5.367243137644133e-16,
+      "encoded_residual_expectation": 1.188342694099606e-09,
+      "coherence_relative_residual": 8.37126650302814e-09
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "chebyshev_qsp",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 3104,
+      "width": 7,
+      "steps": 16,
+      "seconds": 3.0591846779998377,
+      "trace": 0.9999999999998197,
+      "purity": 0.9774180032373738,
+      "solution_probability": 0.29929933818806825,
+      "reference_probability": 0.6993846423168564,
+      "padding_probability": 0.0013160194948951234,
+      "encoded_residual_expectation": 0.007782816018747681,
+      "coherence_relative_residual": 0.03792118102836081
+    },
+    {
+      "size": 2,
+      "condition": 2,
+      "method": "chebyshev_qsp",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 3104,
+      "width": 7,
+      "steps": 16,
+      "seconds": 2.918140429000232,
+      "trace": 0.9999999999995365,
+      "purity": 0.8509267167598352,
+      "solution_probability": 0.25769099837333953,
+      "reference_probability": 0.7305510693871439,
+      "padding_probability": 0.011757932239053033,
+      "encoded_residual_expectation": 0.058797815406035236,
+      "coherence_relative_residual": 0.2640592163535444
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "original",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.10542569700010063,
+      "trace": 0.9999999999999934,
+      "purity": 0.9999302162659089,
+      "solution_probability": 0.008877649825553991,
+      "reference_probability": 0.9911223501744395,
+      "padding_probability": 6.8417303276798565e-18,
+      "encoded_residual_expectation": 0.002150054283028865,
+      "coherence_relative_residual": 0.4663052699885341
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "original",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.07396549499935645,
+      "trace": 0.9999999999999691,
+      "purity": 0.9874895989569923,
+      "solution_probability": 0.014379538743962784,
+      "reference_probability": 0.9849799542095511,
+      "padding_probability": 0.0006405070464551921,
+      "encoded_residual_expectation": 0.0032844169564651264,
+      "coherence_relative_residual": 0.4665481573158463
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "original",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.07641443299962702,
+      "trace": 0.999999999999917,
+      "purity": 0.8968095956511005,
+      "solution_probability": 0.055875180845800794,
+      "reference_probability": 0.9378852714862104,
+      "padding_probability": 0.0062395476679057895,
+      "encoded_residual_expectation": 0.013100452501657376,
+      "coherence_relative_residual": 0.46728832161334977
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "power_4_dense",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.07201010900007532,
+      "trace": 0.9999999999999966,
+      "purity": 0.9980434070254585,
+      "solution_probability": 0.03346295750091576,
+      "reference_probability": 0.9665370424990808,
+      "padding_probability": -4.190532083972143e-19,
+      "encoded_residual_expectation": 0.001177143297130012,
+      "coherence_relative_residual": 0.34279371704902534
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "power_4_dense",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.08633973199994216,
+      "trace": 0.9999999999999722,
+      "purity": 0.9875624888797365,
+      "solution_probability": 0.036828966450324255,
+      "reference_probability": 0.9625396884730109,
+      "padding_probability": 0.0006313450766371298,
+      "encoded_residual_expectation": 0.0023511404638129783,
+      "coherence_relative_residual": 0.34674864658760657
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "power_4_dense",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 544,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.0795322230005695,
+      "trace": 0.9999999999999165,
+      "purity": 0.9114703715653464,
+      "solution_probability": 0.06446144877926735,
+      "reference_probability": 0.9293990657670254,
+      "padding_probability": 0.00613948545362374,
+      "encoded_residual_expectation": 0.012184323968275259,
+      "coherence_relative_residual": 0.3689498369378282
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "power_16_dense",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 560,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.07076032099939766,
+      "trace": 0.9999999999999536,
+      "purity": 0.9947280650465428,
+      "solution_probability": 0.13077517250781778,
+      "reference_probability": 0.869224827492136,
+      "padding_probability": -2.1399664125571087e-16,
+      "encoded_residual_expectation": 0.00020131605246954119,
+      "coherence_relative_residual": 0.13103959330236692
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "power_16_dense",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 560,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.08594687200002227,
+      "trace": 0.9999999999999262,
+      "purity": 0.9848113366978939,
+      "solution_probability": 0.12911007983483314,
+      "reference_probability": 0.8702507616737185,
+      "padding_probability": 0.0006391584913745348,
+      "encoded_residual_expectation": 0.001497735921790636,
+      "coherence_relative_residual": 0.14149398098594118
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "power_16_dense",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 560,
+      "width": 5,
+      "steps": 16,
+      "seconds": 0.08153478900021582,
+      "trace": 0.999999999999876,
+      "purity": 0.9201647200444176,
+      "solution_probability": 0.12513445044500218,
+      "reference_probability": 0.868595725756388,
+      "padding_probability": 0.006269823798485874,
+      "encoded_residual_expectation": 0.011712906931570951,
+      "coherence_relative_residual": 0.20137325167313838
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "chebyshev_qsp",
+      "cx_error": 0.0,
+      "reset_error": 0,
+      "cx": 10016,
+      "width": 7,
+      "steps": 16,
+      "seconds": 5.860166624999692,
+      "trace": 0.9999999999997482,
+      "purity": 0.9999999999934324,
+      "solution_probability": 0.20766069309118312,
+      "reference_probability": 0.7923393069085647,
+      "padding_probability": 3.6244918488571654e-16,
+      "encoded_residual_expectation": 1.4453708916780856e-13,
+      "coherence_relative_residual": 1.8259296338943354e-11
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "chebyshev_qsp",
+      "cx_error": 0.0001,
+      "reset_error": 0.001,
+      "cx": 10016,
+      "width": 7,
+      "steps": 16,
+      "seconds": 9.741981527999997,
+      "trace": 0.9999999999992302,
+      "purity": 0.9558883118629524,
+      "solution_probability": 0.1979332687918945,
+      "reference_probability": 0.7981607168797428,
+      "padding_probability": 0.0039060143275930007,
+      "encoded_residual_expectation": 0.008269086300447013,
+      "coherence_relative_residual": 0.08182408060176478
+    },
+    {
+      "size": 2,
+      "condition": 10,
+      "method": "chebyshev_qsp",
+      "cx_error": 0.001,
+      "reset_error": 0.001,
+      "cx": 10016,
+      "width": 7,
+      "steps": 16,
+      "seconds": 9.634450561999984,
+      "trace": 0.999999999998349,
+      "purity": 0.7786704366575553,
+      "solution_probability": 0.1485010928624636,
+      "reference_probability": 0.8240161371959897,
+      "padding_probability": 0.02748276993989575,
+      "encoded_residual_expectation": 0.05662956291983749,
+      "coherence_relative_residual": 0.5136141535955915
+    }
+  ],
+  "logical_noise_summary": {
+    "fixed_macro": {
+      "original": {
+        "cases": 12,
+        "transient_residual_1e2_passes": 0,
+        "stationary_residual_1e2_passes": 0
+      },
+      "power_16": {
+        "cases": 12,
+        "transient_residual_1e2_passes": 0,
+        "stationary_residual_1e2_passes": 0
+      },
+      "chebyshev_ideal": {
+        "cases": 12,
+        "transient_residual_1e2_passes": 12,
+        "stationary_residual_1e2_passes": 12
+      }
+    },
+    "query_coupled": {
+      "original": {
+        "cases": 12,
+        "transient_residual_1e2_passes": 0,
+        "stationary_residual_1e2_passes": 0
+      },
+      "power_16": {
+        "cases": 12,
+        "transient_residual_1e2_passes": 0,
+        "stationary_residual_1e2_passes": 0
+      },
+      "chebyshev_ideal": {
+        "cases": 12,
+        "transient_residual_1e2_passes": 0,
+        "stationary_residual_1e2_passes": 0
+      }
+    }
+  },
+  "preserved_power_static": {
+    "cases": 1416,
+    "passed": 770
+  },
+  "controlled_baseline_status": {
+    "complete": 20,
+    "timeout": 2,
+    "resource_rejected": 38
+  }
+}
