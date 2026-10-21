@@ -87,6 +87,7 @@ def stage_commands(output, *, profile="full", config=None):
         ("dissipative-comparison", "qcenn_mi.dissipative_benchmark"),
         ("polynomial-recurrent", "qcenn_mi.polynomial_benchmark"),
         ("polynomial-composition", "qcenn_mi.polynomial_composition_benchmark"),
+        ("chebyshev-recurrent", "qcenn_mi.chebyshev_benchmark"),
     ]:
         commands.append(
             campaign(
@@ -186,6 +187,7 @@ def provenance(root):
         "pytest",
         "ruff",
         "matplotlib",
+        "pyqsp",
         "qcenn-mi",
     )
     return {

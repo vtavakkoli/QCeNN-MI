@@ -237,6 +237,14 @@
     "dynamic_dwell": 8,
     "dynamic_stride": 8
   },
+  "chebyshev-recurrent": {
+    "sizes": [2], "conditions": [2],
+    "families": ["controlled_nonsymmetric"],
+    "power_degrees": [0, 16],
+    "small_initial_states": ["reference", "basis"],
+    "native_sizes": [2], "native_conditions": [2],
+    "cost_conditions": [2]
+  },
   "polynomial-composition": {
     "sizes": [
       2

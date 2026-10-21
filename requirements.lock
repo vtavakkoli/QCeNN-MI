@@ -25,3 +25,4 @@ fonttools==4.61.1
 kiwisolver==1.4.9
 pillow==12.3.0
 pyparsing==3.3.2
+pyqsp==0.2.0

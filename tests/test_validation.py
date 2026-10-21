@@ -32,6 +32,7 @@ def test_suite_contains_every_existing_campaign_and_1000_precision(tmp_path):
         "dissipative-comparison",
         "polynomial-recurrent",
         "polynomial-composition",
+        "chebyshev-recurrent",
         "compile",
         "lint",
         "unit-tests",
