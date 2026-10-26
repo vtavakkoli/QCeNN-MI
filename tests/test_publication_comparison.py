@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from qcenn_mi.publication_comparison import (
@@ -36,7 +34,7 @@ def test_fresh_resident_summary_is_paired_and_preserves_postselection_cost():
     assert result["one_shot_expected_calls_over_single_attempt_budget"]["median"] == 2.0
 
 
-def test_temporal_evidence_rejects_over-budget_or_forged_summary():
+def test_temporal_evidence_rejects_over_budget_or_forged_summary():
     case = _case()
     case["trajectory"][0]["observations"]["resident"]["charged_queries_per_snapshot"] = 9
     with pytest.raises(ValueError, match="budget"):
