@@ -190,9 +190,11 @@ def main():
         (f"| New changing input | Direct one-shot | {recent['passing']['one_shot']} | "
          f"{recent['snapshots_per_method']} | Postselected, expected calls charged separately |"),
         "",
-        f"Paired case outcomes: {recent['paired'].get('resident_wins',0)} resident wins, "
-        (f"{recent['paired'].get('ties',0)} ties, "
-         f"{recent['paired'].get('fresh_wins',0)} fresh wins."),
+        (
+            f"Paired case outcomes: {recent['paired'].get('resident_wins', 0)} resident wins, "
+            f"{recent['paired'].get('ties', 0)} ties, "
+            f"{recent['paired'].get('fresh_wins', 0)} fresh wins."
+        ),
         "",
         f"Median expected calls per accepted direct state: {ratio:.3f} times one attempt's budget.",
         "",
