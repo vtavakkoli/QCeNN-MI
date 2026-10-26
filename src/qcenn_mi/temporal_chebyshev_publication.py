@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+
 import numpy as np
 
 from .recurrent_density import build_density_channel
