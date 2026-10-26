@@ -145,10 +145,24 @@ on **target infidelity**, not a claim of contraction for arbitrary trace
 distance, and improves the *resident upper certificate* over the fresh one
 only when prior certified error plus projector drift is below the fresh
 reference error. This does not establish actual uniform resident superiority.
-The original 96-case main table is unchanged until new raw results have been
-reproduced and audited. The edited LaTeX has **not** been recompiled as an IEEE
-submission PDF; regenerate and manually review the typeset manuscript after
-full experiment verification.
+The original 96-case table is retained for reproducibility. The extended
+full factorial benchmark has now completed successfully on Python 3.12:
+**2,880 paired configurations, 25,920 snapshots per method**, with resident
+versus fresh wins/ties/losses **608 / 2,271 / 1** and snapshot pass counts
+**7,254 / 3,653 / 7,530** for resident/fresh/one-shot. The result is sensitive
+to logical noise; at probabilities 1e-4 and 1e-3 the matched pass-count
+differences vanish. The corresponding [full independent evidence ZIP artifacts
+and CI audit](https://github.com/vtavakkoli/QCeNN-MI/actions/runs/40408826555)
+also contain compiled small native gates and synthetic Aer noise tests.
+
+The independently verified full native gates have CX/depth:
+N=2, kappa=2: 380/867; N=2, kappa=10: 1,238/3,067;
+N=4, kappa=2: 1,782/3,816; N=4, kappa=10: 6,424/14,134.
+These numbers measure the small compiled circuits only, not physical QPU
+performance. The manuscript LaTeX has been updated with the audited full
+results, but **has not been recompiled into a submission PDF**. Rebuild
+and visually inspect it, verify article length and journal requirements,
+and obtain human author sign-off before submitting.
 
 ## Run the complete validation suite
 
