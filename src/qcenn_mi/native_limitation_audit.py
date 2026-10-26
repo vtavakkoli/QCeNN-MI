@@ -48,8 +48,8 @@ def native_density_diagnostic(compiled, *, matrix, rhs, profile):
     from qiskit_aer import AerSimulator
     from qiskit_aer.noise import NoiseModel, depolarizing_error
 
-    from .temporal_chebyshev_publication import target_state
     from .recurrent_density import build_density_channel
+    from .temporal_chebyshev_publication import target_state
 
     noise = NoiseModel()
     p1, p2 = profile["p1"], profile["p2"]
