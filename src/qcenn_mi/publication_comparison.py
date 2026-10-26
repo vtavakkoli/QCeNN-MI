@@ -4,6 +4,7 @@ The static and temporal test populations differ: never pool their rates or
 claim a historical-to-new speedup. Validate the manuscript's exact table
 against new reproduced raw results. Does not certify quantum hardware.
 """
+
 from __future__ import annotations
 
 import argparse
