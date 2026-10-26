@@ -10,6 +10,8 @@ htmlcov/
 
 # Virtual environments
 .venv/
+.venv-qcenn/
+.venv-*/
 venv/
 
 # Packaging
