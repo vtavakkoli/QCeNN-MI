@@ -112,6 +112,44 @@ A passed software integrity check is not QPU evidence or an IEEE Access
 acceptance decision. See
 [the native-Python CI workflow](.github/workflows/native-python-publication.yml).
 
+## Extended tracking theorem and native-gate limitations
+
+The publication script additionally runs two **independent** research modules:
+
+- `qcenn_mi.extended_tracking_benchmark`: five matrix/RHS families,
+  multiple horizons and seeds, slow/abrupt drift and logical-noise slices,
+  matched resident/restarted/direct comparisons, bootstrap intervals
+  over whole trajectories, and certified degree/drift/noise target-infidelity
+  bounds. The module also charges the extra repeated preparations required
+  to read a persistent state destructively at multiple snapshots.
+- `qcenn_mi.native_limitation_audit`: explicit finite-QSP signal circuits,
+  native `rz/sx/x/cx` compilation, CX counts/depth, initial reference-state
+  gates, dense spectral preprocessing, and Aer simulations with **synthetic**
+  gate-local depolarizing errors for selected tiny circuits. The hypothetical
+  readout-error model is *not* an implemented tomography experiment.
+
+Run on Linux/WSL2 with the selected Python environment:
+
+```bash
+.venv-qcenn/bin/python -m qcenn_mi.extended_tracking_benchmark \
+  --output-dir artifacts/extended-tracking --smoke
+.venv-qcenn/bin/python -m qcenn_mi.native_limitation_audit \
+  --output-dir artifacts/native-limitations --smoke
+
+# For full investigations, omit --smoke and use fresh output directories.
+# The top-level publication runner executes both automatically.
+```
+
+The theorem is added to `manuscript/QCeNN_MI.tex`. The central bound is
+on **target infidelity**, not a claim of contraction for arbitrary trace
+distance, and improves the *resident upper certificate* over the fresh one
+only when prior certified error plus projector drift is below the fresh
+reference error. This does not establish actual uniform resident superiority.
+The original 96-case main table is unchanged until new raw results have been
+reproduced and audited. The edited LaTeX has **not** been recompiled as an IEEE
+submission PDF; regenerate and manually review the typeset manuscript after
+full experiment verification.
+
 ## Run the complete validation suite
 
 Docker Engine and Compose v2 run all unit tests and default simulator campaigns:
