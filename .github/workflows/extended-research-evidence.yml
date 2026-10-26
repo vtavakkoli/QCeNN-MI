@@ -1,0 +1,155 @@
+name: Full extended tracking and native limitations evidence
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/extended-research-evidence.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  extended-matched-tracking:
+    name: Full paired temporal and tracking theorem certificates
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned research dependencies
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+          python -m pip check
+      - name: Run 5-family extended full benchmark
+        run: |
+          python -m qcenn_mi.extended_tracking_benchmark \
+            --output-dir artifacts/extended-tracking-full
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          root = Path("artifacts/extended-tracking-full")
+          manifest = json.loads((root / "MANIFEST.json").read_text())["sha256"]
+          for name, expected in manifest.items():
+              assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected
+          report = json.loads((root / "result.json").read_text())
+          assert report["metrics"]["cases"] == 1440
+          assert report["metrics"]["total_snapshots_per_method"] == 12960
+          assert all(
+              case["tracking_theorem"]["all_certificates_verified"]
+              for case in report["results"]
+          )
+          print(report["metrics"])
+          PY
+      - name: Archive versioned full research evidence
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import pathlib
+          import subprocess
+          import zipfile
+          root = pathlib.Path("artifacts/extended-tracking-full")
+          commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          (root / "SOURCE.json").write_text(json.dumps({
+              "source_commit": commit, "interpreter": "Python 3.12",
+              "experiment": "full extended tracking grid",
+              "physical_hardware_tested": False,
+          }, indent=2) + "\n")
+          with zipfile.ZipFile("artifacts/extended-tracking-full.zip", "w",
+                               compression=zipfile.ZIP_DEFLATED) as z:
+              for path in sorted(root.iterdir()):
+                  if path.is_file():
+                      z.write(path, arcname=path.name)
+          print(hashlib.sha256(pathlib.Path(
+              "artifacts/extended-tracking-full.zip").read_bytes()).hexdigest())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-extended-tracking-${{ github.sha }}
+          path: |
+            artifacts/extended-tracking-full/
+            artifacts/extended-tracking-full.zip
+          if-no-files-found: warn
+          retention-days: 30
+
+  native-qsp-limitations:
+    name: Full small-circuit compiled QSP and synthetic Aer noise
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned research dependencies
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+          python -m pip check
+      - name: Run all permitted small complete QSP circuits
+        run: |
+          python -m qcenn_mi.native_limitation_audit \
+            --output-dir artifacts/native-limitations-full
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          root = Path("artifacts/native-limitations-full")
+          hashes = json.loads((root / "MANIFEST.json").read_text())["sha256"]
+          for name, value in hashes.items():
+              assert hashlib.sha256((root / name).read_bytes()).hexdigest() == value
+          report = json.loads((root / "result.json").read_text())
+          assert len(report["records"]) == 4
+          print([(row["size"], row["condition"],
+                  row["native_cx"], row["native_depth_line_topology"])
+                  for row in report["records"]])
+          PY
+      - name: Record source SHA and export native evidence
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import subprocess
+          import zipfile
+          root = pathlib.Path("artifacts/native-limitations-full")
+          commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          (root / "SOURCE.json").write_text(json.dumps({
+              "source_commit": commit, "interpreter": "Python 3.12",
+              "experiment": "full small-circuit native QSP synthetic-noise audit",
+              "physical_hardware_tested": False,
+              "noise_model_calibrated": False,
+          }, indent=2) + "\n")
+          with zipfile.ZipFile("artifacts/native-limitations-full.zip", "w",
+                               compression=zipfile.ZIP_DEFLATED) as z:
+              for path in sorted(root.iterdir()):
+                  if path.is_file():
+                      z.write(path, arcname=path.name)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-native-limitations-${{ github.sha }}
+          path: |
+            artifacts/native-limitations-full/
+            artifacts/native-limitations-full.zip
+          if-no-files-found: warn
+          retention-days: 30
