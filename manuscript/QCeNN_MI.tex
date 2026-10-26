@@ -395,6 +395,77 @@ For normalized matrices with singular ratios at least $\gamma_{\min}>0$, resolve
 \end{align}
 Normalization of $(z,1)$ yields the conservative bound $v\le\min(1,2\norm{\Delta z})$. The drift budget includes singular-value changes, changing conditioning and right-hand sides. Close approaches to singularity amplify its denominators; dimension alone is not the limiting parameter.
 
+\subsection{A quantitative resident-state certificate for a moving fixed point}
+\label{sec:residentcertificate}
+The purified-distance tracking relation in \eqref{eq:tracking} can be
+strengthened to an \emph{infidelity} certificate that explicitly charges
+the Chebyshev degree, number of macro updates, moving target and
+implementation noise. This also clarifies when retaining a quantum state
+rather than restarting it is potentially useful.
+
+\begin{theorem}[Time-varying signed-filter tracking with implementation error]
+\label{thm:residentcertificate}
+At snapshot $t$, let $\Pi_t=\ket{z_t}\bra{z_t}$ be rank one and
+$R=\ket r\bra r$. Assume the \emph{ideal} trace-preserving reset map
+$\E_t(\rho)=B_t\rho B_t+\Tr[(I-B_t^2)\rho]R$, where $B_t$ is a Hermitian
+contraction, $B_t\Pi_t=\Pi_t$, and
+$\norm{B_t(I-\Pi_t)}_\infty\le s_t<1$. Let
+$q_t=\Tr(\Pi_t R)>0$,
+$a_t=1-q_t(1-s_t^2)$, and
+$\Delta_t=\norm{\Pi_t-\Pi_{t-1}}_\infty$.
+For the signed Chebyshev response with uniform spectral gap $g_t>0$,
+\begin{equation}\label{eq:degreecertificate}
+s_t\le\operatorname{sech}\!\left(2d_t
+                 \operatorname{artanh}\sqrt{g_t}\right).
+\end{equation}
+Suppose each actually implemented macro step is CPTP and deviates from
+$\E_t$ in half trace norm by at most $\tau_t$, uniformly over input
+states. After $K_t\ge1$ macro updates from the previous resident state,
+its target infidelity $u_t=1-\Tr(\Pi_t\rho_t)$ satisfies
+\begin{align}\label{eq:residentcertificate}
+u_t\le \min\Bigg\{1,\;&a_t^{K_t}\min\{1,u_{t-1}+\Delta_t\}\nonumber\\
+&+\tau_t\frac{1-a_t^{K_t}}{1-a_t}\Bigg\}.
+\end{align}
+For a freshly initialized $R$ under the same map and implementation
+allowance, replace the prior factor by $1-q_t$. When the
+previous \emph{certified} upper bound $\bar u_{t-1}$ satisfies
+$\bar u_{t-1}+\Delta_t<1-q_t$, the resident upper certificate is
+strictly tighter than the fresh upper certificate before any
+saturation at one. This is a sufficient \emph{bound comparison}, not
+a claim that every actual resident outcome beats every fresh outcome.
+\end{theorem}
+\begin{proof}
+Writing $L_t=I-B_t^2$, exact kernel preservation yields
+$\Tr(L_t\Pi_t)=0$ and
+$L_t\succeq(1-s_t^2)(I-\Pi_t)$. Since the reset returns a fraction
+$q_t$ of each failure event to $\Pi_t$,
+$1-\Tr[\Pi_t\E_t(\rho)]
+=u-q_t\Tr(L_t\rho)\le a_tu$, where
+$u=1-\Tr(\Pi_t\rho)$. For any density operator,
+$\left|\Tr[(\Pi_t-\Pi_{t-1})\rho]\right|\le\Delta_t$,
+so the pre-update infidelity is at most
+$\min\{1,u_{t-1}+\Delta_t\}$. The assumed half-trace-norm
+implementation error changes a projector probability by at most
+$\tau_t$. Iterating $K_t$ times gives \eqref{eq:residentcertificate}.
+The fresh initial state has infidelity $1-q_t$.
+The Chebyshev bound follows from its normalized sup-norm on
+$[g_t,1]$; it does not imply efficient synthesis of $B_t$.
+\end{proof}
+
+For the illustrative post-macro depolarizing channel with per-oracle
+error parameter $p_0$, $2d_t$ charged calls, and data dimension $D$,
+one valid allowance is
+\begin{equation}\label{eq:macroerrallowance}
+\tau_t=\left[1-(1-p_0)^{2d_t}\right](1-1/D).
+\end{equation}
+A finite-synthesis bound can be added to this allowance by the triangle
+inequality only when it is genuinely certified, not inferred from a
+floating-point coefficient residual. Measuring intermediate snapshots
+destroys the state in the ordinary readout model; independent copies
+or trajectory replays must therefore be charged for each snapshot.
+The theorem does not avoid dense spectral compilation, physical
+readout costs, or comparison with leading one-shot solvers.
+
 \subsection{Logical depolarization}
 For the model $\mathcal D_p(\rho)=(1-p)\rho+pI/D$ after each ideal macro update, the exact target-overlap identity and contraction give
 \begin{equation}\label{eq:noise}
@@ -605,6 +676,33 @@ small checks. These are logical-noise results, distinct from native-gate
 noise and real hardware calibration. The separate archived outputs retain
 per-snapshot residuals, conditional infidelities, acceptance probabilities,
 trace checks, and the independently reproduced filter-polynomial checks.
+
+\subsection{Expanded temporal and native-gate stress tests}
+An additional reproducible experiment suite is provided as
+\texttt{qcenn\_mi.extended\_tracking\_benchmark}. It is independent
+of the fixed 96-case manuscript table and exercises multiple
+right-hand-side, singular-spectrum, rank-two perturbation, periodic
+and rotating trajectories, multiple horizons and seeds, and four
+query-coupled logical noise rates. Each trajectory stores the bounds
+in Theorem~\ref{thm:residentcertificate} alongside its observed
+target infidelity, and reports paired trajectory-bootstrap intervals.
+The benchmark records costs for postselected accepted outputs and
+for destructive readout requiring independent resident trajectories.
+The new data must be generated and checked before substituting any
+numerical claim into Table~\ref{tab:temporalpaired}.
+
+An independently archived small-instance native audit,
+\texttt{qcenn\_mi.native\_limitation\_audit}, compiles the actual
+real-Julia QSP reset circuit and reports line-topology CX gates,
+depth, reference preparation and dense input/phase-synthesis timings.
+Selected small circuits are subjected to an explicit \emph{synthetic}
+one- and two-qubit depolarizing Aer model. Readout-error exposures
+are accounted for but not confused with tomography-derived fidelity.
+The native gate-local models are not a calibration of any hardware
+backend. Large-$N$ experiments remain reduced-channel simulations;
+the cost of repeated copies at each destructive measurement can
+reverse an apparent persistence advantage. Results from this new
+audit are supplemental pending execution and verification.
 
 \subsection{High-conditioning logical failures and gate noise}
 None of the 72 high-conditioning logical-noise transient or stationary residuals reaches $10^{-2}$. In the fixed-macro model, greater degree can lower the noise floor because each update contracts more strongly while the specified noise is unchanged. Under charge-coupled noise the gain largely disappears. Figure~\ref{fig:noise} uses one matched condition-100 example to show this distinction. These failures preserve the earlier condition-100 negative evidence.

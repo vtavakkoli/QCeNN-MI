@@ -148,7 +148,7 @@ def observe(density, matrix, rhs, channel, solution, target, target_residual,
 def run_case(*, size=2, condition=2.0, seed=23, snapshots=6,
              drift="slow", query_budget=64, suppression=0.1,
              noise_per_query=0.0, target_residual=1e-3,
-             target_infidelity=1e-3, attenuation=1.0):
+             target_infidelity=1e-3, attenuation=1.0, matrix_generator=None):
     """Equal per-snapshot query ceiling; never equate postselected shot cost."""
     if query_budget < 2 or snapshots < 2 or not 0 <= noise_per_query < 1:
         raise ValueError("invalid budget, schedule or noise probability")
@@ -166,7 +166,8 @@ def run_case(*, size=2, condition=2.0, seed=23, snapshots=6,
     maxima = {method: {"passed": 0, "relative_residual": 0.0}
               for method in ["resident", "fresh", "one_shot"]}
     for snapshot in range(snapshots):
-        matrix, rhs = matrix_family(size, condition, seed, snapshot, snapshots, drift)
+        fixture = matrix_family if matrix_generator is None else matrix_generator
+        matrix, rhs = fixture(size, condition, seed, snapshot, snapshots, drift)
         channel = build_density_channel(matrix, rhs)
         if gap > channel.singular_ratio**2 / (1 + channel.singular_ratio**2) + 1e-12:
             raise AssertionError("fixture violates certified gap")
