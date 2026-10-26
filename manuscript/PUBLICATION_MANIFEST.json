@@ -4,17 +4,19 @@
   "main_pdf": {
     "name": "QCeNN_MI.pdf",
     "pages": 19,
-    "sha256": "55377b06d40f43e370466b5b3f2044c678c8e1c9224a1eae716a9086ac121dba"
+    "sha256": "55377b06d40f43e370466b5b3f2044c678c8e1c9224a1eae716a9086ac121dba",
+    "status": "historical_before_tracking_theorem_and_full_evidence"
   },
   "supplement_pdf": {
     "name": "QCeNN_MI_Supplement.pdf",
     "pages": 5,
-    "sha256": "229192fe638222f9e09a1f4deeb6a82624ee6864532cd7dcb066fb20200bca15"
+    "sha256": "229192fe638222f9e09a1f4deeb6a82624ee6864532cd7dcb066fb20200bca15",
+    "status": "historical_snapshot"
   },
   "manuscript_archive": {
     "name": "QCeNN_MI_IEEE_Access_Publication_Revision_2026.zip",
     "sha256": "5de6046eef7541c7a27211795674cae80e5b381540b458ee04bc19e2a97db95f",
-    "note": "External conversation download; font-free source archive requires original licensed IEEE Access fonts for a clean LaTeX rebuild"
+    "note": "Historical source-and-PDF revision before the new time-varying theorem and verified extended results. Does not match current GitHub manuscript source."
   },
   "main_tex_local_sha256": "164805f9fd4d566845ab3406bee3aca2987723005175d6cb04b6ec9eec58a12a",
   "supplement_tex_local_sha256": "52df1460d4c2fe4c1eb8419af75fa26cbaa7b1253ff20add15bcffc9c5b772d1",
@@ -32,14 +34,39 @@
       "fresh": 0,
       "one_shot": 0,
       "total_per_method": 288
+    },
+    "extended_full": {
+      "workflow_run": "https://github.com/vtavakkoli/QCeNN-MI/actions/runs/40408826555",
+      "cases": 2880,
+      "snapshots_per_method": 25920,
+      "resident_passing_snapshots": 7254,
+      "fresh_passing_snapshots": 3653,
+      "one_shot_passing_snapshots": 7530,
+      "resident_better_cases": 608,
+      "tied_cases": 2271,
+      "resident_worse_cases": 1,
+      "simulation_only": true,
+      "hardware_tested": false
     }
   },
   "attestation": {
-    "source_pdf_text_checked": true,
-    "rendered_pdf_pages_inspected": true,
+    "source_pdf_text_checked": false,
+    "rendered_pdf_pages_inspected": false,
     "all_references_author_verified": false,
     "hardware_performance_verified": false,
     "editorial_approval": false,
-    "authors_approved": false
+    "authors_approved": false,
+    "source_pdf_text_checked_historical_only": true,
+    "rendered_pdf_pages_inspected_historical_only": true,
+    "current_manuscript_pdf_complete": false,
+    "journal_submission_ready": false
+  },
+  "main_tex_local_sha256_note": "Historical local source SHA-256 for the archived revision; not the current GitHub TeX",
+  "current_github_source": {
+    "path": "manuscript/QCeNN_MI.tex",
+    "git_blob_sha": "6460a79fc79dd2b9195e24cdf564746aa7bd11e4",
+    "pdf_rebuilt_from_current_source": false,
+    "verified_pdf_pages_current_source": null,
+    "description": "Tracking theorem, 2,880-case benchmark and small native resource results added after archived 19-page PDF. Recompile before publication."
   }
 }
