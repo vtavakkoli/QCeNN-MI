@@ -44,8 +44,8 @@ jobs:
           for name, expected in manifest.items():
               assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected
           report = json.loads((root / "result.json").read_text())
-          assert report["metrics"]["cases"] == 1440
-          assert report["metrics"]["total_snapshots_per_method"] == 12960
+          assert report["metrics"]["cases"] == 2880
+          assert report["metrics"]["total_snapshots_per_method"] == 25920
           assert all(
               case["tracking_theorem"]["all_certificates_verified"]
               for case in report["results"]
