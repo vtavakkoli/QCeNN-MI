@@ -8,6 +8,7 @@ Example:
 
 A passing software suite never implies QPU advantage or journal approval.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -317,7 +318,8 @@ def main() -> None:
         verify_manifest(output / "phase-bias", name="SHA256SUMS.json")
         print("[5/7] Prior results and manuscript-table audit")
         run([str(python), "-m", "qcenn_mi.publication_comparison",
-             "--previous", str(ROOT / "results/polynomial-access-validation/polynomial-summary.json"),
+             "--previous", str(ROOT / "results" / "polynomial-access-validation" /
+                               "polynomial-summary.json"),
              "--temporal", str(output / "temporal-full" / "result.json"),
              "--phase", str(output / "phase-bias" / "result.json"),
              "--manuscript", str(ROOT / "manuscript" / "QCeNN_MI.tex"),
@@ -327,7 +329,7 @@ def main() -> None:
         status = manuscript_check(python, args, output, env)
         if source_fingerprint() != fingerprint or clean_revision() != revision:
             fail("Source changed during the publication run")
-        print("[7/7] Produce signed-content (SHA-256) evidence archives")
+        print("[7/7] Produce SHA-256 indexed evidence archives")
         archive_results(output, revision=revision, fingerprint=fingerprint,
                         manuscript_status=status)
     except BaseException:
