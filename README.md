@@ -51,9 +51,14 @@ python -m qcenn_mi.publication_preflight --repository . \
 [The dedicated CI workflow](.github/workflows/temporal-publication.yml)
 runs regression tests, the matched grid, phase-bias checks and archive hashing,
 then uploads a version-specific artifact. Reduced-channel simulation is *not*
-large native-gate execution. The repository does not yet include the editable
-21-page journal manuscript source or a freshly compiled submission PDF, so the
-preflight intentionally does not declare a submission ready.
+large native-gate execution. The recovered and revised editable LaTeX master is now in
+[manuscript/QCeNN_MI.tex](manuscript/QCeNN_MI.tex), with its companion
+[LaTeX supplement](manuscript/QCeNN_MI_Supplement.tex). The compiled
+19-page main PDF and five-page supplement were rendered separately for
+the downloadable revision package. Figure/photo assets are retained in that
+package rather than adding binary paper assets to the code repository.
+The publication preflight still requires an exact PDF, complete asset tree,
+author approvals and manual review; passing tests cannot grant editorial sign-off.
 
 ## Run the complete validation suite
 
