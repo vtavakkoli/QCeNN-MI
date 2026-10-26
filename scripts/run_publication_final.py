@@ -42,9 +42,12 @@ def git(*args: str) -> str:
     ).strip()
 
 
-def clean_revision() -> str:
-    if git("status", "--porcelain", "--untracked-files=normal"):
-        fail("Commit or remove non-ignored repository changes before a pinned publication run.")
+def source_revision() -> str:
+    """Record Git HEAD even if the checkout contains local changes.
+
+    The exact source bytes are independently frozen and fingerprinted.
+    A dirty tree is not a scientific failure, and must not block execution.
+    """
     return git("rev-parse", "HEAD")
 
 
@@ -355,7 +358,7 @@ def main() -> None:
 
     if platform.system() != "Linux":
         parser.error("The repository validation.py uses Linux resource metrics; use Linux/WSL2")
-    revision = clean_revision()
+    revision = source_revision()
     venv_dir, executable = select_environment(args.venv)
     output = (args.output_dir or ROOT / "artifacts" / (
         "publication-python-" + revision[:12] + "-" +
@@ -365,6 +368,14 @@ def main() -> None:
         fail(f"Run output already exists: {output}; choose a new directory")
     output.mkdir(parents=True)
     started = time.monotonic()
+    changes = git("status", "--porcelain", "--untracked-files=normal")
+    if changes:
+        print(
+            "Notice: local checkout changes detected; proceeding without "
+            "modifying them. Their source bytes will be recorded in the "
+            "SHA-256 evidence snapshot.",
+            flush=True,
+        )
     print(f"Repository: {ROOT}\nCommit: {revision}\nOutput: {output}", flush=True)
     try:
         python, dependency_mode = python_environment(
@@ -377,6 +388,12 @@ def main() -> None:
             "python": str(python), "environment": "native-python",
             "python_version": ".".join(map(str, interpreter_version(python))),
             "dependency_mode": dependency_mode,
+            "git_working_tree_dirty_at_start": bool(changes),
+            "git_working_tree_status_at_start": changes.splitlines(),
+            "source_snapshot_note": (
+                "Source SHA-256 and the suite source-snapshot.zip describe the "
+                "actual checkout, including local modifications."
+            ),
             "started_utc": datetime.now(UTC).isoformat(),
         }, indent=2) + "\n")
         print("[1/7] Full/smoke simulator campaign")
@@ -413,7 +430,7 @@ def main() -> None:
         verify_manifest(output / "comparison")
         print("[6/7] Manuscript preflight")
         status = manuscript_check(python, args, output, env)
-        if source_fingerprint() != fingerprint or clean_revision() != revision:
+        if source_fingerprint() != fingerprint or source_revision() != revision:
             fail("Source changed during the publication run")
         print("[7/7] Produce SHA-256 indexed evidence archives")
         archive_results(output, revision=revision, fingerprint=fingerprint,
