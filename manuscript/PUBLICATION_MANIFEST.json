@@ -13,8 +13,8 @@
   },
   "manuscript_archive": {
     "name": "QCeNN_MI_IEEE_Access_Publication_Revision_2026.zip",
-    "sha256": "8925c674234ce7f8a7f33278f18fe9826b80cdc260dfdea59f35d4b9d88b4a3a",
-    "note": "External conversation download, not a repository binary or GitHub CI artifact"
+    "sha256": "5de6046eef7541c7a27211795674cae80e5b381540b458ee04bc19e2a97db95f",
+    "note": "External conversation download; font-free source archive requires original licensed IEEE Access fonts for a clean LaTeX rebuild"
   },
   "main_tex_local_sha256": "164805f9fd4d566845ab3406bee3aca2987723005175d6cb04b6ec9eec58a12a",
   "supplement_tex_local_sha256": "52df1460d4c2fe4c1eb8419af75fa26cbaa7b1253ff20add15bcffc9c5b772d1",
