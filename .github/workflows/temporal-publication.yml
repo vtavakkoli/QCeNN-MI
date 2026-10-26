@@ -31,7 +31,7 @@ jobs:
           python -m pip install --no-deps -e .
           python -m pip install pytest==8.4.2
       - name: Test the paired comparator
-        run: python -m pytest -q tests/test_temporal_chebyshev_publication.py
+        run: python -m pytest -q tests/test_temporal_chebyshev_publication.py tests/test_publication_preflight.py
       - name: Run the 96-case matched grid (raw results and failures retained)
         run: |
           python -m qcenn_mi.temporal_chebyshev_publication --output-dir artifacts/temporal-full
