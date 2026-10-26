@@ -79,7 +79,7 @@ def inspect(*, repository, evidence, manuscript_source=None, manuscript_pdf=None
         status["pdf"]["status"] == "header_trailer_ok" and
         status["pdf"].get("page_count_verified", False))
     status["manual_verifications_outstanding"] = [
-        "Build manuscript PDF from the exact submitted editable source and visually inspect every page",
+        "Rebuild the manuscript PDF from the exact submitted source and inspect every page",
         "Confirm every result/table/figure against the manifest-matched frozen data",
         "Confirm every reference and DOI against publisher records",
         "Confirm author names, corresponding author and all author approvals",
