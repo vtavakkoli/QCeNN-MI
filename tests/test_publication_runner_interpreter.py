@@ -81,3 +81,27 @@ def test_missing_custom_python_is_not_silently_replaced(tmp_path):
             executable=tmp_path / ".venv-qcenn/bin/python",
             skip_install=True,
         )
+
+
+def test_publication_runner_does_not_reject_dirty_git_tree(monkeypatch):
+    runner = _runner()
+    observed = []
+
+    def fake_git(*args):
+        observed.append(args)
+        if args == ("rev-parse", "HEAD"):
+            return "1234567890abcdef"
+        if args == ("status", "--porcelain", "--untracked-files=normal"):
+            return " M manuscript/QCeNN_MI.tex"
+        raise AssertionError(f"Unexpected git query: {args}")
+
+    monkeypatch.setattr(runner, "git", fake_git)
+    assert runner.source_revision() == "1234567890abcdef"
+    assert ("status", "--porcelain", "--untracked-files=normal") not in observed
+
+
+def test_source_fingerprint_snapshot_is_retained_for_dirty_checkout():
+    runner = _runner()
+    from qcenn_mi.source_provenance import source_fingerprint
+
+    assert runner.source_fingerprint() == source_fingerprint(runner.ROOT)
