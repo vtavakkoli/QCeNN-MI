@@ -132,7 +132,7 @@ source-identical PDF is compiled.
 Run `python -m qcenn_mi.publication_preflight --repository . --evidence
 artifacts/temporal-full --manuscript-source paper/main.tex --manuscript-pdf
 paper/main.pdf --output artifacts/submission-preflight.json --strict`
-after adding the manuscript sources and rendered PDF. This only checks
+from a checkout with the manuscript assets and compiled PDF. This only checks
 machine-verifiable integrity, not correctness of claims, reference DOIs, visual
 typesetting, journal limits, or author approval; manual sign-off is always
 required. Consult IEEE Access's *current* author instructions and policies,
