@@ -116,6 +116,8 @@ def test_safe_resume_permits_only_orchestration_changes(tmp_path, monkeypatch):
     root = tmp_path / "checkout"
     (root / "src/qcenn_mi").mkdir(parents=True)
     (root / "scripts").mkdir()
+    (root / ".github/workflows").mkdir(parents=True)
+    (root / ".github/workflows/native-python-publication.yml").write_text("before")
     (root / "README.md").write_text("before")
     (root / "scripts/run_publication_final.py").write_text("# old runner")
     original_source = Path(__file__).resolve().parents[1] / (
@@ -140,6 +142,16 @@ def test_safe_resume_permits_only_orchestration_changes(tmp_path, monkeypatch):
         out, {"source_sha256": index["source_sha256"]},
         source_fingerprint(root),
     ) == ["scripts/run_publication_final.py"]
+
+    # Workflow-only changes are allowed, but separately disclosed in metadata.
+    (root / ".github/workflows/native-python-publication.yml").write_text("after")
+    assert runner.verify_resumable_source(
+        out, {"source_sha256": index["source_sha256"]},
+        source_fingerprint(root),
+    ) == [
+        ".github/workflows/native-python-publication.yml",
+        "scripts/run_publication_final.py",
+    ]
 
     # New or modified scientific code must invalidate a partial-run replay.
     (root / "src/qcenn_mi/new_scientific_method.py").write_text("parameter = 1")
