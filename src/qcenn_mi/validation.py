@@ -107,6 +107,8 @@ def create_bundle(root, output):
             "src",
             "tests",
             "docs",
+            "scripts",
+            "manuscript",
             ".github",
             "docker",
             "configs",
