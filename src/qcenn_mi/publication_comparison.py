@@ -141,13 +141,19 @@ def build_report(previous, temporal, phase, manuscript):
         "can_claim_end_to_end_quantum_speedup": False,
         "physical_device_results": False,
         "full_paper_editorial_signoff": False,
-        "comparison_scope": "Prior static cases and new temporal snapshots are different populations; do not subtract, pool, or compare their raw pass fractions as method effects.",
+        "comparison_scope": (
+            "Prior static and new temporal snapshots are different populations; "
+            "do not subtract or pool their pass rates as method effects."
+        ),
     }
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--previous", type=Path, default=Path("results/polynomial-access-validation/polynomial-summary.json"))
+    p.add_argument(
+        "--previous", type=Path,
+        default=Path("results/polynomial-access-validation/polynomial-summary.json"),
+    )
     p.add_argument("--temporal", type=Path, required=True)
     p.add_argument("--phase", type=Path, required=True)
     p.add_argument("--manuscript", type=Path, default=Path("manuscript/QCeNN_MI.tex"))
@@ -175,13 +181,18 @@ def main():
         "",
         "| Population | Method | Passed | Total | Comparison boundary |",
         "|---|---|---:|---:|---|",
-        f"| Historical static | Power-polynomial grid | {prior['static_accuracy_passed']} | {prior['static_cases']} | Historical only |",
-        f"| New changing input | Resident Chebyshev | {recent['passing']['resident']} | {recent['snapshots_per_method']} | Strict paired restart control |",
-        f"| New changing input | Restarted Chebyshev | {recent['passing']['fresh']} | {recent['snapshots_per_method']} | Same CPTP query ceiling |",
-        f"| New changing input | Direct one-shot | {recent['passing']['one_shot']} | {recent['snapshots_per_method']} | Postselected, expected calls charged separately |",
+        (f"| Historical static | Power-polynomial grid | {prior['static_accuracy_passed']} | "
+         f"{prior['static_cases']} | Historical only |"),
+        (f"| New changing input | Resident Chebyshev | {recent['passing']['resident']} | "
+         f"{recent['snapshots_per_method']} | Strict paired restart control |"),
+        (f"| New changing input | Restarted Chebyshev | {recent['passing']['fresh']} | "
+         f"{recent['snapshots_per_method']} | Same CPTP query ceiling |"),
+        (f"| New changing input | Direct one-shot | {recent['passing']['one_shot']} | "
+         f"{recent['snapshots_per_method']} | Postselected, expected calls charged separately |"),
         "",
         f"Paired case outcomes: {recent['paired'].get('resident_wins',0)} resident wins, "
-        f"{recent['paired'].get('ties',0)} ties, {recent['paired'].get('fresh_wins',0)} fresh wins.",
+        (f"{recent['paired'].get('ties',0)} ties, "
+         f"{recent['paired'].get('fresh_wins',0)} fresh wins."),
         "",
         f"Median expected calls per accepted direct state: {ratio:.3f} times one attempt's budget.",
         "",
@@ -194,7 +205,9 @@ def main():
     (args.output_dir / "COMPARISON.md").write_text("\n".join(rows) + "\n")
     manifest = {name: hashlib.sha256((args.output_dir / name).read_bytes()).hexdigest()
                 for name in ["comparison.json", "COMPARISON.md"]}
-    (args.output_dir / "MANIFEST.json").write_text(json.dumps({"sha256": manifest}, indent=2) + "\n")
+    (args.output_dir / "MANIFEST.json").write_text(
+        json.dumps({"sha256": manifest}, indent=2) + "\n"
+    )
     print("\n".join(rows))
 
 
