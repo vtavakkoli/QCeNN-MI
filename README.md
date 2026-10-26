@@ -68,6 +68,10 @@ Python 3.12 uses the exact tested `requirements.lock` for scientific replay;
 other Python versions (3.11+) install/check compatible project dependencies
 and record the interpreter and package versions as a non-identical reproduction.
 The runner creates a virtual environment only when launched outside one.
+**Uncommitted and untracked local changes no longer block a run**; they are
+left unchanged. The result records Git HEAD, the working-tree status, a
+SHA-256 fingerprint of actual source bytes, and a frozen source ZIP. Editing
+source files *while an experiment is running* still fails integrity checks.
 It runs the existing
 full or smoke simulator suite, checks the 96-case matched resident/restarted
 experiment and QSP phase/noise-bias audit, compares against historical static
