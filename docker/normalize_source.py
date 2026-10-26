@@ -17,6 +17,7 @@ SOURCE_DIRECTORIES = (
     "docker",
     "configs",
     "docs",
+    "scripts",
     "manuscript",
     ".github",
     "publication-evidence",
