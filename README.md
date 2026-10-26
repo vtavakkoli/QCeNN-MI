@@ -30,6 +30,31 @@ quantum-device execution and end-to-end quantum advantage remain unverified.
 | Temporal robustness audits | Orders 2, 10, 100, and 1000 | Refreshed snapshots, delayed updates, acquisition error, and rank-loss rejection |
 | Hardware preparation | Orders 2, 4, 10, and 100 | Native-gate compilation, QPY exports, and synthetic-noise simulation |
 
+
+## Publication-strengthening experiments (time-varying Chebyshev)
+
+A separate [submission-revision guide](docs/publication-strengthening-2026.md)
+documents the matched **resident versus restarted** Chebyshev experiment and a
+postselected **direct one-shot** comparator. These methods use a matched
+per-snapshot primitive-oracle query ceiling; only resident/restarted directly
+share unconditional CPTP output semantics. The one-shot comparator additionally
+reports postselection probability and expected per-accepted-state queries.
+
+```bash
+# Requires the project's locked environment (including NumPy and Qiskit)
+python -m qcenn_mi.temporal_chebyshev_publication --output-dir artifacts/temporal-full
+python -m qcenn_mi.phase_bias_audit --output-dir artifacts/phase-bias
+python -m qcenn_mi.publication_preflight --repository . \
+  --evidence artifacts/temporal-full --output artifacts/submission-preflight.json
+```
+
+[The dedicated CI workflow](.github/workflows/temporal-publication.yml)
+runs regression tests, the matched grid, phase-bias checks and archive hashing,
+then uploads a version-specific artifact. Reduced-channel simulation is *not*
+large native-gate execution. The repository does not yet include the editable
+21-page journal manuscript source or a freshly compiled submission PDF, so the
+preflight intentionally does not declare a submission ready.
+
 ## Run the complete validation suite
 
 Docker Engine and Compose v2 run all unit tests and default simulator campaigns:
