@@ -31,15 +31,25 @@ jobs:
           python -m pip install --no-deps -e .
           python -m pip install pytest==8.4.2
       - name: Lint implementation and regression tests
-        run: python -m ruff check src/qcenn_mi/temporal_chebyshev_publication.py src/qcenn_mi/phase_bias_audit.py src/qcenn_mi/publication_preflight.py tests/test_temporal_chebyshev_publication.py tests/test_publication_preflight.py
-      - name: Test the paired comparator
-        run: python -m pytest -q tests/test_temporal_chebyshev_publication.py tests/test_publication_preflight.py
+        run: python -m ruff check src/qcenn_mi/temporal_chebyshev_publication.py src/qcenn_mi/phase_bias_audit.py src/qcenn_mi/publication_preflight.py src/qcenn_mi/publication_comparison.py tests/test_temporal_chebyshev_publication.py tests/test_publication_preflight.py tests/test_publication_comparison.py
+      - name: Verify final publication script shell syntax
+        run: bash -n scripts/run_publication_final.sh
+      - name: Test the paired comparator and paper data consistency
+        run: python -m pytest -q tests/test_temporal_chebyshev_publication.py tests/test_publication_preflight.py tests/test_publication_comparison.py
       - name: Run the 96-case matched grid (raw results and failures retained)
         run: |
           python -m qcenn_mi.temporal_chebyshev_publication --output-dir artifacts/temporal-full
           cat artifacts/temporal-full/REPORT.md
       - name: Validate real-Julia QSP phase synthesis and logical noise bias
         run: python -m qcenn_mi.phase_bias_audit --conditions 2 10 --output-dir artifacts/phase-bias
+      - name: Reconcile previous publication results against the revised manuscript
+        run: |
+          python -m qcenn_mi.publication_comparison \
+            --temporal artifacts/temporal-full/result.json \
+            --phase artifacts/phase-bias/result.json \
+            --manuscript manuscript/QCeNN_MI.tex \
+            --output-dir artifacts/comparison
+          cat artifacts/comparison/COMPARISON.md
       - name: Audit run hashes independently
         run: |
           python - <<'PY'
