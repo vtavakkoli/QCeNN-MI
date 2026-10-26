@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Docker-free, pinned QCeNN-MI publication verification (Linux/Python 3.12).
+"""Docker-free QCeNN-MI publication verification using the selected Python venv.
 
 Example:
-    python3.12 scripts/run_publication_final.py --profile full
-    python3.12 scripts/run_publication_final.py --profile full \
+    .venv-qcenn/bin/python scripts/run_publication_final.py --profile full
+    .venv-qcenn/bin/python scripts/run_publication_final.py --profile full \
         --paper-dir ../qcenn-paper-assets/QCeNN_MI_Revision --require-paper
 
 A passing software suite never implies QPU advantage or journal approval.
@@ -105,29 +105,116 @@ def verify_manifest(folder: Path, name: str = "MANIFEST.json",
             fail(f"Evidence checksum mismatch: {source}")
 
 
-def python_environment(venv_dir: Path, *, skip_install: bool) -> Path:
-    executable = venv_dir / "bin" / "python"
+def select_environment(explicit_venv: Path | None) -> tuple[Path, Path]:
+    """Use the running virtualenv by default, including .venv-qcenn."""
+    if explicit_venv is not None:
+        directory = explicit_venv.expanduser().resolve()
+        interpreter = directory / "bin" / "python"
+        if Path(sys.prefix).resolve() == directory:
+            interpreter = Path(sys.executable)
+        return directory, interpreter
+    if sys.prefix != sys.base_prefix:
+        return Path(sys.prefix).resolve(), Path(sys.executable)
+    directory = ROOT / ".venv"
+    return directory, directory / "bin" / "python"
+
+
+def interpreter_version(executable: Path) -> tuple[int, int]:
+    output = subprocess.check_output(
+        [str(executable), "-c",
+         "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"],
+        text=True,
+    ).strip()
+    major, minor = (int(part) for part in output.split("."))
+    if (major, minor) < (3, 11):
+        fail(f"QCeNN-MI requires Python >=3.11, selected {output}")
+    return major, minor
+
+
+def verify_dependencies(executable: Path, *, strict_lock: bool) -> None:
+    """Exact 3.12 replay, or compatibility-checked alternate Python env."""
+    run([str(executable), "-m", "pip", "check"])
+    if strict_lock:
+        checker = (
+            "import importlib.metadata as md, pathlib, sys; "
+            "lines=pathlib.Path(sys.argv[1]).read_text().splitlines(); "
+            "pins=(line.strip().split('==',1) for line in lines "
+            "if '==' in line and not line.lstrip().startswith('#')); "
+            "bad=[(name,version,md.version(name)) for name,version in pins "
+            "if md.version(name)!=version]; "
+            "assert not bad, f'Non-pinned dependency versions: {bad}'"
+        )
+        run([str(executable), "-c", checker, str(PACKAGES)])
+        return
+    # All scientific and validation tools must be present; versions must
+    # satisfy project ranges, not arbitrary equality to the Python-3.12 lock.
+    checker = """
+import importlib.metadata as md
+from packaging.requirements import Requirement
+from pathlib import Path
+import tomllib
+config = tomllib.loads(Path('pyproject.toml').read_text())
+project = config['project']
+requirements = (
+    project['dependencies'] +
+    project['optional-dependencies']['dev'] +
+    project['optional-dependencies']['analysis']
+)
+missing = []
+incompatible = []
+for expression in requirements:
+    req = Requirement(expression)
+    try:
+        installed = md.version(req.name)
+    except md.PackageNotFoundError:
+        missing.append(req.name)
+        continue
+    if installed not in req.specifier:
+        incompatible.append(f'{req.name} {installed} does not satisfy {req.specifier}')
+if missing or incompatible:
+    raise SystemExit(f'Install missing packages: {missing}; incompatible: {incompatible}')
+"""
+    run([str(executable), "-c", checker])
+
+
+def python_environment(venv_dir: Path, *, executable: Path, skip_install: bool
+                       ) -> tuple[Path, str]:
     if not executable.is_file():
         if skip_install:
-            fail(f"No Python virtual environment in {venv_dir}")
+            fail(f"No Python interpreter exists at {executable}")
+        if executable != venv_dir / "bin" / "python":
+            fail(f"Requested interpreter does not exist: {executable}")
         print("Creating Python virtual environment:", venv_dir, flush=True)
         venv.EnvBuilder(with_pip=True, symlinks=True).create(venv_dir)
+    version = interpreter_version(executable)
+    strict_lock = version == (3, 12)
+    if strict_lock:
+        mode = "exact-python312-lock"
+    else:
+        mode = "compatible-unpinned-python"
+        print(
+            f"Python {version[0]}.{version[1]} selected from {executable}. "
+            "The recorded requirements.lock was tested on Python 3.12. "
+            "This run checks package compatibility instead of claiming an "
+            "identical dependency replay.",
+            flush=True,
+        )
     if not skip_install:
-        run([str(executable), "-m", "pip", "install", "-r", str(PACKAGES)])
-        run([str(executable), "-m", "pip", "install", "--no-deps", "-e", str(ROOT)])
-    run([str(executable), "-m", "pip", "check"])
-    # Do not silently change exact pinned scientific software between runs.
-    checker = (
-        "import importlib.metadata as md, pathlib, sys; "
-        "lines=pathlib.Path(sys.argv[1]).read_text().splitlines(); "
-        "pins=(line.strip().split('==',1) for line in lines "
-        "if '==' in line and not line.lstrip().startswith('#')); "
-        "bad=[(name, version, md.version(name)) for name,version in pins "
-        "if md.version(name)!=version]; "
-        "assert not bad, f'Non-pinned dependency versions: {bad}'"
-    )
-    run([str(executable), "-c", checker, str(PACKAGES)])
-    return executable
+        if strict_lock:
+            run([str(executable), "-m", "pip", "install", "-r", str(PACKAGES)])
+            run([str(executable), "-m", "pip", "install", "--no-deps", "-e", str(ROOT)])
+        else:
+            run([str(executable), "-m", "pip", "install", "-e", ".[dev,analysis]"])
+    try:
+        verify_dependencies(executable, strict_lock=strict_lock)
+    except subprocess.CalledProcessError:
+        fail(
+            f"Missing or incompatible packages in {executable}. "
+            f"To install compatible dependencies, run: "
+            f"{executable} -m pip install -e '.[dev,analysis]' "
+            "(on Python 3.12, prefer requirements.lock)."
+        )
+    return executable, mode
 
 
 def native_environment(venv_dir: Path, fingerprint: str, revision: str) -> dict:
@@ -258,7 +345,7 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile", choices=("full", "smoke"), default="full")
-    parser.add_argument("--venv", type=Path, default=ROOT / ".venv")
+    parser.add_argument("--venv", type=Path, help="Defaults to current virtualenv, then .venv")
     parser.add_argument("--skip-install", action="store_true")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--paper-dir", type=Path)
@@ -268,12 +355,8 @@ def main() -> None:
 
     if platform.system() != "Linux":
         parser.error("The repository validation.py uses Linux resource metrics; use Linux/WSL2")
-    if sys.version_info[:2] != (3, 12):
-        parser.error("Use Python 3.12 for the pinned requirements.lock campaign")
     revision = clean_revision()
-    venv_dir = args.venv.expanduser().resolve()
-    if venv_dir.is_relative_to(ROOT) and venv_dir != ROOT / ".venv":
-        parser.error("Use the ignored .venv directory inside the Git checkout")
+    venv_dir, executable = select_environment(args.venv)
     output = (args.output_dir or ROOT / "artifacts" / (
         "publication-python-" + revision[:12] + "-" +
         datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
@@ -284,12 +367,16 @@ def main() -> None:
     started = time.monotonic()
     print(f"Repository: {ROOT}\nCommit: {revision}\nOutput: {output}", flush=True)
     try:
-        python = python_environment(venv_dir, skip_install=args.skip_install)
+        python, dependency_mode = python_environment(
+            venv_dir, executable=executable, skip_install=args.skip_install
+        )
         fingerprint = source_fingerprint()
         env = native_environment(venv_dir, fingerprint, revision)
         (output / "RUN.json").write_text(json.dumps({
             "commit": revision, "source_sha256": fingerprint, "profile": args.profile,
             "python": str(python), "environment": "native-python",
+            "python_version": ".".join(map(str, interpreter_version(python))),
+            "dependency_mode": dependency_mode,
             "started_utc": datetime.now(UTC).isoformat(),
         }, indent=2) + "\n")
         print("[1/7] Full/smoke simulator campaign")
