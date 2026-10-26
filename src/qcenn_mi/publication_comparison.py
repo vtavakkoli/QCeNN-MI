@@ -14,7 +14,6 @@ import re
 from collections import Counter
 from pathlib import Path
 
-
 METHODS = ("resident", "fresh", "one_shot")
 
 
