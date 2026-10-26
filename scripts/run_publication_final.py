@@ -63,6 +63,7 @@ def source_fingerprint() -> str:
 
 RESUME_ALLOWED_CHANGES = frozenset({
     "scripts/run_publication_final.py",
+    ".github/workflows/native-python-publication.yml",
     "src/qcenn_mi/publication_comparison.py",
     "tests/test_publication_comparison.py",
     "tests/test_publication_runner_interpreter.py",
