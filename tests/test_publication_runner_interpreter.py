@@ -105,3 +105,92 @@ def test_source_fingerprint_snapshot_is_retained_for_dirty_checkout():
     from qcenn_mi.source_provenance import source_fingerprint
 
     assert runner.source_fingerprint() == source_fingerprint(runner.ROOT)
+
+
+
+def test_safe_resume_permits_only_orchestration_changes(tmp_path, monkeypatch):
+    import shutil
+
+    from qcenn_mi.source_provenance import freeze_source, source_fingerprint
+
+    root = tmp_path / "checkout"
+    (root / "src/qcenn_mi").mkdir(parents=True)
+    (root / "scripts").mkdir()
+    (root / "README.md").write_text("before")
+    (root / "scripts/run_publication_final.py").write_text("# old runner")
+    original_source = Path(__file__).resolve().parents[1] / (
+        "src/qcenn_mi/source_provenance.py"
+    )
+    shutil.copy(original_source, root / "src/qcenn_mi/source_provenance.py")
+    out = tmp_path / "partial"
+    (out / "suite").mkdir(parents=True)
+    index = freeze_source(root, out / "suite")
+    runner = _runner()
+    monkeypatch.setattr(runner, "ROOT", root)
+
+    # Same bytes permit perfect replay.
+    assert runner.verify_resumable_source(
+        out, {"source_sha256": index["source_sha256"]},
+        source_fingerprint(root),
+    ) == []
+
+    # Only runner metadata change is allowed; previous scientific inputs remain fixed.
+    (root / "scripts/run_publication_final.py").write_text("# fixed runner")
+    assert runner.verify_resumable_source(
+        out, {"source_sha256": index["source_sha256"]},
+        source_fingerprint(root),
+    ) == ["scripts/run_publication_final.py"]
+
+    # New or modified scientific code must invalidate a partial-run replay.
+    (root / "src/qcenn_mi/new_scientific_method.py").write_text("parameter = 1")
+    with pytest.raises(RuntimeError, match="scientific campaign"):
+        runner.verify_resumable_source(
+            out, {"source_sha256": index["source_sha256"]},
+            source_fingerprint(root),
+        )
+
+
+def test_resume_rejects_modified_source_snapshot(tmp_path, monkeypatch):
+    import shutil
+
+    from qcenn_mi.source_provenance import freeze_source, source_fingerprint
+
+    root = tmp_path / "checkout"
+    (root / "src/qcenn_mi").mkdir(parents=True)
+    shutil.copy(
+        Path(__file__).resolve().parents[1] / "src/qcenn_mi/source_provenance.py",
+        root / "src/qcenn_mi/source_provenance.py",
+    )
+    out = tmp_path / "partial"
+    (out / "suite").mkdir(parents=True)
+    index = freeze_source(root, out / "suite")
+    (out / "suite/source-snapshot.zip").write_bytes(b"invalid snapshot")
+    runner = _runner()
+    monkeypatch.setattr(runner, "ROOT", root)
+    with pytest.raises(RuntimeError, match="integrity mismatch"):
+        runner.verify_resumable_source(
+            out, {"source_sha256": index["source_sha256"]},
+            source_fingerprint(root),
+        )
+
+
+def test_completed_stage_requires_valid_checksum_manifest(tmp_path):
+    import hashlib
+    import json
+
+    runner = _runner()
+    output = tmp_path / "oldrun"
+    folder = output / "temporal-full"
+    folder.mkdir(parents=True)
+    (folder / "result.json").write_text('{"status":"passed"}')
+    assert not runner.completed_stage(output, "phase-bias")
+    with pytest.raises(RuntimeError, match="manifest absent"):
+        runner.completed_stage(output, "temporal-full")
+    expected = hashlib.sha256((folder / "result.json").read_bytes()).hexdigest()
+    (folder / "MANIFEST.json").write_text(
+        json.dumps({"sha256": {"result.json": expected}})
+    )
+    assert runner.completed_stage(output, "temporal-full")
+    (folder / "result.json").write_text('{"status":"changed"}')
+    with pytest.raises(RuntimeError, match="checksum mismatch"):
+        runner.completed_stage(output, "temporal-full")
