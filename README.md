@@ -60,6 +60,46 @@ package rather than adding binary paper assets to the code repository.
 The publication preflight still requires an exact PDF, complete asset tree,
 author approvals and manual review; passing tests cannot grant editorial sign-off.
 
+## Final publication validation without Docker (Linux / WSL2)
+
+The recommended final-science runner now uses **Python 3.12 and a local
+`.venv` only**; Docker is not required. It creates or reuses the virtual
+environment, installs pinned `requirements.lock` packages, runs the existing
+full or smoke simulator suite, checks the 96-case matched resident/restarted
+experiment and QSP phase/noise-bias audit, compares against historical static
+results, verifies the LaTeX table and checksums, and produces separate experiment
+ZIP archives.
+
+```bash
+git pull --ff-only
+python3.12 scripts/run_publication_final.py --profile full
+```
+
+To retain the familiar detached invocation:
+
+```bash
+nohup python3.12 -u scripts/run_publication_final.py --profile full \
+  --output-dir "artifacts/publication-python-$(date +%Y%m%d-%H%M%S)" \
+  > publication-python.log 2>&1 < /dev/null &
+```
+
+Use `--profile smoke` for an integration test; `--skip-install` reuses an
+already pinned `.venv`. If you have the separately downloaded full revised
+manuscript source-and-PDF bundle, add
+`--paper-dir ../qcenn-paper-assets/QCeNN_MI_Revision --require-paper`.
+The `--compile-paper` option runs `pdflatex` locally; it requires the
+**original licensed IEEE Access font files** from your own template package.
+For backward compatibility, `bash scripts/run_publication_final.sh`
+now simply launches the Python runner without calling Docker.
+
+Outputs are recorded beneath `artifacts/publication-python-...` and include
+`suite/validation.json`, `comparison/COMPARISON.md`,
+`submission-preflight.json`, `FINAL_EVIDENCE.tar.gz`, and
+`temporal-full.zip`, `phase-bias.zip`, `comparison.zip`.
+A passed software integrity check is not QPU evidence or an IEEE Access
+acceptance decision. See
+[the native-Python CI workflow](.github/workflows/native-python-publication.yml).
+
 ## Run the complete validation suite
 
 Docker Engine and Compose v2 run all unit tests and default simulator campaigns:
