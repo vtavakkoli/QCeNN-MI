@@ -76,3 +76,78 @@ def test_report_rejects_missing_phase_validation(tmp_path):
             {"records": [{"numerical_validity_passed": False}]},
             paper,
         )
+
+
+
+def test_missing_historical_summary_is_explicitly_marked_not_available(monkeypatch, tmp_path):
+    from qcenn_mi import publication_comparison as module
+
+    monkeypatch.setattr(
+        module, "assert_manuscript_table",
+        lambda manuscript, summary: {"status": "passed", "verified_rows": []},
+    )
+    report = module.build_report(
+        None,
+        {"cases": [_case()]},
+        {"records": [{"condition": 2, "degree": 4,
+                      "numerical_validity_passed": True,
+                      "maximum_qsp_block_error": 0.0,
+                      "coefficient_l1_error_estimate": 0.0,
+                      "noise_induced_infidelity_bias": 0.0}]},
+        tmp_path / "manuscript.tex",
+    )
+    assert report["previous_static"]["status"] == "not_available"
+    assert report["previous_static"]["static_cases"] is None
+    assert report["matched_study_verified"] is True
+
+
+def test_missing_history_does_not_override_temporal_or_phase_failures(tmp_path):
+    with pytest.raises(ValueError, match="phase audit"):
+        build_report(
+            None, {"cases": [_case()]},
+            {"records": [{"numerical_validity_passed": False}]},
+            tmp_path / "manuscript.tex",
+        )
+
+
+def test_optional_history_cli_skips_absent_default_but_rejects_explicit(
+    monkeypatch, tmp_path,
+):
+    import json
+    import sys
+
+    from qcenn_mi import publication_comparison as module
+
+    monkeypatch.chdir(tmp_path)
+    manuscript = tmp_path / "manuscript.tex"
+    manuscript.write_text("dummy manuscript")
+    temporal = tmp_path / "temporal.json"
+    temporal.write_text(json.dumps({"cases": [_case()]}))
+    phase = tmp_path / "phase.json"
+    phase.write_text(json.dumps({"records": [{
+        "condition": 2, "degree": 4, "numerical_validity_passed": True,
+        "maximum_qsp_block_error": 0.0,
+        "coefficient_l1_error_estimate": 0.0,
+        "noise_induced_infidelity_bias": 0.0,
+    }]}))
+    monkeypatch.setattr(
+        module, "assert_manuscript_table",
+        lambda manuscript, summary: {"status": "passed", "verified_rows": []},
+    )
+    command = [
+        "qcenn_mi.publication_comparison",
+        "--temporal", str(temporal), "--phase", str(phase),
+        "--manuscript", str(manuscript),
+        "--output-dir", str(tmp_path / "comparison"),
+    ]
+    monkeypatch.setattr(sys, "argv", command)
+    module.main()
+    report = json.loads((tmp_path / "comparison" / "comparison.json").read_text())
+    assert report["previous_static"]["status"] == "not_available"
+    with pytest.raises(SystemExit) as failure:
+        monkeypatch.setattr(sys, "argv", [
+            *command, "--previous", str(tmp_path / "missing-static.json"),
+            "--output-dir", str(tmp_path / "unused"),
+        ])
+        module.main()
+    assert failure.value.code == 2
