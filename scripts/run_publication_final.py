@@ -312,6 +312,10 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
         "phase-bias/SHA256SUMS.json", "comparison/comparison.json",
         "comparison/COMPARISON.md", "comparison/MANIFEST.json",
         "submission-preflight.json",
+        "extended-tracking/result.json", "extended-tracking/summary.csv",
+        "extended-tracking/REPORT.md", "extended-tracking/MANIFEST.json",
+        "native-limitations/result.json", "native-limitations/REPORT.md",
+        "native-limitations/MANIFEST.json",
     ]
     absent = [name for name in names if not (output / name).is_file()]
     if absent:
@@ -334,7 +338,8 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
             archive.add(output / name, arcname=name)
     # Standalone reproducibility evidence for each new experiment, not a
     # second copy of the potentially gigabyte-scale complete validation bundle.
-    for folder in ("temporal-full", "phase-bias", "comparison"):
+    for folder in ("temporal-full", "phase-bias", "comparison",
+                   "extended-tracking", "native-limitations"):
         target = output / f"{folder}.zip"
         with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
             for file in sorted((output / folder).rglob("*")):
@@ -342,7 +347,8 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
                     archive.write(file, arcname=file.relative_to(output).as_posix())
     print("Final evidence:", output / "FINAL_EVIDENCE.tar.gz")
     print("Separate experiment ZIPs:", *(output / f"{name}.zip" for name in
-                                        ("temporal-full", "phase-bias", "comparison")))
+                                        ("temporal-full", "phase-bias", "comparison",
+                                         "extended-tracking", "native-limitations")))
 
 
 def main() -> None:
@@ -428,6 +434,24 @@ def main() -> None:
              "--manuscript", str(ROOT / "manuscript" / "QCeNN_MI.tex"),
              "--output-dir", str(output / "comparison")], env=env)
         verify_manifest(output / "comparison")
+        print("[5a] Stress-test extended trajectories and moving-target theorem")
+        extended_args = [
+            str(python), "-m", "qcenn_mi.extended_tracking_benchmark",
+            "--output-dir", str(output / "extended-tracking"),
+        ]
+        if args.profile == "smoke":
+            extended_args.append("--smoke")
+        run(extended_args, env=env, log=output / "extended-tracking.log")
+        verify_manifest(output / "extended-tracking")
+        print("[5b] Audit actual native gates and synthetic gate-local noise")
+        native_args = [
+            str(python), "-m", "qcenn_mi.native_limitation_audit",
+            "--output-dir", str(output / "native-limitations"),
+        ]
+        if args.profile == "smoke":
+            native_args.append("--smoke")
+        run(native_args, env=env, log=output / "native-limitations.log")
+        verify_manifest(output / "native-limitations")
         print("[6/7] Manuscript preflight")
         status = manuscript_check(python, args, output, env)
         if source_fingerprint() != fingerprint or source_revision() != revision:
