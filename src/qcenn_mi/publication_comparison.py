@@ -88,7 +88,7 @@ def assert_manuscript_table(tex, summary):
         raise ValueError("Canonical manuscript table requires exactly 96 six-snapshot cases")
 
     def extract(label):
-        match = re.search(rf"{label}\s*\([^)]*\)\s*&\s*(\d+)\s*&\s*(\d+)\s*&\s*(\d+)", text)
+        match = re.search(rf"{label}[^\n&]*\([^)]*\)\s*&\s*(\d+)\s*&\s*(\d+)\s*&\s*(\d+)", text)
         if not match:
             raise ValueError(f"Expected manuscript table row missing: {label}")
         return dict(zip(METHODS, map(int, match.groups()), strict=True))
