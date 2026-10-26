@@ -5,13 +5,13 @@
 Use a clean checkout and pinned dependencies (or the repository's locked
 Docker image), with single-threaded BLAS for reproducible timings:
 
-\`\`\`bash
+```bash
 export PYTHONPATH=src OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
 python -m pytest -q tests/test_temporal_chebyshev_publication.py
 python -m qcenn_mi.temporal_chebyshev_publication --smoke --output-dir artifacts/temporal-smoke
 python -m qcenn_mi.temporal_chebyshev_publication --output-dir artifacts/temporal-full
 python -m qcenn_mi.phase_bias_audit --conditions 2 10 --output-dir artifacts/phase-bias
-\`\`\`
+```
 
 Each run refuses to overwrite an existing evidence directory. Preserve all
 failures and equal outcomes. A GitHub Actions artifact contains the data for
@@ -123,15 +123,15 @@ matched CI evidence is finalized):**
 
 **Blocking source issue:** The current GitHub tree contains research source
 and results, but not the editable 21-page IEEE Access manuscript
-(\`.tex\`, figures, bibliography). Do not assert the PDF has been shortened,
+(`.tex`, figures, bibliography). Do not assert the PDF has been shortened,
 regenerated, or source-verified until those editable files are added and a
 source-identical PDF is compiled.
 
 ## Required submission gates
 
-Run \`python -m qcenn_mi.publication_preflight --repository . --evidence
+Run `python -m qcenn_mi.publication_preflight --repository . --evidence
 artifacts/temporal-full --manuscript-source paper/main.tex --manuscript-pdf
-paper/main.pdf --output artifacts/submission-preflight.json --strict\`
+paper/main.pdf --output artifacts/submission-preflight.json --strict`
 after adding the manuscript sources and rendered PDF. This only checks
 machine-verifiable integrity, not correctness of claims, reference DOIs, visual
 typesetting, journal limits, or author approval; manual sign-off is always
