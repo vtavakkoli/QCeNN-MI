@@ -1,0 +1,78 @@
+name: Native Python publication validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-python-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build pinned native venv (no Docker)
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r requirements.lock
+          .venv/bin/python -m pip install --no-deps -e .
+          .venv/bin/python -m pip check
+      - name: Check Python and Bash launchers
+        run: |
+          .venv/bin/python -m ruff check scripts/run_publication_final.py
+          .venv/bin/python -m compileall -q scripts/run_publication_final.py
+          bash -n scripts/run_publication_final.sh
+          python scripts/run_publication_final.py --help
+      - name: Execute pinned native Python smoke end-to-end
+        run: |
+          python scripts/run_publication_final.py \
+            --profile smoke --venv .venv --skip-install \
+            --output-dir artifacts/native-python-ci
+      - name: Verify native evidence package and source identity
+        run: |
+          .venv/bin/python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import json
+          import subprocess
+          root = Path("artifacts/native-python-ci")
+          pin = json.loads((root / "FINAL_SHA256SUMS.json").read_text())
+          sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          assert pin["source_commit"] == sha
+          assert (root / "FINAL_EVIDENCE.tar.gz").is_file()
+          assert pin["execution"] == "native-python-no-docker"
+          for path, expected in pin["files_sha256"].items():
+              assert hashlib.sha256((root / path).read_bytes()).hexdigest() == expected
+          status = json.loads((root / "suite" / "validation.json").read_text())
+          assert status["passed"] and status["profile"] == "smoke"
+          assert status["provenance"]["execution_context"] == "native-python"
+          print("Native Python publication smoke and SHA-256 audit passed.")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-python-publication-${{ github.sha }}
+          path: |
+            artifacts/native-python-ci/RUN.json
+            artifacts/native-python-ci/FINAL_SHA256SUMS.json
+            artifacts/native-python-ci/FINAL_EVIDENCE.tar.gz
+            artifacts/native-python-ci/comparison/
+            artifacts/native-python-ci/phase-bias/
+            artifacts/native-python-ci/temporal-full/
+            artifacts/native-python-ci/submission-preflight.json
+            artifacts/native-python-ci/suite-run.log
+          if-no-files-found: warn
+          retention-days: 30
