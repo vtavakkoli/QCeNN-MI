@@ -70,3 +70,33 @@ def test_fresh_directory_and_budget_guards(tmp_path: Path):
                  budgets=(32,), drifts=("slow",), noises=(0,), seeds=(23,))
     with pytest.raises(ValueError):
         run_case(condition=10, query_budget=2)
+
+
+def test_independent_physical_vs_existing_spectral_channel_across_snapshots():
+    # Independent implementations: explicitly multiply physical B matrices
+    # versus the established spectral CPTP simulator with an exact basis change.
+    from qcenn_mi.chebyshev_recurrent import filter_density_channel
+    from qcenn_mi.dissipative_comparison import change_channel_basis
+    from qcenn_mi.recurrent_density import build_density_channel
+    from qcenn_mi.temporal_chebyshev_publication import apply_recurrent, physical_filter
+
+    gap = 1 / 5
+    degree = certified_degree(gap)
+    physical = np.diag([0., 0., 1., 0.])
+    old = None
+    spectral = None
+    for snapshot in range(4):
+        matrix, rhs = matrix_family(2, 2, 23, snapshot, 4, "abrupt")
+        channel = build_density_channel(matrix, rhs)
+        filtered = filter_density_channel(channel, degree=degree, gap=gap)
+        if old is None:
+            spectral = filtered.initial_density()
+        else:
+            spectral = change_channel_basis(old, filtered, spectral)
+        op = physical_filter(channel, gap, degree)
+        for _ in range(2):
+            physical = apply_recurrent(physical, op, np.diag([0., 0., 1., 0.]))
+            filtered.step(spectral)
+        reconstructed = filtered.basis @ spectral @ filtered.basis.T
+        assert np.max(abs(reconstructed - physical)) < 1e-9
+        old = filtered
