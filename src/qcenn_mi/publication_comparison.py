@@ -109,14 +109,28 @@ def assert_manuscript_table(tex, summary):
 
 
 def build_report(previous, temporal, phase, manuscript):
-    previous_metrics = {
-        "static_cases": previous["static_cases"],
-        "static_accuracy_passed": previous["static_accuracy_passed"],
-        "static_accuracy_failed": previous["static_cases"] - previous["static_accuracy_passed"],
-        "original_derived_from": "separate historical static polynomial recurrence experiment",
-    }
-    if previous_metrics["static_accuracy_failed"] < 0:
-        raise ValueError("Invalid historical counts")
+    """Historical static data are optional; paired temporal auditing is mandatory."""
+    if previous is None:
+        previous_metrics = {
+            "status": "not_available",
+            "static_cases": None,
+            "static_accuracy_passed": None,
+            "static_accuracy_failed": None,
+            "reason": "Historical summary absent from this checkout; not reconstructed.",
+            "original_derived_from": None,
+        }
+    else:
+        previous_metrics = {
+            "status": "available",
+            "static_cases": previous["static_cases"],
+            "static_accuracy_passed": previous["static_accuracy_passed"],
+            "static_accuracy_failed": previous["static_cases"] - previous["static_accuracy_passed"],
+            "original_derived_from": (
+                "separate historical static polynomial recurrence experiment"
+            ),
+        }
+        if previous_metrics["static_accuracy_failed"] < 0:
+            raise ValueError("Invalid historical counts")
     latest = summarize(temporal["cases"])
     if not all(item.get("independent_check", {}).get("status") == "passed"
                for item in temporal["cases"]):
@@ -152,21 +166,27 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
         "--previous", type=Path,
-        default=Path("results/polynomial-access-validation/polynomial-summary.json"),
+        help="Optional historical static summary (missing explicit path is an error).",
     )
     p.add_argument("--temporal", type=Path, required=True)
     p.add_argument("--phase", type=Path, required=True)
     p.add_argument("--manuscript", type=Path, default=Path("manuscript/QCeNN_MI.tex"))
     p.add_argument("--output-dir", type=Path, required=True)
     args = p.parse_args()
-    for path in (args.previous, args.temporal, args.phase, args.manuscript):
+    for path in (args.temporal, args.phase, args.manuscript):
         if not path.is_file():
             p.error(f"Required input not found: {path}")
+    historical = args.previous
+    if historical is None:
+        candidate = Path("results/polynomial-access-validation/polynomial-summary.json")
+        historical = candidate if candidate.is_file() else None
+    elif not historical.is_file():
+        p.error(f"Explicit historical summary not found: {historical}")
     if args.output_dir.exists() and any(args.output_dir.iterdir()):
         raise FileExistsError("Comparison output directory must be empty")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     report = build_report(
-        json.loads(args.previous.read_text()),
+        json.loads(historical.read_text()) if historical is not None else None,
         json.loads(args.temporal.read_text()),
         json.loads(args.phase.read_text()),
         args.manuscript,
@@ -182,7 +202,9 @@ def main():
         "| Population | Method | Passed | Total | Comparison boundary |",
         "|---|---|---:|---:|---|",
         (f"| Historical static | Power-polynomial grid | {prior['static_accuracy_passed']} | "
-         f"{prior['static_cases']} | Historical only |"),
+         f"{prior['static_cases']} | Historical only |")
+        if prior["status"] == "available" else
+        "| Historical static | Not available | — | — | Missing optional local summary |",
         (f"| New changing input | Resident Chebyshev | {recent['passing']['resident']} | "
          f"{recent['snapshots_per_method']} | Strict paired restart control |"),
         (f"| New changing input | Restarted Chebyshev | {recent['passing']['fresh']} | "
@@ -201,6 +223,8 @@ def main():
         "**Noise and limitations:** Not a calibrated gate-noise or hardware result. "
         "Do not claim a general solver speedup, noisy robustness, or journal acceptance.",
         "The original static benchmark and the new temporal grid are not comparable samples.",
+        ("Historical static summary: verified input supplied." if prior["status"] == "available"
+         else "Historical static summary: not available; no values inferred or reconstructed."),
         "",
         "The revised IEEE Access manuscript table matches the temporal raw evidence.",
     ]

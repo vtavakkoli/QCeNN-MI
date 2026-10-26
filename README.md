@@ -112,6 +112,35 @@ A passed software integrity check is not QPU evidence or an IEEE Access
 acceptance decision. See
 [the native-Python CI workflow](.github/workflows/native-python-publication.yml).
 
+## Recover interrupted native publication runs
+
+The historical static comparison file at
+`results/polynomial-access-validation/polynomial-summary.json` is **optional**.
+If absent in a partial/sparse checkout, the runner still verifies the temporal
+and finite-QSP evidence and the exact manuscript table. The JSON comparison
+records `previous_static.status: not_available` and deliberately invents no
+historical static counts. A supplied **explicit** historical path must exist.
+
+To recover a partial publication run that already contains an integrity-verified
+`suite`, `temporal-full`, and `phase-bias`:
+
+```bash
+git pull --ff-only
+.venv-qcenn/bin/python -u scripts/run_publication_final.py \
+  --profile full --skip-install --resume \
+  --output-dir artifacts/publication-20261026-230619
+```
+
+`--resume` requires the existing `RUN.json`, verifies the full scientific
+campaign and SHA-256 source snapshot, and skips only complete checksummed
+stages. It does **not** delete or reinitialize previous evidence. If a
+source file used by a scientific stage has changed, resuming is rejected.
+Narrow runner/comparison/test/README repairs can be allowed, but both source
+identities are recorded in `RUN.json` and the final checksum manifest;
+such a recovered package is **not** a single-source replay. For strict
+final-paper reproduction, rerun the complete suite under one clean source
+revision after fixing any checkout problems.
+
 ## Extended tracking theorem and native-gate limitations
 
 The publication script additionally runs two **independent** research modules:

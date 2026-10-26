@@ -45,6 +45,30 @@ jobs:
           python scripts/run_publication_final.py \
             --profile smoke --venv .venv --skip-install \
             --output-dir artifacts/native-python-ci
+      - name: Resume partial smoke without historical static data or rerunning full suite
+        run: |
+          mv artifacts/native-python-ci/FINAL_EVIDENCE.tar.gz artifacts/native-python-ci/prior-final.tar.gz
+          mv artifacts/native-python-ci/comparison artifacts/native-python-ci/prior-comparison
+          mv results/polynomial-access-validation/polynomial-summary.json "$RUNNER_TEMP/polynomial-summary.json"
+          trap 'mv "$RUNNER_TEMP/polynomial-summary.json" results/polynomial-access-validation/polynomial-summary.json' EXIT
+          before=$(sha256sum artifacts/native-python-ci/suite/validation.json | cut -d' ' -f1)
+          .venv/bin/python scripts/run_publication_final.py \
+            --profile smoke --venv .venv --skip-install --resume \
+            --output-dir artifacts/native-python-ci
+          after=$(sha256sum artifacts/native-python-ci/suite/validation.json | cut -d' ' -f1)
+          test "$before" = "$after"
+          .venv/bin/python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("artifacts/native-python-ci")
+          status = json.loads((root / "comparison/comparison.json").read_text())
+          assert status["previous_static"]["status"] == "not_available"
+          assert status["paper_table"]["status"] == "passed"
+          assert status["matched_study_verified"]
+          assert (root / "FINAL_EVIDENCE.tar.gz").is_file()
+          assert json.loads((root / "RUN.json").read_text())["resume"]
+          print("Crash recovery without static history or re-running science: PASS")
+          PY
       - name: Verify native evidence package and source identity
         run: |
           .venv/bin/python - <<'PY'
