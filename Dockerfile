@@ -22,6 +22,7 @@ COPY docker ./docker
 COPY configs ./configs
 COPY publication-evidence ./publication-evidence
 COPY src ./src
+COPY scripts ./scripts
 COPY tests ./tests
 COPY docs ./docs
 COPY .github ./.github
