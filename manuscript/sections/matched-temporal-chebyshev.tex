@@ -1,0 +1,66 @@
+% Insertion-ready section for the IEEE Access manuscript.
+% IMPORTANT: This file is NOT the complete manuscript. Rebuild from the
+% editable master source after its authors provide the full LaTeX project.
+\subsection{Matched Time-Varying Comparison Against Restarted and One-Shot Filtering}
+\label{sec:matched_temporal_comparison}
+
+The relevance of recurrent channels is not established by comparing their
+macro-update counts with an unrelated static solver. We therefore isolate
+the effect of retaining a physical data state across changes of the matrix
+and right-hand side. At each snapshot $t$ we form the augmented residual
+$G_t$ with a common certified lower bound $g$ on nonzero eigenvalues and a
+bounded signed response $B_{d,t}=r_d(G_t)$. The channel is
+\begin{equation}
+\mathcal{E}_{d,t}(\rho)=B_{d,t}\rho B_{d,t}^{\dagger}
+ +\operatorname{Tr}[(I-B_{d,t}^{\dagger}B_{d,t})\rho]R,
+\end{equation}
+where $R=|r\rangle\langle r|$ is known independently of the solution.
+
+\emph{Resident-state recurrence} carries $\rho_{t-1}^{\mathrm{resident}}$
+into the next snapshot and applies $K$ copies of the new channel:
+$\rho_t^{\mathrm{resident}}=\mathcal{E}_{d,t}^{K}
+(\rho_{t-1}^{\mathrm{resident}})$. \emph{Restarted recurrence} uses the
+same map, degree, matrix, and number of oracle queries, but initializes
+from $R$ at each snapshot:
+$\rho_t^{\mathrm{fresh}}=\mathcal{E}_{d,t}^{K}(R)$.
+The latter is a strict same-output-model, same-oracle-budget comparator.
+To benchmark an established nonrecurrent alternative, \emph{direct
+one-shot filtering} prepares
+\begin{equation}
+\rho_t^{\mathrm{direct}}
+=\frac{B_{s,t}R B_{s,t}^{\dagger}}{p_t},\qquad
+p_t=\operatorname{Tr}(B_{s,t}^{\dagger}B_{s,t}R),
+\end{equation}
+conditioning on a successful QSP signal outcome. The one-shot degree
+$s=\lfloor Q/2\rfloor$ spends at most $Q$ input-unitary calls per attempt.
+The recurrent macro degree $d$ uses $2d$ calls, and
+$K=\lfloor Q/(2d)\rfloor$. Although all methods have the same single-attempt
+per-snapshot query ceiling, accepted direct preparations cost an expected
+$2s/p_t$ calls before measurements. The postselected and unconditional
+state-output tasks are thus not assumed interchangeable.
+
+The controlled schedules rotate right singular vectors while keeping a
+specified condition number; the right-hand sides undergo gradual or
+abrupt changes. The original physical density is preserved in the
+resident method---a spectral basis transformation in the classical
+simulator is not a quantum reset or classical correction. At every
+snapshot we score a common relative residual
+$\|M_t\widehat{x}_t-b_t\|_2/\|b_t\|_2$ and conditional solution infidelity
+using reference-coherence readout. Classical solutions are only scoring
+references and never appear in an update operator. We report the paired
+number of passing snapshots, the per-snapshot failure trajectories,
+query charges, direct-filter acceptance probability, and the expected
+calls per accepted preparation. We retain ties and regressions.
+
+Finite phase synthesis is audited separately: the QSP success block
+is compared with the exact signed polynomial, both the empirical
+Chebyshev coefficient residual and kernel leakage are retained, and
+logical query-coupled depolarization is identified as a phenomenological
+model rather than calibrated native-gate noise. The numerical results
+establish the investigated operating region, not a universal recurrent
+advantage. Dense spectral compilation, state preparation, repeated
+shots, and readout remain limitations of the end-to-end cost model.
+
+% INSERT only after matching the CI evidence artifact to the submitted
+% source commit and verifying its per-condition tables and figure data.
+% Do not cite preliminary local results as device measurements.

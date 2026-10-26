@@ -17,6 +17,7 @@ SOURCE_DIRECTORIES = (
     "docker",
     "configs",
     "docs",
+    "manuscript",
     ".github",
     "publication-evidence",
 )
@@ -32,7 +33,7 @@ ROOT_TEXT_FILES = (
     ".gitignore",
     ".gitattributes",
 )
-TEXT_SUFFIXES = {".py", ".json", ".md", ".toml", ".yml", ".yaml", ".txt", ".log"}
+TEXT_SUFFIXES = {".py", ".json", ".md", ".toml", ".yml", ".yaml", ".txt", ".tex", ".bib", ".log"}
 
 
 def normalize_source(root):
