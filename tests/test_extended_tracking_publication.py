@@ -5,8 +5,8 @@ import numpy as np
 import pytest
 
 from qcenn_mi.extended_tracking_benchmark import (
-    extended_matrix_family,
     evaluate_case,
+    extended_matrix_family,
     percentile_bootstrap,
     run_extended,
 )
