@@ -62,9 +62,13 @@ author approvals and manual review; passing tests cannot grant editorial sign-of
 
 ## Final publication validation without Docker (Linux / WSL2)
 
-The recommended final-science runner now uses **Python 3.12 and a local
-`.venv` only**; Docker is not required. It creates or reuses the virtual
-environment, installs pinned `requirements.lock` packages, runs the existing
+The recommended final-science runner uses **the Python virtual environment you
+invoke**, including `.venv-qcenn/bin/python`. Docker is not required.
+Python 3.12 uses the exact tested `requirements.lock` for scientific replay;
+other Python versions (3.11+) install/check compatible project dependencies
+and record the interpreter and package versions as a non-identical reproduction.
+The runner creates a virtual environment only when launched outside one.
+It runs the existing
 full or smoke simulator suite, checks the 96-case matched resident/restarted
 experiment and QSP phase/noise-bias audit, compares against historical static
 results, verifies the LaTeX table and checksums, and produces separate experiment
@@ -72,19 +76,23 @@ ZIP archives.
 
 ```bash
 git pull --ff-only
-python3.12 scripts/run_publication_final.py --profile full
+.venv-qcenn/bin/python -V
+.venv-qcenn/bin/python scripts/run_publication_final.py --profile full
 ```
 
 To retain the familiar detached invocation:
 
 ```bash
-nohup python3.12 -u scripts/run_publication_final.py --profile full \
+nohup .venv-qcenn/bin/python -u scripts/run_publication_final.py --profile full \
   --output-dir "artifacts/publication-python-$(date +%Y%m%d-%H%M%S)" \
   > publication-python.log 2>&1 < /dev/null &
 ```
 
-Use `--profile smoke` for an integration test; `--skip-install` reuses an
-already pinned `.venv`. If you have the separately downloaded full revised
+Use `--profile smoke` for an integration test, and `--skip-install` to reuse
+already installed dependencies without invoking pip. The runner automatically
+detects the custom environment; `--venv .venv-qcenn` is optional. If your
+Python version is not 3.12, this is a compatibility-checked scientific run
+rather than an exact replay of the original 3.12 lock. If you have the separately downloaded full revised
 manuscript source-and-PDF bundle, add
 `--paper-dir ../qcenn-paper-assets/QCeNN_MI_Revision --require-paper`.
 The `--compile-paper` option runs `pdflatex` locally; it requires the
