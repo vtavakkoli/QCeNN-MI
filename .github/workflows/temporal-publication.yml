@@ -1,0 +1,60 @@
+name: Temporal Chebyshev publication evidence
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matched-evidence:
+    name: Paired resident/fresh/direct filtering with independent checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONPATH: src
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+          python -m pip install pytest==8.4.2
+      - name: Test the paired comparator
+        run: python -m pytest -q tests/test_temporal_chebyshev_publication.py
+      - name: Run the 96-case matched grid (raw results and failures retained)
+        run: |
+          python -m qcenn_mi.temporal_chebyshev_publication --output-dir artifacts/temporal-full
+          cat artifacts/temporal-full/REPORT.md
+      - name: Validate real-Julia QSP phase synthesis and logical noise bias
+        run: python -m qcenn_mi.phase_bias_audit --conditions 2 10 --output-dir artifacts/phase-bias
+      - name: Audit run hashes independently
+        run: |
+          python - <<'PY'
+          from qcenn_mi.publication_preflight import verify_manifest
+          report = verify_manifest('artifacts/temporal-full')
+          assert report['status'] == 'passed', report
+          PY
+      - name: Record submission readiness gaps without fabricating sign-off
+        if: always()
+        run: |
+          python -m qcenn_mi.publication_preflight \
+            --repository . --evidence artifacts/temporal-full \
+            --output artifacts/submission-preflight.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: temporal-chebyshev-publication-${{ github.sha }}
+          path: artifacts/
+          retention-days: 30
+          if-no-files-found: warn
