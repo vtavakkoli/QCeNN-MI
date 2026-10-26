@@ -678,31 +678,73 @@ per-snapshot residuals, conditional infidelities, acceptance probabilities,
 trace checks, and the independently reproduced filter-polynomial checks.
 
 \subsection{Expanded temporal and native-gate stress tests}
-An additional reproducible experiment suite is provided as
-\texttt{qcenn\_mi.extended\_tracking\_benchmark}. It is independent
-of the fixed 96-case manuscript table and exercises multiple
-right-hand-side, singular-spectrum, rank-two perturbation, periodic
-and rotating trajectories, multiple horizons and seeds, and four
-query-coupled logical noise rates. Each trajectory stores the bounds
-in Theorem~\ref{thm:residentcertificate} alongside its observed
-target infidelity, and reports paired trajectory-bootstrap intervals.
-The benchmark records costs for postselected accepted outputs and
-for destructive readout requiring independent resident trajectories.
-The new data must be generated and checked before substituting any
-numerical claim into Table~\ref{tab:temporalpaired}.
+\label{sec:expandedtracking}
+An additional, fully retained factorial experiment,
+\texttt{qcenn\_mi.extended\_tracking\_benchmark}, separately
+tests the predictions of Theorem~\ref{thm:residentcertificate}
+without changing the original 96-case study. It evaluates five
+matrix/RHS families (rotating, RHS-only, singular-spectrum drift,
+rank-two shocks and periodic drift), $N\in\{2,4\}$,
+$\kappa\in\{2,10\}$, budgets $Q\in\{32,64,128\}$,
+six and twelve snapshots, gradual and abrupt changes, three seeds,
+and logical per-oracle noise rates
+$p_0\in\{0,10^{-5},10^{-4},10^{-3}\}$.
+The resulting 2880 paired configurations contain 25\,920
+snapshots \emph{per method}. The source-pinned full-evidence
+archive and SHA-256 manifest are available from
+\url{https://github.com/vtavakkoli/QCeNN-MI/actions/runs/40408826555}.
+All evaluated reduced-channel target infidelities satisfied the
+new \emph{upper certificates}; this validates the bound on these
+fixtures, not its novelty relative to every prior theorem.
 
-An independently archived small-instance native audit,
-\texttt{qcenn\_mi.native\_limitation\_audit}, compiles the actual
-real-Julia QSP reset circuit and reports line-topology CX gates,
-depth, reference preparation and dense input/phase-synthesis timings.
-Selected small circuits are subjected to an explicit \emph{synthetic}
-one- and two-qubit depolarizing Aer model. Readout-error exposures
-are accounted for but not confused with tomography-derived fidelity.
-The native gate-local models are not a calibration of any hardware
-backend. Large-$N$ experiments remain reduced-channel simulations;
-the cost of repeated copies at each destructive measurement can
-reverse an apparent persistence advantage. Results from this new
-audit are supplemental pending execution and verification.
+\begin{table}[!tbp]\centering\small
+\caption{Expanded time-varying reduced-channel benchmark,
+25\,920 snapshots per method, $2880$ paired configurations.
+Passing both accuracy criteria is counted; direct filtering is
+postselected and has a separate accepted-state cost.
+No native-device advantage is claimed.}
+\label{tab:expandedtemporal}
+\begin{tabular}{lrrr}\toprule
+Method & Passing & Failing & Pass rate\\\midrule
+Resident Chebyshev & 7254 & 18\,666 & 28.0\%\\
+Fresh Chebyshev & 3653 & 22\,267 & 14.1\%\\
+One-shot Chebyshev & 7530 & 18\,390 & 29.1\%\\\bottomrule
+\end{tabular}
+\end{table}
+The resident method improves the number of passing snapshots
+over fresh recurrence in $608$ configurations, ties in $2271$,
+and loses in $1$. The pooled paired mean difference is
+$1.250$ passing snapshots per configuration; a trajectory-level
+percentile bootstrap reports $[1.147,1.355]$.
+This interval is \emph{descriptive for the fixed synthetic grid},
+because cases share fixture families and seeds and are not an
+independent random sample of deployment conditions. All
+$720$ cases at $p_0=10^{-4}$ and all $720$ at $p_0=10^{-3}$
+have \emph{zero paired pass-count difference}; there is no
+demonstrated robust resident advantage in these noisy slices.
+Although direct filtering has the largest raw pass count,
+retries and readout make the per-accepted-copy work different.
+Measuring a moving resident output consumes the data state in
+the ordinary measurement model; obtaining every snapshot
+requires independent copies or replay of the input schedule,
+which can nullify nominal state-preparation reuse.
+
+A separate native-gate audit
+(\texttt{qcenn\_mi.native\_limitation\_audit}) compiles the
+small complete real-Julia QSP reset circuit under line
+connectivity and applies explicitly \emph{synthetic}
+gate-local depolarization to selected cases.
+It measures CX/depth pairs $(380,867)$ and $(1238,3067)$
+for $N=2$ at $\kappa=2,10$, and $(1782,3816)$ and
+$(6424,14134)$ for $N=4$ at the same conditions.
+These counts describe one complete small-circuit macro,
+not $N=1000$ native execution. The module separately records
+reference preparation, dense SVD/phase synthesis, and the
+gate-local no-error-event likelihood; readout-error exposure
+is not equated to tomography-verified output fidelity.
+No calibrated quantum hardware or end-to-end speedup is claimed.
+The separate full source-pinned native archive is in the same
+GitHub Actions workflow.
 
 \subsection{High-conditioning logical failures and gate noise}
 None of the 72 high-conditioning logical-noise transient or stationary residuals reaches $10^{-2}$. In the fixed-macro model, greater degree can lower the noise floor because each update contracts more strongly while the specified noise is unchanged. Under charge-coupled noise the gain largely disappears. Figure~\ref{fig:noise} uses one matched condition-100 example to show this distinction. These failures preserve the earlier condition-100 negative evidence.
