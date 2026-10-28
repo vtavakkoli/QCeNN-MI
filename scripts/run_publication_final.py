@@ -424,9 +424,9 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
             archive.add(output / name, arcname=name)
     # Standalone reproducibility evidence for each new experiment, not a
     # second copy of the potentially gigabyte-scale complete validation bundle.
+    extra_folders = ("total-cost",) if (output / "total-cost").is_dir() else ()
     for folder in ("temporal-full", "phase-bias", "comparison",
-                   "extended-tracking", "native-limitations",
-                   *("total-cost",) if (output / "total-cost").is_dir() else ()):
+                   "extended-tracking", "native-limitations", *extra_folders):
         target = output / f"{folder}.zip"
         with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
             for file in sorted((output / folder).rglob("*")):
@@ -436,8 +436,7 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
     print("Separate experiment ZIPs:", *(output / f"{name}.zip" for name in
                                         ("temporal-full", "phase-bias", "comparison",
                                          "extended-tracking", "native-limitations",
-                                         *("total-cost",) if (output / "total-cost").is_dir()
-                                         else ())))
+                                         *extra_folders)))
 
 
 def main() -> None:
