@@ -141,6 +141,39 @@ such a recovered package is **not** a single-source replay. For strict
 final-paper reproduction, rerun the complete suite under one clean source
 revision after fixing any checkout problems.
 
+## Total-cost break-even frontier (drift, noise, destructive-readout frequency)
+
+A new **validation-selected, heldout-tested** study identifies conditions
+under which resident Chebyshev filtering beats fresh Chebyshev preparation in
+*total declared resource equivalents*, **only when both meet identical
+accuracy and heldout coverage requirements**. It sweeps actual matrix/RHS
+drift, per-query logical noise, destructive measurement interval and
+preparation/compilation/oracle/reset/readout costs, with an explicit optional
+small-circuit gate-count proxy. It also includes a postselected one-shot
+comparator with charged expected retries.
+
+```bash
+.venv-qcenn/bin/python -m qcenn_mi.total_cost_phase_diagram \
+  --smoke --output-dir artifacts/total-cost-smoke
+
+.venv-qcenn/bin/python -m qcenn_mi.total_cost_phase_diagram \
+  --size 2 --condition 10 --horizon 12 --query-budget 256 \
+  --drifts 0 0.01 0.05 0.2 0.6 \
+  --noises 0 0.000001 0.00001 0.00002 0.00005 0.0001 \
+  --intervals 0 1 3 6 \
+  --output-dir artifacts/total-cost-kappa10
+```
+
+The study writes per-condition `summary.csv`, detailed `result.json`,
+`REPORT.md` and SHA-256 `MANIFEST.json`; it never overwrites evidence.
+You can optionally append `--total-cost-study` to the existing publication
+runner for its dedicated stage and archive. **The total-cost weights are
+illustrative and the score is computed from exact classical density simulations;
+no finite-shot certification, physical QPU speedup, or device latency is
+demonstrated.** Read the full methodology, exact break-even inequality,
+destructive-replay accounting, and native-proxy caveats in
+[docs/total-cost-phase-diagram.md](docs/total-cost-phase-diagram.md).
+
 ## Extended tracking theorem and native-gate limitations
 
 The publication script additionally runs two **independent** research modules:
