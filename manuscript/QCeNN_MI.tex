@@ -564,6 +564,15 @@ The Shang comparison uses the same normalized matrices, right-hand sides, initia
 The discrete and continuous solvers return the same classical inverse action through separately calibrated coherence readouts, but their augmented stationary states differ. Shang uses reference weight one in $[A,-\beta]$; our recurrence uses $\gamma$ in $[A,-\gamma\beta]$. Thus Shang's stationary solution-sector probability is $\norm{A^{-1}\beta}^2/(1+\norm{A^{-1}\beta}^2)\ge1/2$, whereas ours is at most $1/2$. This encoding tradeoff is reported rather than hidden by normalization. The comparison examines physical solution residuals, not overlaps between different augmented targets. Table~\ref{tab:comparison} contrasts the encodings and recurrence models. The separate equal-call audit fixes 16384 primitive calls and allocates $\lfloor16384/(m+1)\rfloor$ macros. Extra controlled-call synthesis adds cost beyond this accounting.
 
 
+
+\subsection{Accuracy-matched, held-out total-cost protocol}
+\label{sec:costprotocol}
+To distinguish tracking feasibility from resource advantage, we evaluate an independent $360$-scenario factorial grid at $N=2$, $\kappa=10$, a 12-snapshot horizon, and at most 256 primitive calls per input snapshot. The three families change right singular vectors, the right-hand side alone, or introduce abrupt rotations. Angular drift is $0,0.01,0.05,0.2,0.6$ radians per snapshot; logical per-oracle noise is $0,10^{-6},10^{-5},2\times10^{-5},5\times10^{-5},10^{-4}$; destructive readout occurs at the final snapshot only or every 1, 3, or 6 snapshots. These input controls are distinct from the measured operator-norm drift between target projectors.
+
+Each method selects its polynomial degree and recurrent update count using only validation seeds 23 and 29, under the same per-snapshot query ceiling. The frozen policy is evaluated on disjoint held-out seeds 41 and 43. A readout checkpoint passes if the conditional solution infidelity is at most $0.01$ and relative residual at most $0.05$; a policy qualifies when at least 90\% of held-out checkpoints pass. These deliberately exploratory criteria \emph{do not} replace the stricter $10^{-3}$ target of Table~\ref{tab:temporalpaired}. One-shot filtering is postselected, with expected retries charged separately.
+
+For $H=16$ assumed shots in each of $N+1$ coherence settings, the cost model charges $S=(N+1)H=48$ independently prepared copies per readout checkpoint. It does \emph{not} simulate shot outcomes: acceptance is scored against exact small density matrices. Compilation is optimistically amortized over distinct input snapshots. Classical reference solutions score the outputs but never drive channel updates. The reported costs are synthetic normalized equivalents, not measured physical device runtimes.
+
 \section{Results: Convergence, Resources, and Failure Modes}
 
 % Begin results.tex
