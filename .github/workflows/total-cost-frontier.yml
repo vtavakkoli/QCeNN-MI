@@ -1,0 +1,105 @@
+name: Total-cost drift-noise-readout frontier
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "Smoke or full heldout frontier"
+        type: choice
+        options: [smoke, full]
+        default: smoke
+      condition:
+        description: "Matrix condition number"
+        default: "10"
+        type: string
+      query_budget:
+        description: "Primitive queries per snapshot"
+        default: "256"
+        type: string
+      target_residual:
+        description: "Relative residual threshold"
+        default: "0.05"
+        type: string
+      target_infidelity:
+        description: "Conditional solution infidelity threshold"
+        default: "0.01"
+        type: string
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/total-cost-frontier.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  cost-frontier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked dependencies
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+          python -m pip check
+      - name: Verify total-cost regression tests
+        run: python -m pytest -q tests/test_total_cost_phase_diagram.py
+      - name: Run parametrized heldout phase diagram
+        env:
+          FRONTIER_PROFILE: ${{ inputs.profile || 'smoke' }}
+          FRONTIER_CONDITION: ${{ inputs.condition || '10' }}
+          FRONTIER_BUDGET: ${{ inputs.query_budget || '256' }}
+          FRONTIER_RESIDUAL: ${{ inputs.target_residual || '0.05' }}
+          FRONTIER_INFIDELITY: ${{ inputs.target_infidelity || '0.01' }}
+        run: |
+          EXTRA=()
+          if [ "$FRONTIER_PROFILE" = "smoke" ]; then
+            EXTRA+=(--smoke)
+          fi
+          python -u -m qcenn_mi.total_cost_phase_diagram \
+            --size 2 --condition "$FRONTIER_CONDITION" \
+            --query-budget "$FRONTIER_BUDGET" \
+            --target-residual "$FRONTIER_RESIDUAL" \
+            --target-infidelity "$FRONTIER_INFIDELITY" \
+            "${EXTRA[@]}" --output-dir artifacts/total-cost-frontier
+      - name: Verify SHA-256 and save revision
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+          base = Path("artifacts/total-cost-frontier")
+          manifest = json.loads((base / "MANIFEST.json").read_text())["sha256"]
+          for name, expected in manifest.items():
+              assert hashlib.sha256((base / name).read_bytes()).hexdigest() == expected
+          report = json.loads((base / "result.json").read_text())
+          assert report["training_and_heldout_seeds_disjoint"]
+          assert report["settings"] == sum(report["region_counts"].values())
+          (base / "SOURCE.json").write_text(json.dumps({
+              "source_revision": subprocess.check_output(
+                  ["git", "rev-parse", "HEAD"], text=True
+              ).strip(),
+              "python": "3.12",
+              "status": "exact density simulator and hypothetical costs",
+              "hardware_tested": False,
+          }, indent=2) + "\n")
+          print(report["region_counts"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: total-cost-frontier-${{ github.sha }}
+          path: artifacts/total-cost-frontier/
+          if-no-files-found: warn
+          retention-days: 30
