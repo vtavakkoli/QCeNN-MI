@@ -758,6 +758,36 @@ No calibrated quantum hardware or end-to-end speedup is claimed.
 The separate full source-pinned native archive is in the same
 GitHub Actions workflow.
 
+
+\subsection{Total-cost frontier with destructive readout}
+\label{sec:costfrontier}
+The factorial analysis explicitly charges the consequence of observing a resident state. Let $\mathcal{T}$ be the zero-based destructive-readout checkpoints and $S$ the independent copies required per checkpoint. With validation-selected degree $d_j$ and macro count $K_j$, the resident method must propagate a new copy through every prior input to reproduce the state at $t$, whereas a fresh method prepares only the requested snapshot:
+\begin{equation}\label{eq:replayqueries}
+\begin{aligned}
+Q_{\mathrm{res}}&=2d_{\mathrm r}K_{\mathrm r}S\sum_{t\in\mathcal{T}}(t+1),\\
+Q_{\mathrm{fresh}}&=2d_{\mathrm f}K_{\mathrm f}S|\mathcal{T}|.
+\end{aligned}
+\end{equation}
+The full model additionally charges reference preparations, macro resets, readout executions, and compilation of distinct input snapshots, using nonnegative equivalent-unit weights $(w_q,w_R,w_P,w_M,w_C)=(1,2,5,0.1,10)$; the precise break-even inequality appears in the supplement. If the two methods use the same $d,K$ and require destructive replays, residence cannot strictly reduce the assumed cost. We compare \emph{cost only among methods that independently pass the same held-out accuracy criterion}, not between a qualified and a failed output.
+
+\begin{table}[!tbp]\centering
+\caption{Recurrent-state cost frontier: 360 synthetic scenarios, $N=2$, $\kappa=10$. Costs are hypothetical equivalent units; qualification requires at least 90\% of held-out checkpoints to meet both exploratory accuracy thresholds.}
+\label{tab:costfrontier}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lr}\toprule
+Held-out recurrent-method outcome & Scenarios\\\midrule
+Both qualify: fresh cheaper & 184\\
+Both qualify: resident cheaper & 0\\
+Resident qualifies, fresh does not & 74\\
+Fresh qualifies, resident does not & 4\\
+Neither recurrent method qualifies & 98\\\midrule
+Total & 360\\\bottomrule
+\end{tabular}
+\end{table}
+For the 184 scenarios where both recurrent methods qualify, the median resident-to-fresh total-cost ratio is $3.12$ (range $2.19$--$8.57$). Resident tracking alone satisfies the recurrent accuracy criterion in 74 other scenarios, notably 42 of the 72 cases at input-drift control $0.2$; at $p=10^{-4}$ neither recurrent method qualifies in any of 60 scenarios. Including the direct postselected control and its expected retries, the least-cost qualified choice is direct filtering in 216 cases, fresh recurrence in 36, and resident recurrence in 20; no method qualifies in 88. The 20 resident least-cost choices arise in scenarios without a qualified fresh comparator and do not imply a resident cost advantage when both qualify.
+
+These outcomes use two held-out seeds, exact density-state accuracy rather than sampled measurement outcomes, and an uncalibrated cost model. They demonstrate \emph{conditional tracking feasibility} but not an end-to-end or native-device total-cost benefit. Results by drift and noise, the detailed cost inequality, and source limitations are provided in the supplement.
+
 \subsection{High-conditioning logical failures and gate noise}
 None of the 72 high-conditioning logical-noise transient or stationary residuals reaches $10^{-2}$. In the fixed-macro model, greater degree can lower the noise floor because each update contracts more strongly while the specified noise is unchanged. Under charge-coupled noise the gain largely disappears. Figure~\ref{fig:noise} uses one matched condition-100 example to show this distinction. These failures preserve the earlier condition-100 negative evidence.
 
