@@ -179,7 +179,6 @@ def simulate(study: Study, data, *, method, degree, updates, noise, checkpoints)
     gap = 1 / (1 + study.condition**2)
     resident = None
     records = []
-    previous_target = None
     bound = None
     for t, (matrix, rhs, channel, solution, target, ref, movement) in enumerate(data):
         if method == "resident" or t in checkpoints:
@@ -239,7 +238,6 @@ def simulate(study: Study, data, *, method, degree, updates, noise, checkpoints)
                 records[-1]["resident_certificate_tighter"] = (
                     cert.certification_advantage
                 )
-        previous_target = target
     return records
 
 
