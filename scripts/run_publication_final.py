@@ -393,6 +393,11 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
         "native-limitations/result.json", "native-limitations/REPORT.md",
         "native-limitations/MANIFEST.json",
     ]
+    if (output / "total-cost").is_dir():
+        names.extend([
+            "total-cost/result.json", "total-cost/summary.csv",
+            "total-cost/REPORT.md", "total-cost/MANIFEST.json",
+        ])
     absent = [name for name in names if not (output / name).is_file()]
     if absent:
         fail(f"Publication archive incomplete: {absent}")
@@ -420,7 +425,8 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
     # Standalone reproducibility evidence for each new experiment, not a
     # second copy of the potentially gigabyte-scale complete validation bundle.
     for folder in ("temporal-full", "phase-bias", "comparison",
-                   "extended-tracking", "native-limitations"):
+                   "extended-tracking", "native-limitations",
+                   *("total-cost",) if (output / "total-cost").is_dir() else ()):
         target = output / f"{folder}.zip"
         with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
             for file in sorted((output / folder).rglob("*")):
@@ -429,7 +435,9 @@ def archive_results(output: Path, *, revision: str, fingerprint: str,
     print("Final evidence:", output / "FINAL_EVIDENCE.tar.gz")
     print("Separate experiment ZIPs:", *(output / f"{name}.zip" for name in
                                         ("temporal-full", "phase-bias", "comparison",
-                                         "extended-tracking", "native-limitations")))
+                                         "extended-tracking", "native-limitations",
+                                         *("total-cost",) if (output / "total-cost").is_dir()
+                                         else ())))
 
 
 def main() -> None:
@@ -445,6 +453,12 @@ def main() -> None:
     parser.add_argument("--paper-dir", type=Path)
     parser.add_argument("--compile-paper", action="store_true")
     parser.add_argument("--require-paper", action="store_true")
+    parser.add_argument("--total-cost-study", action="store_true",
+                        help="Also run experimental drift/noise/readout cost frontier")
+    parser.add_argument("--total-cost-condition", type=float, default=10.0)
+    parser.add_argument("--total-cost-query-budget", type=int, default=256)
+    parser.add_argument("--total-cost-shots-per-setting", type=int, default=4)
+    parser.add_argument("--total-cost-native-evidence", type=Path)
     args = parser.parse_args()
 
     if platform.system() != "Linux":
@@ -588,6 +602,25 @@ def main() -> None:
         if not (args.resume and completed_stage(output, "native-limitations")):
             run(native_args, env=env, log=output / "native-limitations.log")
             verify_manifest(output / "native-limitations")
+        if args.total_cost_study:
+            print("[5c] Conditional total-cost frontier (drift, noise, readout)")
+            frontier = [
+                str(python), "-m", "qcenn_mi.total_cost_phase_diagram",
+                "--output-dir", str(output / "total-cost"),
+                "--condition", str(args.total_cost_condition),
+                "--query-budget", str(args.total_cost_query_budget),
+                "--shots-per-setting", str(args.total_cost_shots_per_setting),
+            ]
+            if args.profile == "smoke":
+                frontier.append("--smoke")
+            if args.total_cost_native_evidence:
+                frontier += [
+                    "--native-evidence",
+                    str(args.total_cost_native_evidence.expanduser().resolve()),
+                ]
+            if not (args.resume and completed_stage(output, "total-cost")):
+                run(frontier, env=env, log=output / "total-cost.log")
+                verify_manifest(output / "total-cost")
         print("[6/7] Manuscript preflight")
         status = manuscript_check(python, args, output, env)
         if source_fingerprint() != fingerprint or source_revision() != revision:
