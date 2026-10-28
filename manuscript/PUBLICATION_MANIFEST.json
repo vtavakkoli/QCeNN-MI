@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "manuscript_revision_date": "2026-10-26",
+  "manuscript_revision_date": "2026-10-28",
   "main_pdf": {
     "name": "QCeNN_MI.pdf",
     "pages": 19,
@@ -50,15 +50,15 @@
     }
   },
   "attestation": {
-    "source_pdf_text_checked": false,
-    "rendered_pdf_pages_inspected": false,
+    "source_pdf_text_checked": true,
+    "rendered_pdf_pages_inspected": true,
     "all_references_author_verified": false,
     "hardware_performance_verified": false,
     "editorial_approval": false,
     "authors_approved": false,
     "source_pdf_text_checked_historical_only": true,
     "rendered_pdf_pages_inspected_historical_only": true,
-    "current_manuscript_pdf_complete": false,
+    "current_manuscript_pdf_complete": true,
     "journal_submission_ready": false
   },
   "main_tex_local_sha256_note": "Historical local source SHA-256 for the archived revision; not the current GitHub TeX",
@@ -68,5 +68,41 @@
     "pdf_rebuilt_from_current_source": false,
     "verified_pdf_pages_current_source": null,
     "description": "Tracking theorem, 2,880-case benchmark and small native resource results added after archived 19-page PDF. Recompile before publication."
+  },
+  "current_submission_candidate": {
+    "created_utc_date": "2026-10-28",
+    "revision_scope": "Updated claims, current abstract, 360-case total-cost study with negative equal-feasibility result, source-pinned rerun, AI disclosure, supplementary cost theorem",
+    "source_paths": [
+      "manuscript/QCeNN_MI.tex",
+      "manuscript/QCeNN_MI_Supplement.tex"
+    ],
+    "main_pdf": "QCeNN_MI.pdf",
+    "supplementary_pdf": "QCeNN_MI_Supplement.pdf",
+    "main_pages": 22,
+    "supplementary_pages": 6,
+    "pdf_source_match": "Freshly compiled locally from exact GitHub branch TeX sources; three passes each; no LaTeX errors/undefined citations/overfull boxes",
+    "main_tex_sha256": "02cc3bf8637d901ea367624a1e829ea70fc7fca645b21e0157b70a0a05872f57",
+    "main_pdf_sha256": "18fe656cfa37a2e45249ee3b47cb7561a44e8e3932f65c1c37c12baa1e03c839",
+    "supplement_tex_sha256": "d2c3cc796a69631f550b017f8c4465a0266bb2acef2b85e8d603e38755f012ef",
+    "supplement_pdf_sha256": "f70eef0c1ceb2c684a7a7fa8ea885a0adbb95512d0292fdc01a841bd8f8af216",
+    "latex_class": "Local portable ieeeaccess.cls edited solely to substitute metric names for missing commercial template fonts; not identical to official production-font typesetting. Bundled patched class for local reproducibility only; institutional/IEEE production class must be checked at submission.",
+    "ieee_access_20_page_note": "No hard 20-page limit; a >20-page manuscript can invite editorial return for shortening or justification",
+    "publication_status": "Technically formatted candidate for coauthor and corresponding-author submission review; not submitted or approved",
+    "pending_author_actions": [
+      "Approve manuscript and author contributions, verify biographies/ORCID and funding terms",
+      "Independently verify all citations, equations and claims and check originality",
+      "Confirm AI-use disclosure matches actual tools used",
+      "Review IEEE Access >20-page editorial length and possible justification",
+      "Complete portal disclosures (funding, conflicts, data/software availability, copyright)"
+    ],
+    "source_pinned_reproduction": {
+      "workflow_url": "https://github.com/vtavakkoli/QCeNN-MI/actions/runs/40682550700",
+      "source_commit": "f8917598c4cd4151cdb88f42acdd910d420257c4",
+      "scenario_count": 360,
+      "classification_match": true,
+      "source_module_sha256": "d599ccc6ba04c78e885a8e49db3fe5b9e14616e772b0519afe1a7278804f90a2",
+      "max_abs_float_discrepancy": 1.4901161193847656e-8,
+      "numerical_status": "Classification/selected-policy reproduction; raw floating JSON bytes differ slightly; no hardware test"
+    }
   }
 }
