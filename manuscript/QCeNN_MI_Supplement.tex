@@ -339,17 +339,23 @@ neither \emph{recurrent} method qualifies because direct filtering
 still qualifies in ten. These are deterministic conditional counts
 on two test seeds, not confidence statements about real deployments.
 
-\noindent\textbf{Integrity and provenance.}
-The studied full-grid upload \texttt{total-cost.zip} has SHA-256
-\texttt{\seqsplit{3fcc13ac7602181fb140d8e8d462d1647974799df3eabcbca0c902996f254b43}};
-the internal \texttt{MANIFEST.json} checksums match. Because the standalone
-archive has no verifiable source-commit attestation, its identity cannot be
-asserted to be a specific GitHub commit. To reproduce the experiment,
-run the \path{qcenn_mi.total_cost_phase_diagram} module with the
-parameter values above, preserve the new source SHA and Python environment,
-and compare the full \texttt{summary.csv}. Neither publication nor
-device-speedup claims follow from a matching software report.
-
+\noindent\textbf{Integrity and source-pinned reproduction.}
+The uploaded full-grid archive \texttt{total-cost.zip} has SHA-256
+\texttt{\seqsplit{3fcc13ac7602181fb140d8e8d462d1647974799df3eabcbca0c902996f254b43}},
+and its internal \texttt{MANIFEST.json} checksums match. An independent
+\emph{full}, source-pinned GitHub Actions re-execution with Python 3.12.15
+at commit \texttt{\seqsplit{f8917598c4cd4151cdb88f42acdd910d420257c4}}
+(\url{https://github.com/vtavakkoli/QCeNN-MI/actions/runs/40682550700})
+reproduces every one of the 360 scenario classifications, validation-selected
+degree/update policies, and cheapest qualifying comparator. The compiled
+\path{qcenn_mi.total_cost_phase_diagram} source SHA-256 is
+\texttt{\seqsplit{d599ccc6ba04c78e885a8e49db3fe5b9e14616e772b0519afe1a7278804f90a2}}.
+Individual floats may vary across numerical environments by at most
+$1.5\times10^{-8}$ in these two compared results; raw JSON/CSV files are
+therefore not byte-identical, but no accuracy decision or cost winner changes.
+The original user-uploaded ZIP itself lacks a source-commit declaration,
+and neither reproduced report is hardware timing or finite-shot output
+certification.
 
 
 \begin{thebibliography}{2}
