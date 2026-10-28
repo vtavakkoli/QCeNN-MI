@@ -1,0 +1,39 @@
+name: IEEE Access source export for local PDF build
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'manuscript/**'
+      - '.github/workflows/manuscript-source-export.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'manuscript/**'
+      - '.github/workflows/manuscript-source-export.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export-manuscript-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package exact manuscript source bytes with provenance
+        shell: bash
+        run: |
+          mkdir -p artifacts/ieee-source-export
+          cp manuscript/QCeNN_MI.tex artifacts/ieee-source-export/
+          cp manuscript/QCeNN_MI_Supplement.tex artifacts/ieee-source-export/
+          cp manuscript/PUBLICATION_MANIFEST.json artifacts/ieee-source-export/
+          git rev-parse HEAD > artifacts/ieee-source-export/COMMIT.txt
+          sha256sum artifacts/ieee-source-export/*.tex > artifacts/ieee-source-export/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ieee-access-source-${{ github.sha }}
+          path: artifacts/ieee-source-export/
+          if-no-files-found: error
+          retention-days: 30
