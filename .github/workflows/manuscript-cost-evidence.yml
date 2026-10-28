@@ -1,0 +1,100 @@
+name: Full heldout total-cost manuscript evidence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'manuscript/**'
+      - '.github/workflows/manuscript-cost-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce-cost-frontier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned scientific environment
+        run: |
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+          python -m pip check
+      - name: Re-run exactly 360 full heldout drift-noise-readout scenarios
+        run: |
+          python -u -m qcenn_mi.total_cost_phase_diagram \
+            --size 2 --condition 10 --horizon 12 --query-budget 256 \
+            --target-residual 0.05 --target-infidelity 0.01 \
+            --required-coverage 0.9 --shots-per-setting 16 \
+            --families rotating rhs_only abrupt \
+            --drifts 0 0.01 0.05 0.2 0.6 \
+            --noises 0 0.000001 0.00001 0.00002 0.00005 0.0001 \
+            --intervals 0 1 3 6 \
+            --train-seeds 23 29 --test-seeds 41 43 \
+            --output-dir artifacts/manuscript-cost-frontier
+      - name: Check source pinned reproduction and matched reported counts
+        run: |
+          python - <<'PY'
+          import hashlib, json, subprocess, sys
+          from collections import Counter
+          from pathlib import Path
+          root = Path('artifacts/manuscript-cost-frontier')
+          r = json.loads((root / 'result.json').read_text())
+          assert r['settings'] == 360
+          expected = {
+              'resident_lower_total_cost': 0,
+              'fresh_lower_total_cost': 184,
+              'equal_total_cost': 0,
+              'resident_only_heldout_feasible': 74,
+              'fresh_only_heldout_feasible': 4,
+              'neither_recurrent_method_heldout_feasible': 98,
+          }
+          assert r['region_counts'] == expected, (r['region_counts'], expected)
+          assert r['training_and_heldout_seeds_disjoint']
+          winners = Counter(
+              s['least_cost_qualified_method_including_postselection']
+              for s in r['scenarios']
+          )
+          assert winners == {None: 88, 'direct': 216, 'fresh': 36, 'resident': 20}
+          input_hash = {
+              name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+              for name in ('result.json', 'summary.csv', 'REPORT.md')
+          }
+          preserved = json.loads((root / 'MANIFEST.json').read_text())['sha256']
+          assert input_hash == preserved
+          identity = {
+              'source_commit': subprocess.check_output(
+                  ['git','rev-parse','HEAD'],text=True
+              ).strip(),
+              'python': sys.version,
+              'logical_density_simulation_only': True,
+              'hardware_measured': False,
+              'source_sha256': hashlib.sha256(
+                  Path('src/qcenn_mi/total_cost_phase_diagram.py').read_bytes()
+              ).hexdigest(),
+              'results_sha256': input_hash,
+              'matched_360_case_counts': True,
+          }
+          (root / 'SOURCE_ATTESTATION.json').write_text(
+              json.dumps(identity,indent=2)+'\n'
+          )
+          print(json.dumps(identity,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ieee-access-full-cost-evidence-${{ github.sha }}
+          path: artifacts/manuscript-cost-frontier/
+          if-no-files-found: warn
+          retention-days: 30
