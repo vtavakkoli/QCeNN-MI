@@ -1,6 +1,6 @@
 \documentclass[10pt]{article}
 \usepackage[margin=0.9in]{geometry}
-\usepackage{amsmath,amssymb,amsthm,graphicx,booktabs,hyperref,tikz,xcolor}
+\usepackage{amsmath,amssymb,amsthm,graphicx,booktabs,hyperref,tikz,xcolor,seqsplit}
 \usetikzlibrary{arrows.meta,positioning}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -341,11 +341,11 @@ on two test seeds, not confidence statements about real deployments.
 
 \noindent\textbf{Integrity and provenance.}
 The studied full-grid upload \texttt{total-cost.zip} has SHA-256
-\texttt{3fcc13ac7602181fb140d8e8d462d1647974799df3eabcbca0c902996f254b43};
+\texttt{\seqsplit{3fcc13ac7602181fb140d8e8d462d1647974799df3eabcbca0c902996f254b43}};
 the internal \texttt{MANIFEST.json} checksums match. Because the standalone
 archive has no verifiable source-commit attestation, its identity cannot be
 asserted to be a specific GitHub commit. To reproduce the experiment,
-run the \texttt{qcenn\_mi.total\_cost\_phase\_diagram} module with the
+run the \path{qcenn_mi.total_cost_phase_diagram} module with the
 parameter values above, preserve the new source SHA and Python environment,
 and compare the full \texttt{summary.csv}. Neither publication nor
 device-speedup claims follow from a matching software report.
