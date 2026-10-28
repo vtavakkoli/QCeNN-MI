@@ -40,6 +40,26 @@ jobs:
         run: .venv/bin/python -m pytest -q tests/test_publication_runner_interpreter.py
       - name: Test moving-target theorem and extended benchmarks
         run: .venv/bin/python -m pytest -q tests/test_extended_tracking_publication.py
+      - name: Test total-cost frontier and heldout readout accounting
+        run: |
+          .venv/bin/python -m pytest -q tests/test_total_cost_phase_diagram.py
+          .venv/bin/python -m qcenn_mi.total_cost_phase_diagram \
+            --smoke --horizon 4 --query-budget 32 --shots-per-setting 1 \
+            --output-dir artifacts/total-cost-smoke
+          .venv/bin/python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          root = Path("artifacts/total-cost-smoke")
+          manifest = json.loads((root / "MANIFEST.json").read_text())["sha256"]
+          for name, digest in manifest.items():
+              assert hashlib.sha256((root / name).read_bytes()).hexdigest() == digest
+          report = json.loads((root / "result.json").read_text())
+          assert report["settings"] == 8
+          assert sum(report["region_counts"].values()) == 8
+          assert report["training_and_heldout_seeds_disjoint"]
+          print("Heldout cost frontier and SHA-256 integrity PASS.")
+          PY
       - name: Execute pinned native Python smoke end-to-end
         run: |
           python scripts/run_publication_final.py \
