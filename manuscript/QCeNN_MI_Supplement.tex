@@ -224,6 +224,144 @@ At condition 2, the original-to-QSP projected-time ratio is 0.916. At condition 
 
 
 
+
+\section{Validation-Selected Total-Cost Frontier: Reproduction and Cost Model}
+\label{sec:costfrontierappendix}
+This additional experiment evaluates the research question: under which drift,
+logical-noise, and destructive-measurement conditions does a resident signed
+Chebyshev quantum channel require less \emph{total resource-equivalent work}
+than freshly preparing the solution state? The answer depends on the required
+accuracy and readout schedule, rather than on recurrence iteration counts alone.
+
+\subsection{Cost inequality and independent quantum copies}
+Let $\mathcal{T}$ index the observed snapshots, $S=(N+1)H$ be the independent
+measurement copies per checkpoint, and $d_j,K_j$ be method $j
+\bibitem{r4} V. Tavakkoli, J. C. Chedjou, and K. Kyamakya,
+``A novel recurrent neural network-based ultra-fast, robust, and scalable solver
+for inverting a time-varying matrix,'' \emph{Sensors}, 19(18), 4002, 2019,
+\url{https://doi.org/10.3390/s19184002}.
+\bibitem{jakarta} IBM Quantum, ``Public Jakarta backend configuration and
+properties,'' Qiskit IBM Runtime repository, snapshot May 27, 2024,
+\url{https://github.com/Qiskit/qiskit-ibm-runtime/tree/main/qiskit_ibm_runtime/fake_provider/backends/jakarta}.
+\end{thebibliography}
+\end{document}
+s selected
+degree and recurrent macro count. A resident copy read at time $t$ must start
+from a newly prepared reference state and propagate through all $t+1$
+different inputs. It cannot be cloned after an earlier destructive readout.
+Under the deliberately optimistic assumption that compilation is amortized
+once per distinct input snapshot, the method costs are
+\begin{align}
+C_{\mathrm{res}}&=S(2d_rK_rw_q+K_rw_R)
+\sum_{t\in\mathcal{T}}(t+1)
++S|\mathcal{T}|(w_P+w_M)
++(\max\mathcal{T}+1)w_C,\label{eq:cost_res_supp}\\
+C_{\mathrm{fresh}}&=S(2d_fK_fw_q+K_fw_R)
+|\mathcal{T}|+
+S|\mathcal{T}|(w_P+w_M)
++|\mathcal{T}|w_C.\label{eq:cost_fresh_supp}
+\end{align}
+Here $w_q,w_R,w_P,w_M,w_C$ weight the oracle call, per-macro reset, a newly
+prepared reference state, a destructive measurement execution, and distinct
+input compilation. In this specific model, residence is strictly cheaper
+among \emph{equally accuracy-qualified} policies if and only if
+\begin{align}
+S(2d_rK_rw_q+K_rw_R)\sum_{t\in\mathcal{T}}(t+1)
++(\max\mathcal{T}+1)w_C\;\;<\notag\\
+S(2d_fK_fw_q+K_fw_R)|\mathcal{T}|+|\mathcal{T}|w_C.\label{eq:cost_break_even_supp}
+\end{align}
+If degrees and counts match, $d_r=d_f$ and $K_r=K_f$, and all weights are
+nonnegative, the left-hand side is at least as large as the right-hand side.
+A genuine positive break-even needs smaller charged resident updates,
+a less destructive task, or a separately justified physical saving.
+For direct postselection with success probability $p_t$, the expected
+primitive calls per accepted copy are $2d/p_t$, and expected reference
+preparations are $1/p_t$. The reported direct-control costs include these
+retries and are not confused with unconditional channel updates.
+
+\subsection{Parameter selection, accuracy, and scope}
+The full fixed grid has three input families, five angular drift controls,
+six logical per-oracle depolarization rates and four readout intervals,
+for 360 scenarios. Both matrix dimension $N=2$ and condition $\kappa=10$
+are held fixed; a 12-snapshot path is used. The maximum is 256 primitive
+oracle calls per snapshot. Candidate degrees are derived from nominal
+Chebyshev suppression targets $\{0.3,0.1,0.03\}$; macro counts are chosen
+from $\{1,2,3,4,6,8\}$ subject to the budget.
+Resident and fresh policies are selected \emph{only} on seeds 23 and 29.
+Their selected degree and count remain fixed on disjoint held-out seeds
+41 and 43. Eligibility requires at least 90\% of the observed checkpoints
+to satisfy conditional infidelity at most 0.01 and relative residual at
+most 0.05. This threshold differs from the strict $10^{-3}$ matched study,
+which is reported independently and must not be pooled with this study.
+Logical noise is not hardware-calibrated. Exact density-matrix scoring is
+used; $H=16$ represents \emph{charged} shots per setting and does not
+constitute actual finite-shot noisy readout or a confidence interval.
+
+Illustrative resource-equivalent weights are
+$(w_q,w_R,w_P,w_M,w_C)=(1,2,5,0.1,10)$. They are not measured
+physical gate times. Classical input construction, physical reset latency,
+device readout error and time to compile changing native circuits are not
+experimentally calibrated. In particular, the separate compiled-native
+small-instance QSP study is not automatically transferred to these logical
+channel trajectories.
+
+\begin{table}[!htbp]\centering\small
+\caption{Held-out recurrent outcomes by logical per-oracle noise in the
+360-scenario cost frontier. Column order: fresh cheaper when both qualify
+(F), resident-only feasible (R), fresh-only feasible (F-only), and neither
+recurrent method feasible (None). Resident is never lower-cost when both qualify.}
+\label{tab:costfrontiernoise}
+\begin{tabular}{lrrrr}\toprule
+Noise & F & R & F-only & None\\\midrule
+$0$ & 37 & 19 & 1 & 3\\
+$10^{-6}$ & 37 & 19 & 1 & 3\\
+$10^{-5}$ & 37 & 17 & 1 & 5\\
+$2\cdot10^{-5}$ & 37 & 17 & 1 & 5\\
+$5\cdot10^{-5}$ & 36 & 2 & 0 & 22\\
+$10^{-4}$ & 0 & 0 & 0 & 60\\\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]\centering\small
+\caption{Held-out recurrent outcomes by input angular-drift control
+(rad/snapshot), with the same columns as Table~\ref{tab:costfrontiernoise}.
+Angular input controls are not necessarily equal to target-projector drift.}
+\label{tab:costfrontierdrift}
+\begin{tabular}{lrrrr}\toprule
+Drift & F & R & F-only & None\\\midrule
+$0$ & 60 & 0 & 0 & 12\\
+$0.01$ & 60 & 0 & 0 & 12\\
+$0.05$ & 40 & 11 & 0 & 21\\
+$0.2$ & 0 & 42 & 0 & 30\\
+$0.6$ & 24 & 21 & 4 & 23\\\bottomrule
+\end{tabular}
+\end{table}
+
+Among the 184 jointly qualified resident/fresh cases, the median ratio
+$C_{\mathrm{res}}/C_{\mathrm{fresh}}$ is 3.122 (minimum 2.190, maximum
+8.569). Resident is the only accuracy-qualified recurrent method in 74
+additional cases, but is not therefore demonstrated to have lower cost
+than an \emph{equally accurate} fresh option. Direct postselection is
+the lowest-cost qualified method in 216 scenarios, fresh recurrence in 36,
+resident recurrence in 20, and no method qualifies in 88.
+The latter classification differs from the 98 scenarios where
+neither \emph{recurrent} method qualifies because direct filtering
+still qualifies in ten. These are deterministic conditional counts
+on two test seeds, not confidence statements about real deployments.
+
+\noindent\textbf{Integrity and provenance.}
+The studied full-grid upload \texttt{total-cost.zip} has SHA-256
+\texttt{3fcc13ac7602181fb140d8e8d462d1647974799df3eabcbca0c902996f254b43};
+the internal \texttt{MANIFEST.json} checksums match. Because the standalone
+archive has no verifiable source-commit attestation, its identity cannot be
+asserted to be a specific GitHub commit. To reproduce the experiment,
+run the \texttt{qcenn\_mi.total\_cost\_phase\_diagram} module with the
+parameter values above, preserve the new source SHA and Python environment,
+and compare the full \texttt{summary.csv}. Neither publication nor
+device-speedup claims follow from a matching software report.
+
+
+
 \begin{thebibliography}{2}
 \bibitem{r4} V. Tavakkoli, J. C. Chedjou, and K. Kyamakya,
 ``A novel recurrent neural network-based ultra-fast, robust, and scalable solver
