@@ -74,6 +74,8 @@ jobs:
           before=$(sha256sum artifacts/native-python-ci/suite/validation.json | cut -d' ' -f1)
           .venv/bin/python scripts/run_publication_final.py \
             --profile smoke --venv .venv --skip-install --resume \
+            --total-cost-study --total-cost-condition 2 \
+            --total-cost-query-budget 32 --total-cost-shots-per-setting 1 \
             --output-dir artifacts/native-python-ci
           after=$(sha256sum artifacts/native-python-ci/suite/validation.json | cut -d' ' -f1)
           test "$before" = "$after"
@@ -87,6 +89,10 @@ jobs:
           assert status["matched_study_verified"]
           assert (root / "FINAL_EVIDENCE.tar.gz").is_file()
           assert json.loads((root / "RUN.json").read_text())["resume"]
+          assert (root / "total-cost" / "MANIFEST.json").is_file()
+          assert (root / "total-cost.zip").is_file()
+          final = json.loads((root / "FINAL_SHA256SUMS.json").read_text())
+          assert "total-cost/result.json" in final["files_sha256"]
           print("Crash recovery without static history or re-running science: PASS")
           PY
       - name: Verify native evidence package and source identity
